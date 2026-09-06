@@ -1,0 +1,1 @@
+* Permisos Generales: https://phoebe.roshka.com/jira/browse/RSHK-702

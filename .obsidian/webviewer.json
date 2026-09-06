@@ -1,0 +1,6 @@
+{
+  "openExternalURLs": true,
+  "enableAdblocking": true,
+  "customSearchEngine": "https://google.com/?q=%s",
+  "searchEngine": "brave"
+}

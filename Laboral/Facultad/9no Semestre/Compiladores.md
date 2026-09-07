@@ -40,4 +40,9 @@
 	- Verificás si el valor final sale correctamente.
 	- Recién después hacés el pseudocódigo.
 - Transformación de reglas semanticas
+- Reglas practicas para pasar de BNF a Codigo 
+	- Las funciones se ejecutan en orden A -> YXZ
+		- X();
+		* Y();
+		* Z();
 ## 4. Compilador 

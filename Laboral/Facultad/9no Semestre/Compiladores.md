@@ -45,4 +45,7 @@
 		- X();
 		* Y();
 		* Z();
+	* Si aparece un terminal se usa match(terminal)
+	* Si hay varias opciones se usa if input == terminal + match(terminal) , else if input ==   + match(terminal)
+	* 
 ## 4. Compilador 

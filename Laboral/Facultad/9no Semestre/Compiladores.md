@@ -42,10 +42,8 @@
 - Transformación de reglas semanticas
 - Reglas practicas para pasar de BNF a Codigo 
 	- Las funciones se ejecutan en orden A -> YXZ
-		- X();
-		* Y();
-		* Z();
 	* Si aparece un terminal se usa match(terminal)
-	* Si hay varias opciones se usa if input == terminal + match(terminal) , else if input ==   + match(terminal)
-	* 
+	* Si hay varias opciones se usa if input match(), else if input match 
+	* Atributo sintetizado retorna
+	* Atributo heredado se pasa como parametro 
 ## 4. Compilador 

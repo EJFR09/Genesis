@@ -4,9 +4,9 @@
 * Estudiar {Leer, Resumir, Diagramar, Practicar} 
 ---
 
-| x   |     |     |     | x   |     |     |
+| x   |     |     |     | x   | x   |     |
 | --- | --- | --- | --- | --- | --- | --- |
-|     |     |     |     | x   |     |     |
+|     |     |     |     | x   | x   |     |
 |     |     |     |     |     |     |     |
 
 |     |     |     |     |     |     |     |

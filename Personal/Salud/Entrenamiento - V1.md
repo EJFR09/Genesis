@@ -61,7 +61,9 @@ Este es tu **entrenamiento secundario de la semana**, esfuerzo 6/10
 	* Mantener la muñeca neutra y relajada durante el laburo
 	* Evitar girara la muñeca cuando vamos a escribir algo
 	* Descansar cada tanto 
-* En Suitcase aplicar reversa
+* Ejercicios
+	* En Suitcase aplicar reversa
+	* En sentadilla el peso al bajar debe ir en los pies no en las rodillas
 ### Tecnicas
 * [RDL](https://www.youtube.com/shorts/dkonQRQedJg)
 * ... resto

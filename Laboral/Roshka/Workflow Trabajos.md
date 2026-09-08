@@ -5,5 +5,10 @@
 * Resolver
 * Correo de entrega
 	* Evidencia
-	* Documentación
-* Playbooks
+	* Documentación asociada
+		* Playbook
+		* Indicente 
+		* Minuta
+		* Inventario
+		* Pipeline
+		* Informe

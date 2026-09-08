@@ -17,10 +17,11 @@
 	- Hacer las preguntas correctas
 	- La concentración en monotasking es superior
 	- Intentar -> Fallar -> Aprender -> Solucionar -> Intentar -> Exito 
-	- Todos brillamos en colores diferentes, es nuestro deber aportar ese color unico 
-	- Perseguir ese hilo, tanto del contexto como de la zona de flujo
+	- No podemos evitar la dificultad, por lo que hay que abrazarla y saber que va pasar
 - Frases Interesantes
 	- "Sheldon cuando mueras y vayas al cielo, Dios no te va preguntar, por qué no fuiste igual que Albert Enstein, pero quizás sí te diga, por qué no fuiste Sheldon"
+	- Todos brillamos en colores diferentes, es nuestro deber aportar ese color unico 
+	- Perseguir ese hilo, tanto del contexto como de la zona de flujo 
 
 
 ---

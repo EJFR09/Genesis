@@ -27,6 +27,7 @@
 	* Eliminar Factor comun por la izquierda
 	* Eliminar Factor comun indirecto
 		* Truco es expandir desde abajo hacia arriba, hasta poder eliminar con factor comun directo
+		* Si el problema es con un vacio podemos eliminar el de más alta jerarquia que puede no afectar
 	* Ver el conjunto primero de las producciones
 ## 3. TDS
 * Reglas semanticas

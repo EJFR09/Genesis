@@ -26,6 +26,7 @@
 	* Eliminar Recursión por la izquierda
 	* Eliminar Factor comun por la izquierda
 	* Eliminar Factor comun indirecto
+		* Truco es expandir desde abajo hacia arriba, hasta poder eliminar con factor comun directo
 	* Ver el conjunto primero de las producciones
 ## 3. TDS
 * Reglas semanticas
@@ -34,6 +35,8 @@
 * Flujo
 	- Escribís la BNF.
 	- Escribís las reglas semánticas.
+	- Convertis a predictiva
+	- Transformas las reglas semánticas
 	- Elegís una entrada de prueba.
 	- Construís el árbol.
 	- Anotás los atributos en cada nodo.

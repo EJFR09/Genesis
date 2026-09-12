@@ -22,6 +22,12 @@
 	- "Sheldon cuando mueras y vayas al cielo, Dios no te va preguntar, por qué no fuiste igual que Albert Enstein, pero quizás sí te diga, por qué no fuiste Sheldon"
 	- Todos brillamos en colores diferentes, es nuestro deber aportar ese color unico 
 	- Perseguir ese hilo, tanto del contexto como de la zona de flujo 
+- Mamba mentality - Asilar personalidades en eventos
+	* Robar habilidades de los grandes
+	* Aprender de manera agresiva
+	* Preguntar sin miedo
+	* Analizar tus derrotas y victorias de manera quirurgica 
+	* El talento no gana solo, Kobe ganó con equipo
 
 
 ---

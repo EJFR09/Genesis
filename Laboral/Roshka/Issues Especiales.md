@@ -2,3 +2,5 @@
 * Issue asignar permisos harbor: 
 	* https://phoebe.roshka.com/jira/browse/PE-488
 	* https://phoebe.roshka.com/jira/browse/PE-489
+* Brosco
+	* Reu recurrente: 

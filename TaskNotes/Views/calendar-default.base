@@ -43,8 +43,6 @@ views:
   - type: tasknotesCalendar
     name: Calendar
     order:
-      - status
-      - priority
       - due
       - scheduled
       - projects
@@ -54,6 +52,8 @@ views:
       - file.name
       - recurrence
       - complete_instances
+      - status
+      - priority
       - file.tasks
     options:
       showScheduled: true

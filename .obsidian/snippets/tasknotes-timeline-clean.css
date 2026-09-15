@@ -221,3 +221,304 @@
 .workspace-leaf-content:has(.fc) .bases-toolbar {
   display: none !important;
 }
+
+/* =========================================================
+   TASKNOTES PREMIUM — Google Calendar × Claude
+   Añadir después del snippet principal
+   ========================================================= */
+
+.workspace-leaf-content:has(.fc) {
+  /* Superficies cálidas, inspiradas en Claude */
+  --tn-premium-bg: #222321;
+  --tn-premium-surface: #272825;
+  --tn-premium-surface-hover: #30312d;
+
+  /* Texto */
+  --tn-premium-text: #e8e4dc;
+  --tn-premium-muted: #989992;
+
+  /* Acentos pastel */
+  --tn-premium-accent: #d99a7c;
+  --tn-premium-current-time: #ed6f79;
+
+  /* Cuadrícula */
+  --tn-premium-grid-hour: rgba(232, 228, 220, 0.10);
+  --tn-premium-grid-half: rgba(232, 228, 220, 0.045);
+}
+
+
+/* =========================================================
+   1. ELIMINAR EL ESPACIO SUPERIOR
+   ========================================================= */
+
+/*
+ * El espacio de tu captura proviene del contenedor de la
+ * vista/Bases, no del calendario propiamente dicho.
+ */
+
+.workspace-leaf-content:has(.fc) .view-content,
+.workspace-leaf-content:has(.fc) .bases-view,
+.workspace-leaf-content:has(.fc) .bases-view-container {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+.workspace-leaf-content:has(.fc) .fc {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+
+/* Si la barra de Bases está oculta, evita que su contenedor reserve espacio */
+
+.workspace-leaf-content:has(.fc) .bases-toolbar:empty {
+  display: none !important;
+}
+
+
+/* =========================================================
+   2. SUPERFICIE GENERAL
+   ========================================================= */
+
+.workspace-leaf-content:has(.fc),
+.workspace-leaf-content:has(.fc) .view-content,
+.workspace-leaf-content:has(.fc) .fc,
+.workspace-leaf-content:has(.fc) .fc-scrollgrid,
+.workspace-leaf-content:has(.fc) .fc-timegrid-body {
+  background: var(--tn-premium-bg) !important;
+}
+
+
+/* =========================================================
+   3. TOOLBAR INTEGRADA
+   ========================================================= */
+
+.workspace-leaf-content:has(.fc) .fc-header-toolbar {
+  min-height: 38px;
+  margin: 0 !important;
+  padding: 4px 8px !important;
+
+  background: var(--tn-premium-bg);
+  border-bottom: 1px solid var(--tn-premium-grid-hour);
+
+  opacity: 1;
+}
+
+
+/* Distribución consistente */
+
+.workspace-leaf-content:has(.fc) .fc-toolbar-chunk {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+
+/* Botones transparentes, estilo aplicación nativa */
+
+.workspace-leaf-content:has(.fc) .fc .fc-button {
+  min-width: 27px;
+  min-height: 27px !important;
+  padding: 3px 6px !important;
+
+  color: var(--tn-premium-muted) !important;
+  background: transparent !important;
+
+  border: none !important;
+  border-radius: 6px !important;
+  box-shadow: none !important;
+
+  transition:
+    color 120ms ease,
+    background-color 120ms ease;
+}
+
+.workspace-leaf-content:has(.fc) .fc .fc-button:hover {
+  color: var(--tn-premium-text) !important;
+  background: var(--tn-premium-surface-hover) !important;
+}
+
+
+/* Botón D activo como pequeño selector pastel */
+
+.workspace-leaf-content:has(.fc) .fc .fc-button-active {
+  color: var(--tn-premium-accent) !important;
+
+  background: color-mix(
+    in srgb,
+    var(--tn-premium-accent) 14%,
+    transparent
+  ) !important;
+}
+
+
+/* Today desactivado: visible pero discreto */
+
+.workspace-leaf-content:has(.fc) .fc .fc-button:disabled {
+  opacity: 0.28 !important;
+}
+
+
+/* =========================================================
+   4. OCULTAR TODAS LAS VISTAS EXCEPTO LA ACTIVA
+   ========================================================= */
+
+/*
+ * Este selector corrige el 3D que continúa apareciendo.
+ * En el grupo derecho deja solamente el botón activo: D.
+ */
+
+.workspace-leaf-content:has(.fc)
+.fc-header-toolbar
+.fc-toolbar-chunk:last-child
+.fc-button:not(.fc-button-active) {
+  display: none !important;
+}
+
+
+/* =========================================================
+   5. CABECERA DEL DÍA
+   ========================================================= */
+
+.workspace-leaf-content:has(.fc) .fc-col-header {
+  background: var(--tn-premium-surface) !important;
+}
+
+.workspace-leaf-content:has(.fc) .fc-col-header-cell {
+  background: transparent !important;
+  border-bottom-color: var(--tn-premium-grid-hour) !important;
+}
+
+.workspace-leaf-content:has(.fc) .fc-col-header-cell-cushion {
+  padding: 7px 3px !important;
+
+  color: var(--tn-premium-accent) !important;
+  font-size: 10.5px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.025em;
+  text-decoration: none !important;
+}
+
+
+/* =========================================================
+   6. CUADRÍCULA TIPO GOOGLE CALENDAR
+   ========================================================= */
+
+/* Fondo del área horaria */
+
+.workspace-leaf-content:has(.fc) .fc-timegrid-cols,
+.workspace-leaf-content:has(.fc) .fc-timegrid-slots {
+  background: var(--tn-premium-surface) !important;
+}
+
+
+/* Líneas de media hora casi invisibles */
+
+.workspace-leaf-content:has(.fc)
+.fc-timegrid-slots
+tr:nth-child(even)
+td {
+  border-top-color: var(--tn-premium-grid-half) !important;
+}
+
+
+/* Líneas de hora un poco más visibles */
+
+.workspace-leaf-content:has(.fc)
+.fc-timegrid-slots
+tr:nth-child(odd)
+td {
+  border-top-color: var(--tn-premium-grid-hour) !important;
+}
+
+
+/* Columna de horas integrada con el calendario */
+
+.workspace-leaf-content:has(.fc) .fc-timegrid-axis,
+.workspace-leaf-content:has(.fc) .fc-timegrid-slot-label {
+  background: var(--tn-premium-bg) !important;
+  border-right-color: var(--tn-premium-grid-hour) !important;
+}
+
+.workspace-leaf-content:has(.fc) .fc-timegrid-slot-label-cushion {
+  color: var(--tn-premium-muted) !important;
+  font-size: 9.5px !important;
+  font-weight: 450;
+}
+
+
+/* =========================================================
+   7. EVENTOS COMO TARJETAS PASTEL
+   ========================================================= */
+
+.workspace-leaf-content:has(.fc) .fc-timegrid-event {
+  min-height: 20px;
+
+  opacity: 0.9;
+  filter: saturate(0.72) brightness(1.06);
+
+  border-width: 1px !important;
+  border-radius: 6px !important;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 1px 2px rgba(0, 0, 0, 0.16) !important;
+
+  transition:
+    filter 120ms ease,
+    opacity 120ms ease,
+    transform 120ms ease;
+}
+
+
+/* Interacción extremadamente sutil */
+
+.workspace-leaf-content:has(.fc) .fc-timegrid-event:hover {
+  z-index: 20;
+
+  opacity: 1;
+  filter: saturate(0.85) brightness(1.12);
+  transform: translateY(-1px);
+}
+
+
+/* Espaciado interno */
+
+.workspace-leaf-content:has(.fc) .fc-event-main {
+  padding: 3px 6px !important;
+}
+
+.workspace-leaf-content:has(.fc) .fc-event-time {
+  margin-bottom: 1px;
+
+  font-size: 9.5px !important;
+  font-weight: 500;
+  opacity: 0.78;
+}
+
+.workspace-leaf-content:has(.fc) .fc-event-title {
+  font-size: 10.5px !important;
+  font-weight: 600;
+  line-height: 1.25 !important;
+}
+
+
+/* =========================================================
+   8. LÍNEA DE HORA ACTUAL
+   ========================================================= */
+
+.workspace-leaf-content:has(.fc) .fc-timegrid-now-indicator-line {
+  border-color: var(--tn-premium-current-time) !important;
+  border-width: 1px 0 0 !important;
+
+  box-shadow: 0 0 5px
+    color-mix(
+      in srgb,
+      var(--tn-premium-current-time) 35%,
+      transparent
+    );
+}
+
+.workspace-leaf-content:has(.fc) .fc-timegrid-now-indicator-arrow {
+  border-right-color: var(--tn-premium-current-time) !important;
+}

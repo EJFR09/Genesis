@@ -2,5 +2,6 @@
   "spellcheck": false,
   "alwaysUpdateLinks": true,
   "promptDelete": false,
-  "readableLineLength": true
+  "readableLineLength": true,
+  "showInlineTitle": false
 }

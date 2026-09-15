@@ -2,5 +2,6 @@
   "showRibbon": true,
   "showViewHeader": true,
   "cssTheme": "Minimal",
-  "accentColor": "#61add6"
+  "accentColor": "#61add6",
+  "nativeMenus": false
 }

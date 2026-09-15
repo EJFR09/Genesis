@@ -3,5 +3,8 @@
   "showViewHeader": true,
   "cssTheme": "Minimal",
   "accentColor": "#61add6",
-  "nativeMenus": false
+  "nativeMenus": false,
+  "enabledCssSnippets": [
+    "tasknotes-timeline-clean"
+  ]
 }

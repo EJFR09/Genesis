@@ -213,3 +213,11 @@
 .workspace-leaf-content:has(.fc) .bases-toolbar .clickable-icon {
   padding: 3px;
 }
+
+.workspace-leaf-content:has(.fc) .fc-toolbar-title {
+  display: none !important;
+}
+
+.workspace-leaf-content:has(.fc) .bases-toolbar {
+  display: none !important;
+}

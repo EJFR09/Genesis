@@ -1,0 +1,215 @@
+/*
+ * TaskNotes — Timeline diario compacto
+ * Pensado para un calendario estrecho en el sidebar derecho.
+ */
+
+/* =========================================================
+   1. VARIABLES GENERALES
+   ========================================================= */
+
+.workspace-leaf-content:has(.fc) {
+  --tn-grid-opacity: 45%;
+  --tn-toolbar-opacity: 0.55;
+  --tn-slot-height: 1.65em;
+  --tn-event-radius: 5px;
+}
+
+
+/* =========================================================
+   2. CALENDARIO MÁS LIMPIO
+   ========================================================= */
+
+.workspace-leaf-content:has(.fc) .fc {
+  font-size: 12px;
+  background: transparent;
+  --fc-page-bg-color: transparent;
+  --fc-neutral-bg-color: transparent;
+  --fc-today-bg-color: transparent;
+  --fc-now-indicator-color: var(--color-red);
+}
+
+
+/* Cuadrícula más discreta */
+
+.workspace-leaf-content:has(.fc) .fc-theme-standard td,
+.workspace-leaf-content:has(.fc) .fc-theme-standard th,
+.workspace-leaf-content:has(.fc) .fc-scrollgrid {
+  border-color: color-mix(
+    in srgb,
+    var(--background-modifier-border) var(--tn-grid-opacity),
+    transparent
+  ) !important;
+}
+
+
+/* =========================================================
+   3. BARRA SUPERIOR DEL CALENDARIO
+   ========================================================= */
+
+.workspace-leaf-content:has(.fc) .fc-header-toolbar {
+  min-height: 30px;
+  margin: 0 0 4px !important;
+  padding: 2px 4px;
+  gap: 3px;
+
+  opacity: var(--tn-toolbar-opacity);
+  transition: opacity 120ms ease;
+}
+
+/* Recupera visibilidad al pasar el ratón */
+
+.workspace-leaf-content:has(.fc):hover .fc-header-toolbar {
+  opacity: 1;
+}
+
+
+/* Botones más pequeños */
+
+.workspace-leaf-content:has(.fc) .fc .fc-button {
+  min-height: 26px !important;
+  padding: 2px 6px !important;
+
+  font-size: 11px !important;
+  font-weight: 500;
+
+  border: none !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+}
+
+
+/* Fecha más pequeña */
+
+.workspace-leaf-content:has(.fc) .fc .fc-toolbar-title {
+  font-size: 12px !important;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+
+/* =========================================================
+   4. DEJAR SOLAMENTE LA VISTA DIARIA
+   ========================================================= */
+
+/*
+ * Oculta Año, Mes, Semana, vista personalizada y Lista.
+ * El botón de vista Día permanece visible.
+ */
+
+.workspace-leaf-content:has(.fc) .fc-multiMonthYear-button,
+.workspace-leaf-content:has(.fc) .fc-dayGridMonth-button,
+.workspace-leaf-content:has(.fc) .fc-timeGridWeek-button,
+.workspace-leaf-content:has(.fc) .fc-customDays-button,
+.workspace-leaf-content:has(.fc) .fc-listWeek-button,
+.workspace-leaf-content:has(.fc) .fc-listMonth-button {
+  display: none !important;
+}
+
+
+/* =========================================================
+   5. HORAS Y ALTURA DEL TIMELINE
+   ========================================================= */
+
+/* Reduce la altura de cada intervalo */
+
+.workspace-leaf-content:has(.fc) .fc-timegrid-slot {
+  height: var(--tn-slot-height) !important;
+}
+
+
+/* Horas más pequeñas y discretas */
+
+.workspace-leaf-content:has(.fc) .fc-timegrid-slot-label-cushion {
+  padding-right: 6px !important;
+
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+}
+
+
+/* Columna de horas más estrecha */
+
+.workspace-leaf-content:has(.fc) .fc-timegrid-axis,
+.workspace-leaf-content:has(.fc) .fc-timegrid-slot-label {
+  width: 48px !important;
+}
+
+
+/* Cabecera del día */
+
+.workspace-leaf-content:has(.fc) .fc-col-header-cell-cushion {
+  padding: 4px 2px !important;
+
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+
+/* =========================================================
+   6. INDICADOR DE HORA ACTUAL
+   ========================================================= */
+
+.workspace-leaf-content:has(.fc) .fc-timegrid-now-indicator-line {
+  border-color: var(--color-red) !important;
+  border-width: 1px 0 0 !important;
+}
+
+.workspace-leaf-content:has(.fc) .fc-timegrid-now-indicator-arrow {
+  border-right-color: var(--color-red) !important;
+}
+
+
+/* =========================================================
+   7. EVENTOS MÁS COMPACTOS
+   ========================================================= */
+
+.workspace-leaf-content:has(.fc) .fc-event {
+  border-width: 1px !important;
+  border-radius: var(--tn-event-radius) !important;
+  box-shadow: none !important;
+}
+
+.workspace-leaf-content:has(.fc) .fc-event-main {
+  padding: 2px 5px !important;
+}
+
+.workspace-leaf-content:has(.fc) .fc-event-title,
+.workspace-leaf-content:has(.fc) .fc-event-time {
+  font-size: 10.5px !important;
+  line-height: 1.25 !important;
+}
+
+
+/* Evita el efecto visual exagerado al pasar el ratón */
+
+.workspace-leaf-content:has(.fc) .fc-event:hover {
+  filter: brightness(1.08);
+  box-shadow: none !important;
+}
+
+
+/* =========================================================
+   8. BARRA DE OBSIDIAN BASES
+   ========================================================= */
+
+/*
+ * Mantiene disponibles Calendar, filtros, búsqueda y crear,
+ * pero hace la barra menos llamativa cuando no se utiliza.
+ */
+
+.workspace-leaf-content:has(.fc) .bases-toolbar {
+  min-height: 30px;
+  padding: 2px 5px;
+  opacity: 0.55;
+  transition: opacity 120ms ease;
+}
+
+.workspace-leaf-content:has(.fc):hover .bases-toolbar {
+  opacity: 1;
+}
+
+.workspace-leaf-content:has(.fc) .bases-toolbar .clickable-icon {
+  padding: 3px;
+}

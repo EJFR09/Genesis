@@ -12,15 +12,16 @@
    ========================================================= */
 
 .workspace-leaf-content:has(.fc) {
-  --tn-slot-height: 1.65em;
+  /* 2.5em ≈ 1.5 veces la densidad anterior (1.65em). */
+  --tn-slot-height: 2.5em;
   --tn-time-column-width: 48px;
   --tn-event-radius: var(--radius-m, 8px);
   --tn-control-radius: var(--radius-s, 6px);
 
   /* Intensidad visual. Modifica solo estos valores si lo necesitas. */
-  --tn-grid-hour-opacity: 42%;
-  --tn-event-wash-opacity: 0.05;
-  --tn-event-saturation: 0.90;
+  --tn-grid-hour-opacity: 98%;
+  --tn-event-wash-opacity: 0.1;
+  --tn-event-saturation: 0.9;
 }
 
 /* =========================================================
@@ -207,8 +208,8 @@
   position: absolute;
   z-index: 0;
   top: -1px;
-  right: 8px;
-  left: 8px;
+  right: 5px;
+  left: 5px;
   height: 1px;
   pointer-events: none;
 
@@ -219,12 +220,12 @@
       in srgb,
       var(--background-modifier-border) var(--tn-grid-hour-opacity),
       transparent
-    ) 14%,
+    ) 8%,
     color-mix(
       in srgb,
       var(--background-modifier-border) var(--tn-grid-hour-opacity),
       transparent
-    ) 86%,
+    ) 92%,
     transparent
   );
   border-radius: 999px;
@@ -278,13 +279,21 @@
   opacity: 1;
   filter: saturate(var(--tn-event-saturation));
 
+  /*
+   * El borde deja de usar el color puro del evento. El relleno conserva la
+   * categoría y el contorno pasa a ser una separación neutra del tema.
+   */
   border-width: 1px !important;
+  border-color: color-mix(
+    in srgb,
+    var(--text-muted) 30%,
+    transparent
+  ) !important;
   border-radius: var(--tn-event-radius) !important;
   overflow: hidden;
 
-  box-shadow:
-    inset 0 1px 0 color-mix(in srgb, white 9%, transparent),
-    0 2px 7px color-mix(in srgb, black 15%, transparent) !important;
+  box-shadow: 0 2px 6px
+    color-mix(in srgb, black 14%, transparent) !important;
 
   transition:
     filter 140ms ease,
@@ -305,10 +314,14 @@
 
 .workspace-leaf-content:has(.fc) .fc-timegrid-event:hover {
   z-index: 20;
-  filter: saturate(0.66);
-  box-shadow:
-    inset 0 1px 0 color-mix(in srgb, white 12%, transparent),
-    0 4px 12px color-mix(in srgb, black 20%, transparent) !important;
+  filter: saturate(0.72);
+  border-color: color-mix(
+    in srgb,
+    var(--text-muted) 45%,
+    transparent
+  ) !important;
+  box-shadow: 0 4px 12px
+    color-mix(in srgb, black 20%, transparent) !important;
 }
 
 .workspace-leaf-content:has(.fc) .fc-event-main {

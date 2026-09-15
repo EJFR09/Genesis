@@ -19,8 +19,8 @@
 
   /* Intensidad visual. Modifica solo estos valores si lo necesitas. */
   --tn-grid-hour-opacity: 42%;
-  --tn-event-wash-opacity: 0.58;
-  --tn-event-saturation: 0.52;
+  --tn-event-wash-opacity: 0.05;
+  --tn-event-saturation: 0.90;
 }
 
 /* =========================================================

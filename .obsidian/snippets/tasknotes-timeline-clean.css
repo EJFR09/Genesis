@@ -17,11 +17,10 @@
   --tn-event-radius: var(--radius-m, 8px);
   --tn-control-radius: var(--radius-s, 6px);
 
-  /* Intensidad visual. Modifica solo estos porcentajes si lo necesitas. */
+  /* Intensidad visual. Modifica solo estos valores si lo necesitas. */
   --tn-grid-hour-opacity: 42%;
-  --tn-grid-half-opacity: 20%;
-  --tn-event-opacity: 0.84;
-  --tn-event-saturation: 0.62;
+  --tn-event-wash-opacity: 0.58;
+  --tn-event-saturation: 0.52;
 }
 
 /* =========================================================
@@ -182,39 +181,61 @@
   height: var(--tn-slot-height) !important;
 }
 
-/* Las medias horas casi desaparecen; las horas conservan estructura. */
+/*
+ * FullCalendar dibuja cada intervalo como una celda de tabla. Quitamos esos
+ * bordes rectangulares y reconstruimos solamente las líneas de hora mediante
+ * un degradado con extremos suaves. Las medias horas quedan sin línea.
+ */
 .workspace-leaf-content:has(.fc)
   .fc-timegrid-slots
-  tr:nth-child(even)
   td {
-  border-top-color: color-mix(
-    in srgb,
-    var(--background-modifier-border) var(--tn-grid-half-opacity),
-    transparent
-  ) !important;
+  position: relative;
+  border-top-color: transparent !important;
+  border-bottom-color: transparent !important;
+}
+
+.workspace-leaf-content:has(.fc) .fc-timegrid-slot {
+  border-top: 0 !important;
+  border-bottom: 0 !important;
 }
 
 .workspace-leaf-content:has(.fc)
   .fc-timegrid-slots
   tr:nth-child(odd)
-  td {
-  border-top-color: color-mix(
-    in srgb,
-    var(--background-modifier-border) var(--tn-grid-hour-opacity),
+  .fc-timegrid-slot-lane::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: -1px;
+  right: 8px;
+  left: 8px;
+  height: 1px;
+  pointer-events: none;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(
+      in srgb,
+      var(--background-modifier-border) var(--tn-grid-hour-opacity),
+      transparent
+    ) 14%,
+    color-mix(
+      in srgb,
+      var(--background-modifier-border) var(--tn-grid-hour-opacity),
+      transparent
+    ) 86%,
     transparent
-  ) !important;
+  );
+  border-radius: 999px;
 }
 
-/* Una sola separación vertical sutil entre horas y agenda. */
+/* Sin división vertical rígida entre las horas y la agenda. */
 .workspace-leaf-content:has(.fc) .fc-timegrid-axis,
 .workspace-leaf-content:has(.fc) .fc-timegrid-slot-label {
   width: var(--tn-time-column-width) !important;
   background: transparent !important;
-  border-right-color: color-mix(
-    in srgb,
-    var(--background-modifier-border) 38%,
-    transparent
-  ) !important;
+  border-right-color: transparent !important;
 }
 
 .workspace-leaf-content:has(.fc) .fc-timegrid-slot-label-cushion {
@@ -229,6 +250,7 @@
 /* Reduce otros bordes duros propios de la tabla de FullCalendar. */
 .workspace-leaf-content:has(.fc) .fc-timegrid-col {
   border-left-color: transparent !important;
+  border-right-color: transparent !important;
 }
 
 .workspace-leaf-content:has(.fc) .fc-timegrid-divider {
@@ -245,14 +267,16 @@
    ========================================================= */
 
 /*
- * No se reemplaza el color de cada evento. La combinación de menor
- * saturación y transparencia transforma la paleta existente en una versión
- * pastel, conservando la distinción entre calendarios y tipos de bloque.
+ * FullCalendar escribe los colores de cada evento directamente en el HTML.
+ * En vez de reemplazarlos, aplicamos una capa de la superficie del tema sobre
+ * el color original. Así conservamos su categoría, pero obtenemos una versión
+ * pastel y consistente tanto en modo claro como oscuro.
  */
 .workspace-leaf-content:has(.fc) .fc-timegrid-event {
-  min-height: 20px;
-  opacity: var(--tn-event-opacity);
-  filter: saturate(var(--tn-event-saturation)) brightness(1.02);
+  isolation: isolate;
+  min-height: 24px !important;
+  opacity: 1;
+  filter: saturate(var(--tn-event-saturation));
 
   border-width: 1px !important;
   border-radius: var(--tn-event-radius) !important;
@@ -264,34 +288,108 @@
 
   transition:
     filter 140ms ease,
-    opacity 140ms ease,
     box-shadow 140ms ease;
+}
+
+/* Capa que convierte cualquier color de origen en una superficie pastel. */
+.workspace-leaf-content:has(.fc) .fc-timegrid-event::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+
+  background: var(--background-primary);
+  opacity: var(--tn-event-wash-opacity);
 }
 
 .workspace-leaf-content:has(.fc) .fc-timegrid-event:hover {
   z-index: 20;
-  opacity: 0.96;
-  filter: saturate(0.72) brightness(1.06);
+  filter: saturate(0.66);
   box-shadow:
     inset 0 1px 0 color-mix(in srgb, white 12%, transparent),
     0 4px 12px color-mix(in srgb, black 20%, transparent) !important;
 }
 
 .workspace-leaf-content:has(.fc) .fc-event-main {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
   padding: 3px 7px !important;
+  color: var(--text-normal) !important;
+}
+
+.workspace-leaf-content:has(.fc) .fc-event-main-frame,
+.workspace-leaf-content:has(.fc) .fc-event-title-container {
+  min-width: 0;
+  overflow: hidden;
 }
 
 .workspace-leaf-content:has(.fc) .fc-event-time {
   margin-bottom: 1px;
+  color: var(--text-muted) !important;
   font-size: 9.5px !important;
   font-weight: 500;
-  opacity: 0.78;
+  opacity: 0.9;
 }
 
 .workspace-leaf-content:has(.fc) .fc-event-title {
+  display: -webkit-box;
+  overflow: hidden !important;
+
+  color: var(--text-normal) !important;
   font-size: 10.5px !important;
   font-weight: 600;
   line-height: 1.25 !important;
+
+  overflow-wrap: anywhere;
+  white-space: normal !important;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+/*
+ * FullCalendar marca los bloques bajos con fc-timegrid-event-short. En esos
+ * eventos mostramos hora y título en una sola línea, como Google Calendar.
+ */
+.workspace-leaf-content:has(.fc)
+  .fc-timegrid-event.fc-timegrid-event-short
+  .fc-event-main {
+  padding: 2px 6px !important;
+}
+
+.workspace-leaf-content:has(.fc)
+  .fc-timegrid-event.fc-timegrid-event-short
+  .fc-event-main-frame {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 5px;
+  height: 100%;
+}
+
+.workspace-leaf-content:has(.fc)
+  .fc-timegrid-event.fc-timegrid-event-short
+  .fc-event-time {
+  display: block !important;
+  flex: 0 0 auto;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.workspace-leaf-content:has(.fc)
+  .fc-timegrid-event.fc-timegrid-event-short
+  .fc-event-title-container {
+  flex: 1 1 auto;
+}
+
+.workspace-leaf-content:has(.fc)
+  .fc-timegrid-event.fc-timegrid-event-short
+  .fc-event-title {
+  display: block;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+  white-space: nowrap !important;
 }
 
 /* =========================================================

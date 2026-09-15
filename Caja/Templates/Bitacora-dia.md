@@ -1,4 +1,4 @@
-### [[Septiembre-26]] {{date: dddd}}
+### [{{date: dddd}}](Septiembre-26) 
 ---
 "1 punto de nuestra filosofia"
 * [ ] Accion 1

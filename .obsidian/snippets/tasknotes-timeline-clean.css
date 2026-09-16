@@ -12,8 +12,7 @@
    ========================================================= */
 
 .workspace-leaf-content:has(.fc) {
-  /* 2.5em ≈ 1.5 veces la densidad anterior (1.65em). */
-  --tn-slot-height: 2.5em;
+  --tn-slot-height: 7em;
   --tn-time-column-width: 48px;
   --tn-event-radius: var(--radius-m, 8px);
   --tn-control-radius: var(--radius-s, 6px);

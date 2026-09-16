@@ -1,10 +1,10 @@
-#### Habitos
+## Habitos
 * Dormir 7 hrs (23:00-06:00)
 * Ejercicio - Rehabilitación
 * Estudiar (Leer, Resumir, Diagramar, Practicar)
 ---
 
-| x   |     |     |     | x   | x   | x   |
+|     |     |     |     | x   | x   | x   |
 | --- | --- | --- | --- | --- | --- | --- |
 |     |     |     |     | x   | x   | x   |
 |     |     |     |     |     | x   |     |

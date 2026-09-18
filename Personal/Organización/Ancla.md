@@ -6,7 +6,6 @@
 
 ---
 ### Sistemas
-
 - Gestionar Tiempo
     - Google Calendar: Tareas y eventos.
     - Notion: Banco de Tareas.

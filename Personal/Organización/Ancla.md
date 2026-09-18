@@ -18,6 +18,7 @@
 	- La concentración en monotasking es superior
 	- Intentar -> Fallar -> Aprender -> Solucionar -> Intentar -> Exito 
 	- No podemos evitar la dificultad, por lo que hay que abrazarla y saber que va pasar
+	- El siguiente nivel es hacerlo las cosas por reflejo
 - Frases Interesantes
 	- "Sheldon cuando mueras y vayas al cielo, Dios no te va preguntar, por qué no fuiste igual que Albert Enstein, pero quizás sí te diga, por qué no fuiste Sheldon"
 	- Todos brillamos en colores diferentes, es nuestro deber aportar ese color unico 

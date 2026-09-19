@@ -13,12 +13,13 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Personal/Casa/Alquiler.md",
+                "file": "Personal/Organización/Bitácora/Año-26/Septiembre-26/18-09-26.md",
                 "mode": "source",
-                "source": false
+                "source": false,
+                "backlinks": false
               },
               "icon": "lucide-file",
-              "title": "Alquiler"
+              "title": "18-09-26"
             }
           }
         ]
@@ -73,8 +74,8 @@
             "showSearch": false,
             "searchQuery": ""
           },
-          "icon": "lucide-tags",
-          "title": "Etiquetas"
+          "icon": "lucide-ghost",
+          "title": "tag"
         }
       },
       {
@@ -87,8 +88,8 @@
             "showSearch": false,
             "searchQuery": ""
           },
-          "icon": "lucide-archive",
-          "title": "Todas las propiedades"
+          "icon": "lucide-ghost",
+          "title": "all-properties"
         }
       },
       {
@@ -126,8 +127,8 @@
             "backlinkCollapsed": false,
             "unlinkedCollapsed": true
           },
-          "icon": "links-coming-in",
-          "title": "Enlaces entrantes"
+          "icon": "lucide-ghost",
+          "title": "backlink"
         }
       },
       {
@@ -140,8 +141,8 @@
             "linksCollapsed": false,
             "unlinkedCollapsed": true
           },
-          "icon": "links-going-out",
-          "title": "Enlaces salientes"
+          "icon": "lucide-ghost",
+          "title": "outgoing-link"
         }
       },
       {
@@ -164,9 +165,9 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "workspaces:Gestionar disposiciones de espacio de trabajo": false,
       "switcher:Abrir selector rápido": false,
       "graph:Abrir vista gráfica": false,
-      "canvas:Crear nuevo lienzo": false,
       "daily-notes:Abrir la nota de hoy": false,
       "templates:Insertar plantilla": false,
       "command-palette:Abrir paleta de comandos": false,
@@ -174,5 +175,12 @@
     }
   },
   "active": "150550fa23691d22",
-  "lastOpenFiles": []
+  "lastOpenFiles": [
+    "Personal/Organización/Bitácora/Año-26/Septiembre-26/2026-09-04.md",
+    "Personal/Organización/Bitácora/Año-26/Septiembre-26/Septiembre-26.md",
+    "Personal/Salud/Entrenamiento - V1.md",
+    "September-26.md",
+    "Personal/Casa/Alquiler.md",
+    "Pasted image 20260917091903.png"
+  ]
 }

@@ -1,6 +1,8 @@
 ### [[{{date:MMMM-YY}}|{{date:dddd D}}]]
 ---
 "1 punto de nuestra filosofia"
+
+
 * [ ] Accion 1
 * [ ] Accion 2
 * [ ] Accion 3

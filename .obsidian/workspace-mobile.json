@@ -64,21 +64,6 @@
         }
       },
       {
-        "id": "66bd11f49d8fa6df",
-        "type": "leaf",
-        "state": {
-          "type": "tag",
-          "state": {
-            "sortOrder": "frequency",
-            "useHierarchy": true,
-            "showSearch": false,
-            "searchQuery": ""
-          },
-          "icon": "lucide-ghost",
-          "title": "tag"
-        }
-      },
-      {
         "id": "5d55bbcb127e021b",
         "type": "leaf",
         "state": {
@@ -106,7 +91,7 @@
         }
       }
     ],
-    "currentTab": 0
+    "currentTab": 2
   },
   "right": {
     "id": "dd4ee35716a591a4",
@@ -174,7 +159,7 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "150550fa23691d22",
+  "active": "5d55bbcb127e021b",
   "lastOpenFiles": [
     "Personal/Organización/Bitácora/Año-26/Septiembre-26/18-09-26.md",
     "Personal/Organización/Bitácora/Año-26/Septiembre-26/2026-09-04.md",

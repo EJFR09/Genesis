@@ -1,11 +1,11 @@
-##### youtube
+### youtube
 - Videos de Midudev
 - Videos de Dot Jager
 - Videos de IA
-#### Podcasts - Cómico Ingles
+### Podcasts - Cómico Ingles
 - Bad Friends
 - The Von
-#### Series
+### Series
 - The office
 
 # Extra

@@ -1,6 +1,7 @@
 # Work Domains
 
-- Kubernetes → `Kubernetes/`
-- Linux → `Linux/`
 - Git → `Git/`
-- P
+- Jenkins → `Jenkins/`
+- K8s → `K8s/`
+- Linux → `Linux/`
+- Proxmox → `Proxmox/`

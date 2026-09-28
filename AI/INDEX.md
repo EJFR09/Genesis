@@ -19,3 +19,6 @@ Path: `Personal/`
 Cross-domain skills, templates, commands and conventions.
 
 Path: `Shared/`
+
+Current global OpenCode configuration and reusable instructions are copied directly into `Shared/`.
+See [[Shared/INDEX]] for the inventory.

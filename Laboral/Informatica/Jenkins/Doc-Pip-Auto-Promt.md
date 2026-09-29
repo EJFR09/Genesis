@@ -13,6 +13,5 @@ El documento debe seguir esta estructura y convenciones:
 Convenciones:
 - Los nombres de comandos, parámetros, funciones y archivos siempre en backticks
 - Los bloques de código con el lenguaje indicado (groovy, kotlin, properties, etc.)
-- Las advertencias importantes con > OBS: ...
 - Nada de redundancias: si algo ya se explicó, no repetirlo
 - Tono técnico pero directo, sin relleno

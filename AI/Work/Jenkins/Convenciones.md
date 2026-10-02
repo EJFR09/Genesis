@@ -1,20 +1,20 @@
 - Preparar Entorno
     - [ ] Crear rama en devops
     - [ ] Hacer primer commit
-    - [ ] Crear libreria
+    - [ ] Crear libreria test
     - [ ] Crear rama en el repo
 - Pipeline automatico
     - [ ] Entender el proyecto
-        - [ ] Qué vamos a construir
-        - [ ] Cómo lo vamos a hacer
+	    - [ ] Qué hacemos
+	    - [ ] Cómo lo hacemos
     - [ ] Probar en Local el flujo a realizar
         - [ ] Compilar
         - [ ] Ejecutar tests
     - [ ] Crear el Flujo
 - Pipeline manual
     - [ ] Entender el proyecto
-        - [ ] Qué vamos a construir
-        - [ ] Cómo lo vamos a hacer
+	    - [ ] Qué hacemos
+	    - [ ] Cómo lo hacemos
     - [ ] Probar en Local el flujo a realizar
         - [ ] Compilar
         - [ ] Ejecutar tests
@@ -23,8 +23,11 @@
         - [ ] Agregar dry_run
         - [ ] Hacer que solo haga el buil en el docker buil stage
 - [ ] Documentar
-- [ ] Crear ramas finales y copiar los archivos
+- [ ] Crear ramas finales y copiar los archivos sin testcommons
+- [ ] Verificar las versiones iniciales
+- [ ] Eliminar el historial del pipeline manual
+	- [ ] 
 - [ ] Hacer pr a los repositorios
-- [ ] Pedir que cambien la lib para apuntar a main
+- [ ] Crear libreria main
 - [ ] Cambiar el filtro del pipeline automatico
 - [ ] Entregar el pipeline oficialmente

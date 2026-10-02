@@ -120,6 +120,8 @@
 .workspace-leaf-content[data-type="excalidraw"]
 .excalidraw .sidebar-trigger {
     background: #2A2A2A!important;
+    border-color: #343434 !important;
+    box-shadow: none !important;
 }
 
 

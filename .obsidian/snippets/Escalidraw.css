@@ -186,3 +186,17 @@
 .excalidraw .ToolIcon__icon:hover {
     background: #303030 !important;
 }
+
+/* Quitar borde del panel lateral derecho */
+.workspace-leaf-content[data-type="excalidraw"]
+.excalidraw .tray-misc-tools-container,
+
+.workspace-leaf-content[data-type="excalidraw"]
+.excalidraw .mobile-misc-tools-container,
+
+.workspace-leaf-content[data-type="excalidraw"]
+.excalidraw .excalidraw-ui-top-right {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}

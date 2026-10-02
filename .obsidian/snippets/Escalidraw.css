@@ -1,22 +1,52 @@
-/* Evitar flash blanco al abrir Excalidraw */
+/* Excalidraw: eliminar flash blanco al abrir */
 
-.workspace-leaf-content[data-type="excalidraw"] {
+.workspace-leaf-content[data-type="excalidraw"],
+.workspace-leaf-content[data-type="excalidraw"] .view-content,
+.workspace-leaf-content[data-type="excalidraw"] .excalidraw-container,
+.workspace-leaf-content[data-type="excalidraw"] .excalidraw,
+.workspace-leaf-content[data-type="excalidraw"] .excalidraw-wrapper,
+.workspace-leaf-content[data-type="excalidraw"] .App-menu_top,
+.workspace-leaf-content[data-type="excalidraw"] .layer-ui__wrapper {
     background-color: #1e1e1e !important;
 }
 
-.workspace-leaf-content[data-type="excalidraw"] .view-content {
+/* Fondo del canvas de Excalidraw */
+.workspace-leaf-content[data-type="excalidraw"] .excalidraw .canvas-background {
     background-color: #1e1e1e !important;
 }
 
-.excalidraw-container {
+/* Evitar blanco durante montaje/renderizado */
+.workspace-leaf-content[data-type="excalidraw"] canvas {
+    background: #1e1e1e !important;
+}
+
+/* Barra lateral derecha de Excalidraw */
+.workspace-leaf-content[data-type="excalidraw"] .excalidraw .App-menu__left,
+.workspace-leaf-content[data-type="excalidraw"] .excalidraw .App-menu__right,
+.workspace-leaf-content[data-type="excalidraw"] .excalidraw .sidebar,
+.workspace-leaf-content[data-type="excalidraw"] .excalidraw .layer-ui__wrapper {
     background-color: #1e1e1e !important;
 }
 
-.excalidraw {
+/* Botones dentro de esa barra */
+.workspace-leaf-content[data-type="excalidraw"] .excalidraw button {
     background-color: #1e1e1e !important;
 }
 
-/* Mientras aparece/carga el canvas */
-.excalidraw canvas {
-    background-color: transparent !important;
-}   
+.workspace-leaf-content[data-type="excalidraw"] .excalidraw .sidebar {
+    background-color: #1e1e1e !important;
+}
+
+.workspace-leaf-content[data-type="excalidraw"] .excalidraw .Island {
+    background-color: #1e1e1e !important;
+}
+/* Paneles flotantes */
+.workspace-leaf-content[data-type="excalidraw"] .excalidraw .Island {
+    background-color: #1e1e1e !important;
+    border-color: #333 !important;
+}
+
+/* Iconos */
+.workspace-leaf-content[data-type="excalidraw"] .excalidraw .Island svg {
+    color: #ddd !important;
+}

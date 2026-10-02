@@ -1,0 +1,22 @@
+/* Evitar flash blanco al abrir Excalidraw */
+
+.workspace-leaf-content[data-type="excalidraw"] {
+    background-color: #1e1e1e !important;
+}
+
+.workspace-leaf-content[data-type="excalidraw"] .view-content {
+    background-color: #1e1e1e !important;
+}
+
+.excalidraw-container {
+    background-color: #1e1e1e !important;
+}
+
+.excalidraw {
+    background-color: #1e1e1e !important;
+}
+
+/* Mientras aparece/carga el canvas */
+.excalidraw canvas {
+    background-color: transparent !important;
+}

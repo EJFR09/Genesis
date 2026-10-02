@@ -1,3 +1,4 @@
+# Pipeline Workflow
 - Preparar Entorno
     - [ ] Crear rama en devops
     - [ ] Hacer primer commit
@@ -11,6 +12,7 @@
         - [ ] Compilar
         - [ ] Ejecutar tests
     - [ ] Crear el Flujo
+	    - [ ]  Buscar un template para usarlo de base
 - Pipeline manual
     - [ ] Entender el proyecto
 	    - [ ] Qué hacemos
@@ -20,14 +22,14 @@
         - [ ] Ejecutar tests
         - [ ] Crear imagenes
     - [ ] Crear el Flujo
-        - [ ] Agregar dry_run
-        - [ ] Hacer que solo haga el buil en el docker buil stage
-- [ ] Documentar
-- [ ] Crear ramas finales y copiar los archivos sin testcommons
-- [ ] Verificar las versiones iniciales
-- [ ] Eliminar el historial del pipeline manual
-	- [ ] 
-- [ ] Hacer pr a los repositorios
-- [ ] Crear libreria main
-- [ ] Cambiar el filtro del pipeline automatico
-- [ ] Entregar el pipeline oficialmente
+        - [ ] Buscar un template para usarlo de base
+* Preparar Entrega
+	- [ ] Documentar
+	- [ ] Crear ramas finales y copiar los archivos sin testcommons
+	- [ ] Verificar las versiones iniciales
+	- [ ] Eliminar el historial del pipeline manual
+		- [ ] https://github.com/roshkadev/devops/blob/main/scripts/jenkins/clean_job_history.groovy
+	- [ ] Hacer pr a los repositorios
+	- [ ] Crear libreria main
+	- [ ] Cambiar el filtro del pipeline automatico
+	- [ ] Entregar el pipeline oficialmente

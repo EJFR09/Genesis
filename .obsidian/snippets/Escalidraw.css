@@ -17,8 +17,8 @@
     --button-hover-bg: #303030;
     --button-active-bg: #383838;
 
-    --default-border-color: #242424 ;
-    --input-border-color: #242424 ;
+    --default-border-color: #2A2A2A;
+    --input-border-color: #2A2A2A;
 
     --icon-fill-color: #c8c8c8;
     --text-primary-color: #c8c8c8;
@@ -28,8 +28,8 @@
 /* Paneles flotantes: toolbar, zoom, undo, menú, etc. */
 .workspace-leaf-content[data-type="excalidraw"]
 .excalidraw .Island {
-    background: #242424 !important;
-    border-color: #242424  !important;
+    background: #2A2A2A!important;
+    border-color: #2A2A2A !important;
     box-shadow:
         0 1px 2px rgba(0,0,0,.30),
         0 4px 12px rgba(0,0,0,.22) !important;
@@ -71,16 +71,16 @@
 .excalidraw .zoom-actions,
 .workspace-leaf-content[data-type="excalidraw"]
 .excalidraw .undo-redo-buttons {
-    background: #242424 !important;
-    border-color: #242424  !important;
+    background: #2A2A2A!important;
+    border-color: #2A2A2A !important;
 }
 
 
 /* Menú hamburguesa superior izquierdo */
 .workspace-leaf-content[data-type="excalidraw"]
 .excalidraw .dropdown-menu-button {
-    background: #242424 !important;
-    border-color: #242424  !important;
+    background: #2A2A2A!important;
+    border-color: #2A2A2A !important;
 }
 
 
@@ -91,3 +91,96 @@
     color: #c8c8c8;
 }
 
+/* ==========================================
+   Quitar contornos/fondos claros restantes
+   ========================================== */
+
+/* Botones flotantes generales */
+.workspace-leaf-content[data-type="excalidraw"]
+.excalidraw .ToolIcon__icon,
+.workspace-leaf-content[data-type="excalidraw"]
+.excalidraw .dropdown-menu-button,
+.workspace-leaf-content[data-type="excalidraw"]
+.excalidraw .sidebar-trigger {
+    background: #2A2A2A!important;
+    border-color: #343434 !important;
+    box-shadow: none !important;
+}
+
+
+/* Menú hamburguesa */
+.workspace-leaf-content[data-type="excalidraw"]
+.excalidraw .dropdown-menu-button {
+    background: #2A2A2A!important;
+    border: 1px solid #343434 !important;
+}
+
+
+/* Barra lateral derecha */
+.workspace-leaf-content[data-type="excalidraw"]
+.excalidraw .sidebar-trigger {
+    background: #2A2A2A!important;
+}
+
+
+/* Zoom inferior izquierdo */
+.workspace-leaf-content[data-type="excalidraw"]
+.excalidraw .zoom-actions,
+.workspace-leaf-content[data-type="excalidraw"]
+.excalidraw .zoom-actions button {
+    background: #2A2A2A!important;
+    border-color: #343434 !important;
+    box-shadow: none !important;
+}
+
+
+/* Undo / redo */
+.workspace-leaf-content[data-type="excalidraw"]
+.excalidraw .undo-redo-buttons,
+.workspace-leaf-content[data-type="excalidraw"]
+.excalidraw .undo-redo-buttons button {
+    background: #2A2A2A!important;
+    border-color: #343434 !important;
+    box-shadow: none !important;
+}
+
+
+/* Botón inferior derecho */
+.workspace-leaf-content[data-type="excalidraw"]
+.excalidraw .help-icon,
+.workspace-leaf-content[data-type="excalidraw"]
+.excalidraw .library-button {
+    background: #2A2A2A!important;
+    border-color: #343434 !important;
+    box-shadow: none !important;
+}
+
+
+/* Evitar fondos blancos en botones deshabilitados */
+.workspace-leaf-content[data-type="excalidraw"]
+.excalidraw button:disabled {
+    background: #2a2a2a !important;
+    color: #777 !important;
+    border-color: #343434 !important;
+    opacity: 1 !important;
+}
+
+
+/* Inputs/control groups que aún hereden fondo claro */
+.workspace-leaf-content[data-type="excalidraw"]
+.excalidraw .Island,
+.workspace-leaf-content[data-type="excalidraw"]
+.excalidraw .ToolIcon,
+.workspace-leaf-content[data-type="excalidraw"]
+.excalidraw .Stack {
+    border-color: #343434 !important;
+}
+
+
+/* Botones seleccionados */
+.workspace-leaf-content[data-type="excalidraw"]
+.excalidraw .ToolIcon_type_radio:checked + .ToolIcon__icon,
+.workspace-leaf-content[data-type="excalidraw"]
+.excalidraw .ToolIcon__icon:hover {
+    background: #303030 !important;
+}

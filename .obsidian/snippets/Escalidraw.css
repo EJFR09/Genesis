@@ -1,3 +1,9 @@
+.workspace-leaf-content[data-type="excalidraw"],
+.workspace-leaf-content[data-type="excalidraw"] .view-content,
+.workspace-leaf-content[data-type="excalidraw"] .excalidraw-container {
+    background: #1e1e1e !important;
+}
+
 /* ==========================================
    CONTROLES DE EXCALIDRAW
    Mantenerlos oscuros sin romper los SVG
@@ -84,3 +90,4 @@
 .excalidraw svg {
     color: #c8c8c8;
 }
+

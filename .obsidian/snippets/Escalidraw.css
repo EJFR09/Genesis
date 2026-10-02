@@ -1,47 +1,86 @@
-/* Excalidraw: eliminar flash blanco al abrir */
+/* ==========================================
+   CONTROLES DE EXCALIDRAW
+   Mantenerlos oscuros sin romper los SVG
+   ========================================== */
 
-.workspace-leaf-content[data-type="excalidraw"],
-.workspace-leaf-content[data-type="excalidraw"] .view-content,
-.workspace-leaf-content[data-type="excalidraw"] .excalidraw-container,
-.workspace-leaf-content[data-type="excalidraw"] .excalidraw,
-.workspace-leaf-content[data-type="excalidraw"] .excalidraw-wrapper,
-.workspace-leaf-content[data-type="excalidraw"] .App-menu_top,
-.workspace-leaf-content[data-type="excalidraw"] .layer-ui__wrapper {
-    background-color: #1e1e1e !important;
+.workspace-leaf-content[data-type="excalidraw"] .excalidraw {
+    --island-bg-color: #242424;
+    --popup-bg-color: #242424;
+
+    --button-bg: #242424;
+    --button-hover-bg: #303030;
+    --button-active-bg: #383838;
+
+    --default-border-color: #242424 ;
+    --input-border-color: #242424 ;
+
+    --icon-fill-color: #c8c8c8;
+    --text-primary-color: #c8c8c8;
 }
 
-/* Fondo del canvas de Excalidraw */
-.workspace-leaf-content[data-type="excalidraw"] .excalidraw .canvas-background {
-    background-color: #1e1e1e !important;
+
+/* Paneles flotantes: toolbar, zoom, undo, menú, etc. */
+.workspace-leaf-content[data-type="excalidraw"]
+.excalidraw .Island {
+    background: #242424 !important;
+    border-color: #242424  !important;
+    box-shadow:
+        0 1px 2px rgba(0,0,0,.30),
+        0 4px 12px rgba(0,0,0,.22) !important;
 }
 
-/* Evitar blanco durante montaje/renderizado */
-.workspace-leaf-content[data-type="excalidraw"] canvas {
-    background: #1e1e1e !important;
+
+/* Botones normales: sin borde blanco */
+.workspace-leaf-content[data-type="excalidraw"]
+.excalidraw button {
+    border-color: transparent !important;
 }
 
-/* Barra lateral derecha de Excalidraw */
-.workspace-leaf-content[data-type="excalidraw"] .excalidraw .App-menu__left,
-.workspace-leaf-content[data-type="excalidraw"] .excalidraw .App-menu__right,
-.workspace-leaf-content[data-type="excalidraw"] .excalidraw .sidebar,
-.workspace-leaf-content[data-type="excalidraw"] .excalidraw .layer-ui__wrapper {
-    background-color: #1e1e1e !important;
+
+/* Hover */
+.workspace-leaf-content[data-type="excalidraw"]
+.excalidraw button:hover {
+    background-color: #303030 !important;
 }
 
-/* Botones dentro de esa barra */
-.workspace-leaf-content[data-type="excalidraw"] .excalidraw button {
-    background-color: #1e1e1e !important;
+
+/* Controles ToolIcon */
+.workspace-leaf-content[data-type="excalidraw"]
+.excalidraw .ToolIcon__icon {
+    border-color: transparent !important;
 }
 
-.workspace-leaf-content[data-type="excalidraw"] .excalidraw .sidebar {
-    background-color: #1e1e1e !important;
+
+/* Botones que son realmente cajas/controles */
+.workspace-leaf-content[data-type="excalidraw"]
+.excalidraw .ToolIcon__icon,
+.workspace-leaf-content[data-type="excalidraw"]
+.excalidraw .App-toolbar__divider {
+    box-shadow: none !important;
 }
 
-.workspace-leaf-content[data-type="excalidraw"] .excalidraw .Island {
-    background-color: #1e1e1e !important;
+
+/* Zoom y undo/redo inferiores */
+.workspace-leaf-content[data-type="excalidraw"]
+.excalidraw .zoom-actions,
+.workspace-leaf-content[data-type="excalidraw"]
+.excalidraw .undo-redo-buttons {
+    background: #242424 !important;
+    border-color: #242424  !important;
 }
-/* Paneles flotantes */
-.workspace-leaf-content[data-type="excalidraw"] .excalidraw .Island {
-    background-color: #1e1e1e !important;
-    border-color: #333 !important;
+
+
+/* Menú hamburguesa superior izquierdo */
+.workspace-leaf-content[data-type="excalidraw"]
+.excalidraw .dropdown-menu-button {
+    background: #242424 !important;
+    border-color: #242424  !important;
+}
+
+
+/* Mantener los SVG originales de Excalidraw.
+   Solo damos un color base; NO modificamos stroke/path manualmente. */
+.workspace-leaf-content[data-type="excalidraw"]
+.excalidraw svg {
+    color: #c8c8c8;
 }

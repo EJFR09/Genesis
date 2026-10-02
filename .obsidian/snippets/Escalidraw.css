@@ -45,8 +45,3 @@
     background-color: #1e1e1e !important;
     border-color: #333 !important;
 }
-
-/* Iconos */
-.workspace-leaf-content[data-type="excalidraw"] .excalidraw .Island svg {
-    color: #ddd !important;
-}

@@ -1,5 +1,5 @@
 ### Automatico
-* [[Doc-Pip-Auto-Promt]]
+* [[Doc-Pip-Auto]]
 * [[Doc-Pip-Auto-Plantilla]]
 ### Manual
 * [[Doc-Pip-Manu]]

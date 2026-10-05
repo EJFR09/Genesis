@@ -2,12 +2,12 @@
 status: open
 priority: normal
 dateCreated: 2026-10-04T21:55:41.062-03:00
-dateModified: 2026-10-04T21:57:24.958-03:00
+dateModified: 2026-10-04T22:06:26.658-03:00
 tags:
   - task
 ---
 
-* [x] Curso
+* [ ] Curso
 	* [ ] Hablar con el chat donde podemos meter SDD
 	* [ ] Como utilizar think, build y agentes en este proceso
 	* [ ] Como se convierte nuestro /comands new-task y new-project en este ambito

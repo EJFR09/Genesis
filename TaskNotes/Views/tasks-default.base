@@ -251,6 +251,9 @@ views:
     name: View
   - type: tasknotesTaskList
     name: facu
+    filters:
+      and:
+        - file.tags == ["Facu"]
     enableSearch: false
     hideTopLevelSubtasks: false
     subGroup: note.tags

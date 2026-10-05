@@ -250,6 +250,7 @@ views:
   - type: tasknotesCalendar
     name: View
   - type: tasknotesTaskList
-    name: View 2
+    name: facu
     enableSearch: false
     hideTopLevelSubtasks: false
+    subGroup: note.tags

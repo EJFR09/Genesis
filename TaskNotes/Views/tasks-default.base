@@ -62,7 +62,7 @@ views:
       - complete_instances
       - file.tasks
     sort:
-      - property: tasknotes_manual_order
+      - property: formula.priorityWeight
         direction: DESC
   - type: tasknotesTaskList
     name: All Tasks

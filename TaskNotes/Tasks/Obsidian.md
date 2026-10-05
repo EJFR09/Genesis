@@ -1,8 +1,8 @@
 ---
 status: open
-priority: normal
+priority: high
 dateCreated: 2026-10-04T22:08:38.599-03:00
-dateModified: 2026-10-04T22:08:45.030-03:00
+dateModified: 2026-10-05T07:55:58.140-03:00
 tags:
   - task
 ---

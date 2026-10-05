@@ -5,3 +5,4 @@
 - K8s → `K8s/`
 - Linux → `Linux/`
 - Proxmox → `Proxmox/`
+- ArgoCD → `ArgoCD/`

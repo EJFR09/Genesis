@@ -6,3 +6,4 @@
 - Linux → `Linux/`
 - Proxmox → `Proxmox/`
 - ArgoCD → `ArgoCD/`
+- Redes → `Redes/`

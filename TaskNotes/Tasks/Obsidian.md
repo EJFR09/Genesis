@@ -1,11 +1,12 @@
 ---
 status: open
-priority: high
+priority: normal
 dateCreated: 2026-10-04T22:08:38.599-03:00
-dateModified: 2026-10-06T08:21:59.521-03:00
+dateModified: 2026-10-06T08:29:05.623-03:00
 tags:
   - task
 ---
 
-* [ ] Obsidian backlog de tareas/vistas (posible make.md)
-	* [ ] Crear 2 workspaces, 1 de guia diaria y otro de estudios con temporizador y escalidra
+* [ ] Manejo con shortcuts
+* [ ] Limpiar los folders con las convenciones correspondientes
+* [ ] Traer info de notion

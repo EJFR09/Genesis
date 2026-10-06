@@ -1,4 +1,4 @@
-# Vim - Comandos básicos
+# Vim Comandos básicos
 
 - Entrar en modo edición: `i`
 - Volver al modo normal: `Esc`

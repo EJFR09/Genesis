@@ -23,6 +23,7 @@
 	- Todos brillamos en colores diferentes, es nuestro deber aportar ese color unico 
 	- Perseguir ese hilo, tanto del contexto como de la zona de flujo 
 	- Analizar a las personas emocionalmente no logicamente
+	- Alejarte lo suficiente para ver todo el cuadro
 - Mamba mentality - Asilar personalidades en eventos
 	* Robar habilidades de los grandes
 	* Aprender de manera agresiva

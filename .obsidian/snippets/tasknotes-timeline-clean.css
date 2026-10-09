@@ -154,7 +154,28 @@
 }
 
 
-/
+/* =========================================================
+   ETIQUETAS DAY / WEEK
+   ========================================================= */
+
+/*
+ * Oculta completamente el texto original del botón.
+ * Esto evita DDay y WWeek.
+ */
+
+/* Color correcto para la vista activa */
+.workspace-leaf-content:has(.fc)
+  .fc-timeGridDay-button.fc-button-active::after,
+.workspace-leaf-content:has(.fc)
+  .fc-timeGridWeek-button.fc-button-active::after {
+  color: var(--interactive-accent);
+}
+
+
+/* Barra de Bases oculta */
+.workspace-leaf-content:has(.fc) .bases-toolbar {
+  display: none !important;
+}
 
 
 /* =========================================================
@@ -596,3 +617,4 @@
     transition: none !important;
   }
 }
+

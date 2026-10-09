@@ -677,3 +677,32 @@
     transition: none !important;
   }
 }
+
+/*
+ * Línea horizontal en CADA celda del timeline.
+ * Ahora toca ambos extremos y tiene un poco más de presencia.
+ */
+.workspace-leaf-content:has(.fc)
+  .fc-timegrid-slots
+  .fc-timegrid-slot-lane::after {
+  content: "";
+
+  position: absolute;
+  z-index: 0;
+
+  top: -1px;
+  right: 0;
+  left: 0;
+
+  height: 1px;
+
+  pointer-events: none;
+
+  background: color-mix(
+    in srgb,
+    var(--background-modifier-border) 100%,
+    transparent
+  );
+
+  border-radius: 0;
+}

@@ -7,6 +7,7 @@
  * evento conserva el color configurado en TaskNotes o Google Calendar.
  */
 
+
 /* =========================================================
    AJUSTES RÁPIDOS
    ========================================================= */
@@ -23,6 +24,7 @@
   --tn-event-saturation: 1;
 }
 
+
 /* =========================================================
    CALENDARIO Y SUPERFICIES
    ========================================================= */
@@ -35,13 +37,16 @@
   --fc-page-bg-color: transparent;
   --fc-neutral-bg-color: var(--background-secondary);
   --fc-today-bg-color: transparent;
+
   --fc-border-color: color-mix(
     in srgb,
     var(--background-modifier-border) var(--tn-grid-hour-opacity),
     transparent
   );
+
   --fc-now-indicator-color: var(--color-red);
 }
+
 
 /* Conserva intencionadamente la separación superior propia del layout. */
 .workspace-leaf-content:has(.fc) .fc,
@@ -50,10 +55,12 @@
   background-color: transparent !important;
 }
 
+
 /* Elimina el marco rectangular exterior; las líneas internas permanecen. */
 .workspace-leaf-content:has(.fc) .fc-scrollgrid {
   border: 0 !important;
 }
+
 
 /* =========================================================
    BARRA DE NAVEGACIÓN
@@ -66,6 +73,7 @@
   gap: 4px;
 
   background: transparent;
+
   border-bottom: 1px solid
     color-mix(
       in srgb,
@@ -74,11 +82,13 @@
     );
 }
 
+
 .workspace-leaf-content:has(.fc) .fc-toolbar-chunk {
   display: flex;
   align-items: center;
   gap: 2px;
 }
+
 
 .workspace-leaf-content:has(.fc) .fc .fc-button {
   min-width: 27px;
@@ -87,8 +97,10 @@
 
   color: var(--text-muted) !important;
   background: transparent !important;
+
   border: 0 !important;
   border-radius: var(--tn-control-radius) !important;
+
   box-shadow: none !important;
 
   font-size: 11px !important;
@@ -100,14 +112,17 @@
     opacity 120ms ease;
 }
 
+
 .workspace-leaf-content:has(.fc) .fc .fc-button:hover {
   color: var(--text-normal) !important;
   background: var(--background-modifier-hover) !important;
 }
 
-/* D y cualquier vista activa usan el acento configurado en Minimal. */
+
+/* Day y Week activos usan el acento configurado en Minimal. */
 .workspace-leaf-content:has(.fc) .fc .fc-button-active {
   color: var(--interactive-accent) !important;
+
   background: color-mix(
     in srgb,
     var(--interactive-accent) 13%,
@@ -115,24 +130,73 @@
   ) !important;
 }
 
+
 .workspace-leaf-content:has(.fc) .fc .fc-button:disabled {
   color: var(--text-faint) !important;
   opacity: 0.48 !important;
 }
 
-/* Oculta la fecha grande y deja solo el botón de vista actualmente activo. */
-.workspace-leaf-content:has(.fc) .fc-toolbar-title,
+
+/*
+ * Oculta la fecha grande.
+ *
+ * Mantiene siempre visibles:
+ * - Day  → timeGridDay
+ * - Week → timeGridWeek
+ *
+ * Cualquier otra vista no activa permanece oculta.
+ */
+.workspace-leaf-content:has(.fc) .fc-toolbar-title {
+  display: none !important;
+}
+
+
 .workspace-leaf-content:has(.fc)
   .fc-header-toolbar
   .fc-toolbar-chunk:last-child
-  .fc-button:not(.fc-button-active) {
+  .fc-button:not(.fc-button-active):not(.fc-timeGridDay-button):not(.fc-timeGridWeek-button) {
   display: none !important;
 }
+
+
+/*
+ * Etiquetas Day / Week.
+ *
+ * Ocultamos por completo el contenido original del botón
+ * para evitar DDay y WWeek.
+ */
+.workspace-leaf-content:has(.fc) .fc-timeGridDay-button,
+.workspace-leaf-content:has(.fc) .fc-timeGridWeek-button {
+  font-size: 0 !important;
+}
+
+
+/* Oculta spans, iconos o texto interno del botón original. */
+.workspace-leaf-content:has(.fc) .fc-timeGridDay-button > *,
+.workspace-leaf-content:has(.fc) .fc-timeGridWeek-button > * {
+  display: none !important;
+}
+
+
+.workspace-leaf-content:has(.fc) .fc-timeGridDay-button::after {
+  content: "Day";
+  display: inline;
+  font-size: 11px;
+}
+
+
+.workspace-leaf-content:has(.fc) .fc-timeGridWeek-button::after {
+  content: "Week";
+  display: inline;
+  font-size: 11px;
+}
+
 
 /* La barra de Bases permanece oculta sin alterar el espacio del layout. */
 .workspace-leaf-content:has(.fc) .bases-toolbar {
   display: none !important;
 }
+
 
 /* =========================================================
    ENCABEZADO DEL DÍA Y ALL-DAY
@@ -142,8 +206,10 @@
   background: transparent !important;
 }
 
+
 .workspace-leaf-content:has(.fc) .fc-col-header-cell {
   background: transparent !important;
+
   border-bottom-color: color-mix(
     in srgb,
     var(--background-modifier-border) 52%,
@@ -151,16 +217,20 @@
   ) !important;
 }
 
-/* Tuesday/Today adopta el acento elegido por el usuario, nunca uno fijo. */
+
+/* Today adopta el acento elegido por el usuario, nunca uno fijo. */
 .workspace-leaf-content:has(.fc) .fc-col-header-cell-cushion {
   padding: 7px 3px !important;
 
   color: var(--interactive-accent) !important;
+
   font-size: 10.5px !important;
   font-weight: 600 !important;
+
   letter-spacing: 0.015em;
   text-decoration: none !important;
 }
+
 
 /* El área all-day se integra como una superficie suave del tema. */
 .workspace-leaf-content:has(.fc) .fc-timegrid-allday {
@@ -169,9 +239,11 @@
     var(--background-secondary) 72%,
     transparent
   ) !important;
+
   border-radius: var(--tn-control-radius);
   overflow: hidden;
 }
+
 
 /* =========================================================
    TIMELINE Y CUADRÍCULA
@@ -181,71 +253,97 @@
   height: var(--tn-slot-height) !important;
 }
 
+
 /*
- * FullCalendar dibuja cada intervalo como una celda de tabla. Quitamos esos
- * bordes rectangulares y reconstruimos solamente las líneas de hora mediante
- * un degradado con extremos suaves. Las medias horas quedan sin línea.
+ * FullCalendar dibuja cada intervalo como una celda de tabla.
+ * Quitamos los bordes rectangulares nativos y reconstruimos
+ * las líneas horizontales usando el mismo degradado suave.
  */
 .workspace-leaf-content:has(.fc)
   .fc-timegrid-slots
   td {
   position: relative;
+
   border-top-color: transparent !important;
   border-bottom-color: transparent !important;
 }
+
 
 .workspace-leaf-content:has(.fc) .fc-timegrid-slot {
   border-top: 0 !important;
   border-bottom: 0 !important;
 }
 
+
+/*
+ * Línea horizontal en CADA celda del timeline.
+ *
+ * Antes se aplicaba solo a tr:nth-child(odd), por lo que
+ * visualmente aparecía una línea cada dos intervalos.
+ *
+ * Ahora todas las celdas conservan exactamente el mismo
+ * estilo de línea y degradado.
+ */
 .workspace-leaf-content:has(.fc)
   .fc-timegrid-slots
-  tr:nth-child(odd)
   .fc-timegrid-slot-lane::after {
   content: "";
+
   position: absolute;
   z-index: 0;
+
   top: -1px;
   right: 5px;
   left: 5px;
+
   height: 1px;
+
   pointer-events: none;
 
   background: linear-gradient(
     90deg,
     transparent,
+
     color-mix(
       in srgb,
       var(--background-modifier-border) var(--tn-grid-hour-opacity),
       transparent
     ) 8%,
+
     color-mix(
       in srgb,
       var(--background-modifier-border) var(--tn-grid-hour-opacity),
       transparent
     ) 92%,
+
     transparent
   );
+
   border-radius: 999px;
 }
+
 
 /* Sin división vertical rígida entre las horas y la agenda. */
 .workspace-leaf-content:has(.fc) .fc-timegrid-axis,
 .workspace-leaf-content:has(.fc) .fc-timegrid-slot-label {
   width: var(--tn-time-column-width) !important;
+
   background: transparent !important;
+
   border-right-color: transparent !important;
 }
+
 
 .workspace-leaf-content:has(.fc) .fc-timegrid-slot-label-cushion {
   padding-right: 7px !important;
 
   color: var(--text-muted) !important;
+
   font-size: 9.5px !important;
   font-variant-numeric: tabular-nums;
   font-weight: 400;
 }
+
 
 /* Reduce otros bordes duros propios de la tabla de FullCalendar. */
 .workspace-leaf-content:has(.fc) .fc-timegrid-col {
@@ -253,8 +351,10 @@
   border-right-color: transparent !important;
 }
 
+
 .workspace-leaf-content:has(.fc) .fc-timegrid-divider {
   background: transparent !important;
+
   border-color: color-mix(
     in srgb,
     var(--background-modifier-border) 42%,
@@ -262,74 +362,107 @@
   ) !important;
 }
 
+
 /* =========================================================
    EVENTOS PASTEL
    ========================================================= */
 
 /*
- * FullCalendar escribe los colores de cada evento directamente en el HTML.
- * En vez de reemplazarlos, aplicamos una capa de la superficie del tema sobre
- * el color original. Así conservamos su categoría, pero obtenemos una versión
- * pastel y consistente tanto en modo claro como oscuro.
+ * FullCalendar escribe los colores de cada evento directamente
+ * en el HTML.
+ *
+ * En vez de reemplazarlos, aplicamos una capa de la superficie
+ * del tema sobre el color original.
  */
 .workspace-leaf-content:has(.fc) .fc-timegrid-event {
   isolation: isolate;
+
   min-height: 24px !important;
+
   opacity: 1;
+
   filter: saturate(var(--tn-event-saturation));
 
   /*
-   * El borde deja de usar el color puro del evento. El relleno conserva la
-   * categoría y el contorno pasa a ser una separación neutra del tema.
+   * El borde deja de usar el color puro del evento.
+   * El relleno conserva la categoría y el contorno pasa
+   * a ser una separación neutra del tema.
    */
   border-width: 1px !important;
+
   border-color: color-mix(
     in srgb,
     var(--text-muted) 30%,
     transparent
   ) !important;
+
   border-radius: var(--tn-event-radius) !important;
+
   overflow: hidden;
 
-  box-shadow: 0 2px 6px
-    color-mix(in srgb, black 14%, transparent) !important;
+  box-shadow:
+    0 2px 6px
+    color-mix(
+      in srgb,
+      black 14%,
+      transparent
+    ) !important;
 
   transition:
     filter 140ms ease,
     box-shadow 140ms ease;
 }
 
+
 /* Capa que convierte cualquier color de origen en una superficie pastel. */
 .workspace-leaf-content:has(.fc) .fc-timegrid-event::before {
   content: "";
+
   position: absolute;
   z-index: 0;
+
   inset: 0;
+
   pointer-events: none;
 
   background: var(--background-primary);
+
   opacity: var(--tn-event-wash-opacity);
 }
 
+
 .workspace-leaf-content:has(.fc) .fc-timegrid-event:hover {
   z-index: 20;
+
   filter: saturate(0.72);
+
   border-color: color-mix(
     in srgb,
     var(--text-muted) 45%,
     transparent
   ) !important;
-  box-shadow: 0 4px 12px
-    color-mix(in srgb, black 20%, transparent) !important;
+
+  box-shadow:
+    0 4px 12px
+    color-mix(
+      in srgb,
+      black 20%,
+      transparent
+    ) !important;
 }
+
 
 .workspace-leaf-content:has(.fc) .fc-event-main {
   position: relative;
   z-index: 1;
+
   min-width: 0;
+
   padding: 3px 7px !important;
+
   color: var(--text-normal) !important;
 }
+
 
 .workspace-leaf-content:has(.fc) .fc-event-main-frame,
 .workspace-leaf-content:has(.fc) .fc-event-title-container {
@@ -337,32 +470,46 @@
   overflow: hidden;
 }
 
+
 .workspace-leaf-content:has(.fc) .fc-event-time {
   margin-bottom: 1px;
+
   color: var(--text-muted) !important;
+
   font-size: 9.5px !important;
   font-weight: 500;
+
   opacity: 0.9;
 }
 
+
 .workspace-leaf-content:has(.fc) .fc-event-title {
   display: -webkit-box;
+
   overflow: hidden !important;
 
   color: var(--text-normal) !important;
+
   font-size: 10.5px !important;
   font-weight: 600;
+
   line-height: 1.25 !important;
 
   overflow-wrap: anywhere;
+
   white-space: normal !important;
+
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 }
 
+
 /*
- * FullCalendar marca los bloques bajos con fc-timegrid-event-short. En esos
- * eventos mostramos hora y título en una sola línea, como Google Calendar.
+ * FullCalendar marca los bloques bajos con
+ * fc-timegrid-event-short.
+ *
+ * En esos eventos mostramos hora y título en una sola línea,
+ * como Google Calendar.
  */
 .workspace-leaf-content:has(.fc)
   .fc-timegrid-event.fc-timegrid-event-short
@@ -370,24 +517,34 @@
   padding: 2px 6px !important;
 }
 
+
 .workspace-leaf-content:has(.fc)
   .fc-timegrid-event.fc-timegrid-event-short
   .fc-event-main-frame {
   display: flex !important;
+
   flex-direction: row !important;
+
   align-items: center !important;
+
   gap: 5px;
+
   height: 100%;
 }
+
 
 .workspace-leaf-content:has(.fc)
   .fc-timegrid-event.fc-timegrid-event-short
   .fc-event-time {
   display: block !important;
+
   flex: 0 0 auto;
+
   margin: 0;
+
   white-space: nowrap;
 }
+
 
 .workspace-leaf-content:has(.fc)
   .fc-timegrid-event.fc-timegrid-event-short
@@ -395,74 +552,113 @@
   flex: 1 1 auto;
 }
 
+
 .workspace-leaf-content:has(.fc)
   .fc-timegrid-event.fc-timegrid-event-short
   .fc-event-title {
   display: block;
+
   overflow: hidden !important;
+
   text-overflow: ellipsis;
+
   white-space: nowrap !important;
 }
+
 
 /* =========================================================
    INDICADOR DE HORA ACTUAL
    ========================================================= */
 
-/* Línea redondeada con desvanecimiento, en lugar de un trazo rectangular. */
+/* Línea redondeada con desvanecimiento. */
 .workspace-leaf-content:has(.fc) .fc-timegrid-now-indicator-line {
   height: 2px;
+
   margin-top: -1px;
+
   border: 0 !important;
+
   border-radius: 999px;
 
   background: linear-gradient(
     90deg,
+
     var(--color-red) 0%,
-    color-mix(in srgb, var(--color-red) 82%, transparent) 70%,
+
+    color-mix(
+      in srgb,
+      var(--color-red) 82%,
+      transparent
+    ) 70%,
+
     transparent 100%
   ) !important;
 
-  box-shadow: 0 0 5px
-    color-mix(in srgb, var(--color-red) 24%, transparent);
+  box-shadow:
+    0 0 5px
+    color-mix(
+      in srgb,
+      var(--color-red) 24%,
+      transparent
+    );
 }
+
 
 /* Sustituye la flecha cuadrada por un punto discreto. */
 .workspace-leaf-content:has(.fc) .fc-timegrid-now-indicator-arrow {
   width: 7px;
   height: 7px;
+
   margin-top: -3px;
   margin-left: -3px;
 
   background: var(--color-red) !important;
+
   border: 0 !important;
+
   border-radius: 50%;
-  box-shadow: 0 0 0 3px
-    color-mix(in srgb, var(--color-red) 13%, transparent);
+
+  box-shadow:
+    0 0 0 3px
+    color-mix(
+      in srgb,
+      var(--color-red) 13%,
+      transparent
+    );
 }
+
 
 /* =========================================================
    SCROLLBAR
    ========================================================= */
 
-.workspace-leaf-content:has(.fc) .fc-scroller::-webkit-scrollbar {
+.workspace-leaf-content:has(.fc)
+  .fc-scroller::-webkit-scrollbar {
   width: 5px;
   height: 5px;
 }
 
-.workspace-leaf-content:has(.fc) .fc-scroller::-webkit-scrollbar-track {
+
+.workspace-leaf-content:has(.fc)
+  .fc-scroller::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.workspace-leaf-content:has(.fc) .fc-scroller::-webkit-scrollbar-thumb {
+
+.workspace-leaf-content:has(.fc)
+  .fc-scroller::-webkit-scrollbar-thumb {
   background: color-mix(
     in srgb,
     var(--text-muted) 22%,
     transparent
   );
+
   border-radius: 999px;
 }
 
-.workspace-leaf-content:has(.fc) .fc-scroller::-webkit-scrollbar-thumb:hover {
+
+.workspace-leaf-content:has(.fc)
+  .fc-scroller::-webkit-scrollbar-thumb:hover {
   background: color-mix(
     in srgb,
     var(--text-muted) 36%,
@@ -470,7 +666,11 @@
   );
 }
 
-/* Respeta la preferencia del sistema para reducir movimiento. */
+
+/* =========================================================
+   ACCESIBILIDAD
+   ========================================================= */
+
 @media (prefers-reduced-motion: reduce) {
   .workspace-leaf-content:has(.fc) .fc-button,
   .workspace-leaf-content:has(.fc) .fc-timegrid-event {

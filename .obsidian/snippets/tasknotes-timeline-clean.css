@@ -18,8 +18,8 @@
   --tn-event-radius: var(--radius-m, 8px);
   --tn-control-radius: var(--radius-s, 6px);
 
-  /* Intensidad visual. Modifica solo estos valores si lo necesitas. */
-  --tn-grid-hour-opacity: 98%;
+  /* Intensidad visual */
+  --tn-grid-hour-opacity: 100%;
   --tn-event-wash-opacity: 0;
   --tn-event-saturation: 1;
 }
@@ -33,7 +33,6 @@
   font-size: 12px;
   background: transparent;
 
-  /* FullCalendar hereda la paleta del tema actual. */
   --fc-page-bg-color: transparent;
   --fc-neutral-bg-color: var(--background-secondary);
   --fc-today-bg-color: transparent;
@@ -48,7 +47,7 @@
 }
 
 
-/* Conserva intencionadamente la separación superior propia del layout. */
+/* Superficies transparentes */
 .workspace-leaf-content:has(.fc) .fc,
 .workspace-leaf-content:has(.fc) .fc-scrollgrid,
 .workspace-leaf-content:has(.fc) .fc-timegrid-body {
@@ -56,7 +55,7 @@
 }
 
 
-/* Elimina el marco rectangular exterior; las líneas internas permanecen. */
+/* Elimina el marco rectangular exterior */
 .workspace-leaf-content:has(.fc) .fc-scrollgrid {
   border: 0 !important;
 }
@@ -119,7 +118,7 @@
 }
 
 
-/* Day y Week activos usan el acento configurado en Minimal. */
+/* Vista activa */
 .workspace-leaf-content:has(.fc) .fc .fc-button-active {
   color: var(--interactive-accent) !important;
 
@@ -137,20 +136,16 @@
 }
 
 
-/*
- * Oculta la fecha grande.
- *
- * Mantiene siempre visibles:
- * - Day  → timeGridDay
- * - Week → timeGridWeek
- *
- * Cualquier otra vista no activa permanece oculta.
- */
+/* Oculta la fecha grande */
 .workspace-leaf-content:has(.fc) .fc-toolbar-title {
   display: none !important;
 }
 
 
+/*
+ * Mantiene visibles Day y Week.
+ * Las demás vistas no activas permanecen ocultas.
+ */
 .workspace-leaf-content:has(.fc)
   .fc-header-toolbar
   .fc-toolbar-chunk:last-child
@@ -159,43 +154,7 @@
 }
 
 
-/*
- * Etiquetas Day / Week.
- *
- * Ocultamos por completo el contenido original del botón
- * para evitar DDay y WWeek.
- */
-.workspace-leaf-content:has(.fc) .fc-timeGridDay-button,
-.workspace-leaf-content:has(.fc) .fc-timeGridWeek-button {
-  font-size: 0 !important;
-}
-
-
-/* Oculta spans, iconos o texto interno del botón original. */
-.workspace-leaf-content:has(.fc) .fc-timeGridDay-button > *,
-.workspace-leaf-content:has(.fc) .fc-timeGridWeek-button > * {
-  display: none !important;
-}
-
-
-.workspace-leaf-content:has(.fc) .fc-timeGridDay-button::after {
-  content: "Day";
-  display: inline;
-  font-size: 11px;
-}
-
-
-.workspace-leaf-content:has(.fc) .fc-timeGridWeek-button::after {
-  content: "Week";
-  display: inline;
-  font-size: 11px;
-}
-
-
-/* La barra de Bases permanece oculta sin alterar el espacio del layout. */
-.workspace-leaf-content:has(.fc) .bases-toolbar {
-  display: none !important;
-}
+/
 
 
 /* =========================================================
@@ -218,7 +177,6 @@
 }
 
 
-/* Today adopta el acento elegido por el usuario, nunca uno fijo. */
 .workspace-leaf-content:has(.fc) .fc-col-header-cell-cushion {
   padding: 7px 3px !important;
 
@@ -232,7 +190,7 @@
 }
 
 
-/* El área all-day se integra como una superficie suave del tema. */
+/* Área all-day */
 .workspace-leaf-content:has(.fc) .fc-timegrid-allday {
   background: color-mix(
     in srgb,
@@ -241,6 +199,7 @@
   ) !important;
 
   border-radius: var(--tn-control-radius);
+
   overflow: hidden;
 }
 
@@ -255,9 +214,7 @@
 
 
 /*
- * FullCalendar dibuja cada intervalo como una celda de tabla.
- * Quitamos los bordes rectangulares nativos y reconstruimos
- * las líneas horizontales usando el mismo degradado suave.
+ * Quita los bordes nativos de FullCalendar.
  */
 .workspace-leaf-content:has(.fc)
   .fc-timegrid-slots
@@ -276,13 +233,12 @@
 
 
 /*
- * Línea horizontal en CADA celda del timeline.
+ * Línea horizontal en CADA celda.
  *
- * Antes se aplicaba solo a tr:nth-child(odd), por lo que
- * visualmente aparecía una línea cada dos intervalos.
- *
- * Ahora todas las celdas conservan exactamente el mismo
- * estilo de línea y degradado.
+ * - Toca ambos extremos.
+ * - Sin margen lateral.
+ * - Más visible que antes.
+ * - Sigue heredando colores del tema.
  */
 .workspace-leaf-content:has(.fc)
   .fc-timegrid-slots
@@ -293,37 +249,22 @@
   z-index: 0;
 
   top: -1px;
-  right: 5px;
-  left: 5px;
+  right: 0;
+  left: 0;
 
   height: 1px;
 
   pointer-events: none;
 
-  background: linear-gradient(
-    90deg,
-    transparent,
-
-    color-mix(
-      in srgb,
-      var(--background-modifier-border) var(--tn-grid-hour-opacity),
-      transparent
-    ) 8%,
-
-    color-mix(
-      in srgb,
-      var(--background-modifier-border) var(--tn-grid-hour-opacity),
-      transparent
-    ) 92%,
-
-    transparent
+  background: color-mix(
+    in srgb,
+    var(--text-muted) 40%,
+    var(--background-modifier-border)
   );
-
-  border-radius: 999px;
 }
 
 
-/* Sin división vertical rígida entre las horas y la agenda. */
+/* Sin división vertical rígida entre horas y agenda */
 .workspace-leaf-content:has(.fc) .fc-timegrid-axis,
 .workspace-leaf-content:has(.fc) .fc-timegrid-slot-label {
   width: var(--tn-time-column-width) !important;
@@ -345,7 +286,7 @@
 }
 
 
-/* Reduce otros bordes duros propios de la tabla de FullCalendar. */
+/* Reduce otros bordes duros */
 .workspace-leaf-content:has(.fc) .fc-timegrid-col {
   border-left-color: transparent !important;
   border-right-color: transparent !important;
@@ -364,16 +305,9 @@
 
 
 /* =========================================================
-   EVENTOS PASTEL
+   EVENTOS
    ========================================================= */
 
-/*
- * FullCalendar escribe los colores de cada evento directamente
- * en el HTML.
- *
- * En vez de reemplazarlos, aplicamos una capa de la superficie
- * del tema sobre el color original.
- */
 .workspace-leaf-content:has(.fc) .fc-timegrid-event {
   isolation: isolate;
 
@@ -383,11 +317,6 @@
 
   filter: saturate(var(--tn-event-saturation));
 
-  /*
-   * El borde deja de usar el color puro del evento.
-   * El relleno conserva la categoría y el contorno pasa
-   * a ser una separación neutra del tema.
-   */
   border-width: 1px !important;
 
   border-color: color-mix(
@@ -414,7 +343,7 @@
 }
 
 
-/* Capa que convierte cualquier color de origen en una superficie pastel. */
+/* Capa pastel */
 .workspace-leaf-content:has(.fc) .fc-timegrid-event::before {
   content: "";
 
@@ -504,13 +433,7 @@
 }
 
 
-/*
- * FullCalendar marca los bloques bajos con
- * fc-timegrid-event-short.
- *
- * En esos eventos mostramos hora y título en una sola línea,
- * como Google Calendar.
- */
+/* Eventos cortos */
 .workspace-leaf-content:has(.fc)
   .fc-timegrid-event.fc-timegrid-event-short
   .fc-event-main {
@@ -524,7 +447,6 @@
   display: flex !important;
 
   flex-direction: row !important;
-
   align-items: center !important;
 
   gap: 5px;
@@ -570,14 +492,12 @@
    INDICADOR DE HORA ACTUAL
    ========================================================= */
 
-/* Línea redondeada con desvanecimiento. */
 .workspace-leaf-content:has(.fc) .fc-timegrid-now-indicator-line {
   height: 2px;
 
   margin-top: -1px;
 
   border: 0 !important;
-
   border-radius: 999px;
 
   background: linear-gradient(
@@ -604,7 +524,7 @@
 }
 
 
-/* Sustituye la flecha cuadrada por un punto discreto. */
+/* Punto de la hora actual */
 .workspace-leaf-content:has(.fc) .fc-timegrid-now-indicator-arrow {
   width: 7px;
   height: 7px;
@@ -615,7 +535,6 @@
   background: var(--color-red) !important;
 
   border: 0 !important;
-
   border-radius: 50%;
 
   box-shadow:
@@ -676,33 +595,4 @@
   .workspace-leaf-content:has(.fc) .fc-timegrid-event {
     transition: none !important;
   }
-}
-
-/*
- * Línea horizontal en CADA celda del timeline.
- * Ahora toca ambos extremos y tiene un poco más de presencia.
- */
-.workspace-leaf-content:has(.fc)
-  .fc-timegrid-slots
-  .fc-timegrid-slot-lane::after {
-  content: "";
-
-  position: absolute;
-  z-index: 0;
-
-  top: -1px;
-  right: 0;
-  left: 0;
-
-  height: 1px;
-
-  pointer-events: none;
-
-  background: color-mix(
-    in srgb,
-    var(--background-modifier-border) 100%,
-    transparent
-  );
-
-  border-radius: 0;
 }

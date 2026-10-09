@@ -66,6 +66,8 @@ views:
     sort:
       - property: formula.priorityWeight
         direction: DESC
+      - property: timeEstimate
+        direction: ASC
   - type: tasknotesTaskList
     name: All Tasks
     order:

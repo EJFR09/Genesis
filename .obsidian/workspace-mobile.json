@@ -11,10 +11,12 @@
             "id": "150550fa23691d22",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
-              "icon": "lucide-file",
-              "title": "Nueva pestaña"
+              "type": "excalidraw",
+              "state": {
+                "file": "AI/Work/ArgoCD/Diagrama.md"
+              },
+              "icon": "excalidraw-icon",
+              "title": "Diagrama"
             }
           }
         ]
@@ -137,11 +139,14 @@
       "daily-notes:Abrir la nota de hoy": false,
       "templates:Insertar plantilla": false,
       "command-palette:Abrir paleta de comandos": false,
-      "bases:Crear nueva base": false
+      "bases:Crear nueva base": false,
+      "obsidian-excalidraw-plugin:Nuevo Bosquejo": false
     }
   },
   "active": "150550fa23691d22",
   "lastOpenFiles": [
+    "AI/Work/ArgoCD/Informe.md",
+    "AI/Work/ArgoCD/Diagrama.md",
     "Aprendizaje/Meta.md",
     "TaskNotes/Tasks/Ver Links de whatsaap.md",
     "TaskNotes/Tasks/Update Profesional.md",
@@ -179,8 +184,6 @@
     "AI/Work/Jenkins/Doc-Pip-Manu.md",
     "AI/Work/Jenkins/Doc-Pip-Auto.md",
     "AI/Work/Jenkins/Base-Pip-Build.md",
-    "AI/Work/ArgoCD/Informe.md",
-    "AI/Work/ArgoCD/Diagrama.md",
     "AI/Personal/Facultad/9no Semestr/Compiladores.md",
     "Pasted image 20260917091903.png"
   ]

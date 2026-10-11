@@ -1,4 +1,4 @@
-### [[Ora{{date:MMMM-YY}}|{{date:dddd D}}]]
+### [[Organización/Bitácora/Año-{{date:YY}}/{{date:MMMM-YY}}/{{date:MMMM-YY}}|{{date:dddd D}}]]
 ---
 "$Filosofia"
 ### Acciones

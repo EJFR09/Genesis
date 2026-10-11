@@ -1,15 +1,10 @@
 ### Areas Importantes
-
 - Universidad: IIN
 - Trabajo: Devops
-- Salud: Tendones 
-
 ---
 ### Sistemas
 - Gestionar Tiempo
     - Google Calendar: Tareas y eventos.
-    - Notion: Banco de Tareas.
-    - Obsidian: Cuaderno y base de datos.
     - Reloj: Utilizar como un despertador que te saque de la zona
 - Filosofia
 	- Mantenerlo todo simple y eficiente

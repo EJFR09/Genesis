@@ -1,5 +1,5 @@
 {
-  "folder": "Organización/Bitácora/Año-{{date:YY}}/{{date:MMMM-YY}}",
+  "folder": "Organización/Bitácora",
   "template": "Caja/Templates/Bitacora-dia.md",
-  "format": "DD-MM-YY"
+  "format": "[Año-]YY/MMMM-YY/DD-MM-YY"
 }

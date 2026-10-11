@@ -1,4 +1,4 @@
-### [[{{date:MMMM-YY}}|{{date:dddd D}}]]
+### [[Ora{{date:MMMM-YY}}|{{date:dddd D}}]]
 ---
 "$Filosofia"
 ### Acciones

@@ -1,8 +1,8 @@
 ---
-status: open
+status: in-progress
 priority: normal
 dateCreated: 2026-10-09T08:22:30.001-03:00
-dateModified: 2026-10-09T08:22:42.886-03:00
+dateModified: 2026-10-12T20:49:32.049-03:00
 tags:
   - task
 ---

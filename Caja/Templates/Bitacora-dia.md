@@ -10,7 +10,8 @@
 * [ ] Accion 6 
 ---
 ### Notas
-* ---
+* 
+---
 ### Reflexión
 * Qué tal te sentiste hoy? por qué? 
 * Aprendiste o mejoraste algo hoy?

@@ -58,5 +58,13 @@
       ],
       "key": "X"
     }
+  ],
+  "tasknotes:convert-to-tasknote": [
+    {
+      "modifiers": [
+        "Alt"
+      ],
+      "key": "W"
+    }
   ]
 }

@@ -48,7 +48,10 @@ views:
     name: Manual Order
     groupBy:
       property: status
-      direction: ASC
+      direction: DESC
+    groupOrder:
+      - in-progress
+      - open
     order:
       - status
       - priority

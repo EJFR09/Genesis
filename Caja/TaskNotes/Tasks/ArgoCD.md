@@ -3,8 +3,9 @@ status: open
 priority: normal
 scheduled:
 dateCreated: 2026-10-12T17:48:23.502-03:00
-dateModified: 2026-10-12T17:48:23.502-03:00
+dateModified: 2026-10-12T20:44:03.396-03:00
 tags:
+  - devops
   - task
 ---
 # Informe breve — Implementación de Argo CD en OKD

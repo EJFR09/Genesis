@@ -11,6 +11,8 @@
 		* Analizar tus derrotas y victorias de manera quirurgica 
 		* El talento no gana solo, Kobe ganó con equipo
 	* No somos nuestros pensamientos, estos ni siquiera son la realidad
-	*  El ocio es imporante para ser creativos
-	* Cuando te sientas mal entende que 
-	* 4 encajonar personalidades es goood, una por ambiente. 5. Tomarte las cosas con gracia ayuda bastante. 6. Seguir tus habitos con obsidin, 7. escuchar a las personas, pero escucharlas de verdad. 8. Asociar las cosas de las personas con ellas 8. Primero postura y respiración luego pensar
+	* El ocio es imporante para ser creativos
+	* Abrazar las malas sensaciones y perseguir superarlas
+	* Escuchar para entender no para responder
+	* Entender lo que las personas necesitasn no lo que quieren
+	* Primero postura y respiración luego el resto

@@ -1,6 +1,4 @@
-### Areas Importantes
-- Universidad: IIN
-- Trabajo: Devops
+
 ---
 - Filosofia
 	- Mantenerlo todo simple y eficiente
@@ -15,16 +13,12 @@
 	- Perseguir ese hilo, tanto del contexto como de la zona de flujo 
 	- Analizar a las personas emocionalmente no logicamente
 	- Alejarte lo suficiente para ver todo el cuadro
-- Mamba mentality - Asilar personalidades en eventos
-	* Robar habilidades de los grandes
-	* Aprender de manera agresiva
-	* Preguntar sin miedo
-	* Analizar tus derrotas y victorias de manera quirurgica 
-	* El talento no gana solo, Kobe ganó con equipo
-
-
----
-
+	- Mamba mentality - Asilar personalidades en eventos
+		* Robar habilidades de los grandes
+		* Aprender de manera agresiva
+		* Preguntar sin miedo
+		* Analizar tus derrotas y victorias de manera quirurgica 
+		* El talento no gana solo, Kobe ganó con equipo
 - Filosofia - Aumento
     - Amarnos, sin ego, solo orgullo de nuestras acciones y esencia.
     - Vivir en el presente, el pasado no podemos cambiarlo y el futuro es incierto.

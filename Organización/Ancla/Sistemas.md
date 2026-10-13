@@ -1,3 +1,0 @@
-### Gestion de Tiempo
-* Obsidian
-* 

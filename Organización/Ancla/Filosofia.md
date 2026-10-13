@@ -1,5 +1,4 @@
 ## Filosofía
-
 1. Mantener las cosas Estupidamente Simples
 2. Hacer/te las preguntas basicas
 3. Virtud: Flow == Monotasking >> Multitasking

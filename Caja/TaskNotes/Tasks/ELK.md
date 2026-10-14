@@ -25,3 +25,4 @@ tags:
 - **Métricas de Tomcat/JVM:** monitorizar recursos y comportamiento de Tomcat.
 	- [ ] Implementar Metricbeat
 	- [ ] Verificar consumo
+- **Análisis de consumo vs recursos**: proponer aumento de recursos

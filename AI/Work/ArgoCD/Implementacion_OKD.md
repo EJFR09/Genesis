@@ -620,10 +620,3 @@ Los archivos confirman la configuración declarada y el responsable de la plataf
 - [Argo CD Operator — Documentation](https://argocd-operator.readthedocs.io/)
     
 - [OpenShift — Operators y OLM](https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/observability/operators/understanding-operators)
-    
-
----
-
-**Estado del procedimiento:** Implementado según la configuración disponible, con verificaciones de seguridad pendientes.  
-**Última revisión:** 14/10/2026  
-**Autor:** Elias Figueredo

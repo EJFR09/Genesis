@@ -18,3 +18,5 @@ timeEntries:
 * [ ] Automatizar, un cron o script que haga el push de los archivos en un folder de devops
 * [ ] Migrar a kubernetes con helmchart o manifests
 * [ ] Investigar cuantos recursos consume
+* [ ] Convención Pipelines
+* [ ] Convención Creación de proyectos

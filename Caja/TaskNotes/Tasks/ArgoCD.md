@@ -17,8 +17,6 @@ timeEntries:
 * [ ] TLS
 	* [ ] https://wiki.roshka.com/es/platform-engineering/cliente/interno/cluster-okd/playbooks/playbook-iserver-okd
 * [ ] Migrar a kubernetes con helmchart o manifests
-* [ ] Repo para las configuraciones de argoCD
-	* [ ] Automatizar, un cron o script que haga el push de los archivos en un folder de devops
 * [ ] Investigar cuantos recursos consume
 # Informe breve — Implementación de Argo CD en OKD
 

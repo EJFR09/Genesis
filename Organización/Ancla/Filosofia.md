@@ -10,13 +10,14 @@
 	1. El camino al exito es: 
 		1. Intentar -> Fallar -> Aprender -> Corregir -> Intentar -> Exito
 	2. Elgir las batallas y retirarse de ser necesario
+	3. Vivir en el ahora
+	4. Destinar mi esfuerzo en aquello que puedo controlar
 5. Amor Fati: Vivir la vida de una manera en la que me gustaria volver a vivirla siempre
-6. Dicotomia del control: Vivir el momento, el pasado ya fue y el futuro es incierto
-7. Dicotomia del control: Centrarme en lo que puedo controlar y aceptar lo que no
+6. Equilibrio: Aceptar el desorden dentro del orden
+	1. Encapsular
 
-8. Sabiduria: Saber elegir las batallas y cuando retirarnos
-9. Equilibrio: No se puede vivir solo de orden, debe haber desorden y creatividad
-10. Equilibrio: Encajonar personalidades te puede
+7. Equilibrio: No se puede vivir solo de orden, debe haber desorden y creatividad
+8. Equilibrio: Encajonar personalidades te puede
 
 
  

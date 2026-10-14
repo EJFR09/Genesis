@@ -16,6 +16,11 @@ timeEntries:
 ### Tareas
 * [ ] TLS
 	* [ ] https://wiki.roshka.com/es/platform-engineering/cliente/interno/cluster-okd/playbooks/playbook-iserver-okd
+* [ ] ArgoCD añadir finnekta-sudamerids
+	* [ ] ArgoCD añadir finnekta-integracion
+	* [ ] ArgoCD añadir finnekta-sudameris
+	* [ ] Implementar githubapps
+	* [ ] Automatizar, un cron o script que haga el push de los archivos en un folder de devops
 * [ ] Migrar a kubernetes con helmchart o manifests
 * [ ] Investigar cuantos recursos consume
 # Informe breve — Implementación de Argo CD en OKD

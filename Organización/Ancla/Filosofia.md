@@ -6,6 +6,7 @@
 	2. Estado de flow
 	3. Asertividad
 	4. Manejo de incertidumbre y adversidad con templanza
+	5. Eliminar el Ego
 4. Sabiduria: Es el conocimiento que puedo aplicar
 	1. El camino al exito es: 
 		1. Intentar -> Fallar -> Aprender -> Corregir -> Intentar -> Exito

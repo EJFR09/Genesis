@@ -10,7 +10,12 @@
 	* El talento no gana solo, Kobe ganó con equipo
 * No somos nuestros pensamientos, estos ni siquiera son la realidad
 * El ocio es imporante para ser creativos
-* Abrazar las malas sensaciones y perseguir superarlas
 * Escuchar para entender no para responder
 * Entender lo que las personas necesitasn no lo que quieren
 * Primero postura y respiración luego el resto
+* Eliminar lo que sobra de todos los procesos
+* Comunicación
+	* Cambier el tono y moverte con energia
+* Ingeniero
+	* Solucionamos problemas
+	* 

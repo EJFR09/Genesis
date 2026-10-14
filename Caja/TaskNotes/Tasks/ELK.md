@@ -13,7 +13,15 @@ tags:
 
 ### Tareas
 * **Auditoría SSH:** centralizar registros de acceso a servidores y generar alertas.
-	* [ ] 
+	* [ ] Recuperar stack ELK
+	* [ ] Conseguir conectividad desde aws a los servidores dev y hml
+	* [ ] Retirar agentes legacy
+	* [ ] Generar convención para rsync a servidores
+	* [ ] Crear alarmas en base a accesos luego de cierto horarios
+	* [ ] Verifcar consumo
 - **Métricas de infraestructura:** monitorizar CPU, RAM, disco y load en DEV y HML.
-    
-- **Métricas de Tomcat/JVM:** monitorizar recursos y comportamiento de Tomcat.*
+	- [ ] Implementar Metcbeat
+	- [ ] Verificar consumo
+- **Métricas de Tomcat/JVM:** monitorizar recursos y comportamiento de Tomcat.
+	- [ ] Implementar Metricbeat
+	- [ ] Verificar consumo

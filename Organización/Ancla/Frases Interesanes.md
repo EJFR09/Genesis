@@ -18,4 +18,6 @@
 	* Cambier el tono y moverte con energia
 * Ingeniero
 	* Solucionamos problemas
-	* 
+	* Ver opciones con probabilidades
+	* Aplicar sistemas
+	* Eliminar lo que sobra

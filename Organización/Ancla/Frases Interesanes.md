@@ -21,3 +21,6 @@
 	* Ver opciones con probabilidades
 	* Aplicar sistemas
 	* Eliminar lo que sobra
+* Esencialismo
+	* Se trata de elegir lo más importante del día, la semana, el mes, el año y cumplirlo
+	* No tenemos forma de hacer exelente varias cosas a la vez

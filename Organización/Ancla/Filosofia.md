@@ -13,6 +13,7 @@
 	3. Vivir en el ahora
 	4. Destinar mi esfuerzo en aquello que puedo controlar
 5. Amor Fati: Vivir la vida de una manera en la que me gustaria volver a vivirla siempre
+	1. Todos brillamos en colores diferentes, es nuestro deber aportar ese color unico
 6. Equilibrio: Aceptar el desorden dentro del orden
 	1. Encapsular comportamiento por eventos
 

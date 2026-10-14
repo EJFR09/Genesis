@@ -14,10 +14,6 @@
 	4. Destinar mi esfuerzo en aquello que puedo controlar
 5. Amor Fati: Vivir la vida de una manera en la que me gustaria volver a vivirla siempre
 6. Equilibrio: Aceptar el desorden dentro del orden
-	1. Encapsular
-
-7. Equilibrio: No se puede vivir solo de orden, debe haber desorden y creatividad
-8. Equilibrio: Encajonar personalidades te puede
-
+	1. Encapsular comportamiento por eventos
 
  

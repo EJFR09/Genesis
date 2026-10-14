@@ -7,3 +7,4 @@ tags:
   - task
 ---
 * Docu: https://wiki.roshka.com/es/platform-engineering/cliente/brosco/elk/Instructivo-Creacion-Logs-Dashboards-kibana
+* ServerHml: ssh -p 6722 -l devops 10.69.0.20

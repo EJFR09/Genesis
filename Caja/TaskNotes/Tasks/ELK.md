@@ -12,6 +12,11 @@ tags:
 * ServerHml: ssh -p 6722 -l devops 10.69.0.20
 
 ### Tareas
+
+-  Reunión 
+		* [ ] Leer informe
+		* [ ] Enviar correo de informe
+		* [ ] Fecha limite? 
 * **Auditoría SSH:** centralizar registros de acceso a servidores y generar alertas.
 	* [ ] Recuperar stack ELK
 	* [ ] Conseguir conectividad desde aws a los servidores dev y hml

@@ -13,8 +13,9 @@ timeEntries:
     description: ""
 ---
 ### Tareas
-* [ ] TLS
-	* [ ] https://wiki.roshka.com/es/platform-engineering/cliente/interno/cluster-okd/playbooks/playbook-iserver-okd
+* [x] TLS
+	* [x] https://wiki.roshka.com/es/platform-engineering/cliente/interno/cluster-okd/playbooks/playbook-iserver-okd
+	* [x] solucionamos creando nms un vhost
 * [ ] Automatizar, un cron o script que haga el push de los archivos en un folder de devops
 * [ ] Migrar a kubernetes con helmchart o manifests
 * [ ] Investigar cuantos recursos consume

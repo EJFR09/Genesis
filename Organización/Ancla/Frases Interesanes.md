@@ -11,11 +11,12 @@
 * No somos nuestros pensamientos, estos ni siquiera son la realidad
 * El ocio es imporante para ser creativos
 * Escuchar para entender no para responder
-* Entender lo que las personas necesitasn no lo que quieren
+* Entender lo que las personas necesitan no lo que quieren
 * Primero postura y respiración luego el resto
 * Eliminar lo que sobra de todos los procesos
 * Comunicación
 	* Cambier el tono y moverte con energia
+	* Usar judo, las personas luchan por imponer sus ideas, consumiendo bastante energia, en vez de ir contracorriente,  deja que las cosas caigan por su peso, diciendo solo lo necesario. 
 * Ingeniero
 	* Solucionamos problemas
 	* Ver opciones con probabilidades

@@ -13,11 +13,15 @@ timeEntries:
     description: ""
 ---
 ### Tareas
+* [ ] ArgoCD añadir finnekta-integracion
+	* [x] Front
+	* [ ] Core
+* [ ] Versionar los archivos de configuración 
+	* [ ] Problema con los secrets y posibles errores si no tenemos cuidado
+	* [ ] Mejor un backup a una VM
+* [ ] Investigar y probar cuantos recursos consume
+* [ ] Documentar Convención Pipelines
+* [ ] Documentar Convención Creación de proyectos
 * [x] TLS
 	* [x] https://wiki.roshka.com/es/platform-engineering/cliente/interno/cluster-okd/playbooks/playbook-iserver-okd
 	* [x] solucionamos creando nms un vhost
-* [ ] Automatizar, un cron o script que haga el push de los archivos en un folder de devops
-* [ ] Migrar a kubernetes con helmchart o manifests
-* [ ] Investigar cuantos recursos consume
-* [ ] Convención Pipelines
-* [ ] Convención Creación de proyectos

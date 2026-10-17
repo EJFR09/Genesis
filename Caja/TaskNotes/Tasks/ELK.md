@@ -12,7 +12,7 @@ tags:
 * ServerHml: ssh -p 6722 -l devops 10.69.0.20
 
 ### Tareas
-
+* [ ] Instalar metricbeat y ver su consumo
 -  Reunión 
 		* [ ] Leer informe
 		* [ ] Enviar correo de informe

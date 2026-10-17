@@ -16,7 +16,7 @@ timeEntries:
 * [ ] ArgoCD añadir finnekta-integracion
 	* [x] Front
 	* [ ] Core
-* [ ] Versionar los archivos de configuración 
+* [ ] Versionar los archivos de configuración de Openshift 
 	* [ ] Problema con los secrets y posibles errores si no tenemos cuidado
 	* [ ] Mejor un backup a una VM
 * [ ] Investigar y probar cuantos recursos consume

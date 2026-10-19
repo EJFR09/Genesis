@@ -1,12 +1,11 @@
 ---
-status: in-progress
+status: open
 priority: normal
 dateCreated: 2026-10-09T08:22:30.001-03:00
-dateModified: 2026-10-12T20:49:32.049-03:00
+dateModified: 2026-10-19T13:48:36.865-03:00
 tags:
   - task
 ---
 
 * [ ] Palacios Mentales - Autodidacta - Reflexion vida
-	* [ ] Reflexionar sobre el miercoles que nos fué tan mal 
 	* [ ] Ver de nuevo el video de autodidacta y razonar (me encanta ese estilo)

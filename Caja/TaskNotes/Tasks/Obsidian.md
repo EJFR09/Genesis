@@ -1,10 +1,11 @@
 ---
-status: in-progress
+status: done
 priority: normal
 dateCreated: 2026-10-04T22:08:38.599-03:00
-dateModified: 2026-10-12T20:47:16.262-03:00
+dateModified: 2026-10-19T13:50:14.139-03:00
 tags:
   - task
+completedDate: 2026-10-19
 ---
 
 * [x] Manejo con shortcuts

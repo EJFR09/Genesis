@@ -11,12 +11,15 @@
             "id": "150550fa23691d22",
             "type": "leaf",
             "state": {
-              "type": "excalidraw",
+              "type": "markdown",
               "state": {
-                "file": "AI/Work/ArgoCD/Diagrama.md"
+                "file": "Organización/Bitácora/Año-26/October-26/17-10-26.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": false
               },
-              "icon": "excalidraw-icon",
-              "title": "Diagrama"
+              "icon": "lucide-file",
+              "title": "17-10-26"
             }
           }
         ]
@@ -145,6 +148,7 @@
   },
   "active": "150550fa23691d22",
   "lastOpenFiles": [
+    "AI/Work/ArgoCD/Diagrama.md",
     "Organización/Bitácora/Año-26/Septiembre-26/Septiembre-26.md",
     "Organización/Bitácora/Año-26/Septiembre-26/30-09-26.md",
     "Organización/Bitácora/Año-26/Septiembre-26/29-09-26.md",
@@ -170,7 +174,6 @@
     "Organización/Bitácora/Año-26/Septiembre-26/11-09-26.md",
     "Organización/Bitácora/Año-26/Septiembre-26/10-09-26.md",
     "Organización/Bitácora/Año-26/Septiembre-26/09-09-26.md",
-    "Organización/Bitácora/Año-26/Septiembre-26/08-09-26.md",
     "Organización/Bitácora/Año-26/Septiembre-26",
     "Organización/Bitácora/Año-26/October-26",
     "Organización/Bitácora/Año-26/Agosto-26",

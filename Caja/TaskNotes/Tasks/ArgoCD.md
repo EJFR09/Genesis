@@ -17,8 +17,7 @@ timeEntries:
 	* [x] Front
 	* [ ] Core
 * [ ] Versionar los archivos de configuración de Openshift 
-	* [ ] Problema con los secrets y posibles errores si no tenemos cuidado
-	* [ ] Mejor un backup a una VM
+	* [ ] Utilizar el script que me dijo JL
 * [ ] Investigar y probar cuantos recursos consume
 * [ ] Documentar Convención Pipelines
 * [ ] Documentar Convención Creación de proyectos

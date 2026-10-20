@@ -13,14 +13,6 @@ timeEntries:
     description: ""
 ---
 ### Tareas
-* [ ] ArgoCD añadir finnekta-integracion
-	* [x] Front
-	* [ ] Core
-* [ ] Versionar los archivos de configuración de Openshift 
-	* [ ] Utilizar el script que me dijo JL
-* [ ] Investigar y probar cuantos recursos consume
-* [ ] Documentar Convención Pipelines
-* [ ] Documentar Convención Creación de proyectos
-* [x] TLS
+* [ ] TLS
 	* [x] https://wiki.roshka.com/es/platform-engineering/cliente/interno/cluster-okd/playbooks/playbook-iserver-okd
 	* [x] solucionamos creando nms un vhost

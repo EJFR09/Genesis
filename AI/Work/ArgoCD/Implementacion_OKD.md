@@ -1,622 +1,639 @@
-# Playbook — Instalación y configuración de Argo CD en OKD
+# Argo CD — Arquitectura y operación GitOps
 
-**Autor:** Elias Figueredo  
-**Fecha:** 14/10/2026  
-**Plataforma:** OKD / OpenShift  
-**Componente:** Argo CD / Argo CD Operator  
-**Entorno:** Clúster OKD actual  
-**Estado:** Implementado, con verificaciones y mejoras pendientes
+## 1. Arquitectura general
 
----
+**Argo CD centralizado en OKD**, administrado mediante Operator y configurado declarativamente desde GitHub.
 
-## 1. Introducción
+```
+GitHub — roshkadev/devops
+       │
+       │ GitOps / GitHub App
+       ▼
+Argo CD — OKD (argocd)
+       │
+       ├── Dex → OpenShift OAuth → LDAP
+       ├── AppProject → RBAC por grupos
+       ├── Sealed Secrets → Credenciales
+       │
+       ├── OKD local
+       │   ├── dnit-sid-dev
+       │   └── finnekta-sudameris
+       │
+       └── Kubernetes PROD
+           └── finnekta-integracion
+```
 
-### 1.1. Objetivo
-
-Documentar el procedimiento de instalación y configuración de Argo CD en OKD, mediante un operador administrado por Operator Lifecycle Manager (OLM).
-
-Incluye la creación de la instancia, exposición mediante OpenShift Route, autenticación con Dex/OpenShift OAuth y configuración de proyectos y aplicaciones GitOps.
-
-**Resultado esperado:** una instancia funcional de Argo CD capaz de autenticar usuarios mediante OpenShift, conectarse a repositorios privados de GitHub y administrar recursos Kubernetes de forma declarativa.
-
-### 1.2. Cuándo utilizarlo
-
-- Para instalar Argo CD en un clúster OKD.
-    
-- Para reproducir la configuración implementada en otro entorno compatible.
-    
-- Para reconstruir o recuperar la plataforma de administración GitOps.
-    
-- Como referencia para agregar nuevos proyectos y aplicaciones.
-    
-
-## 2. Requisitos previos
-
-|Requisito|Descripción / Valor|
+|Componente|Valor|
 |---|---|
-|Plataforma|Clúster OKD operativo|
-|Helper|Servidor administrativo con acceso al clúster|
-|Herramientas|OpenShift CLI (`oc`) y cliente Git|
-|Permisos|Administración de operadores, namespaces, RBAC y recursos Argo CD|
-|Operador|Community Argo CD Operator|
-|Namespace operador|`argocd-operator`|
-|Namespace instancia|`argocd`|
-|Catálogo|`community-operators`|
-|Canal|`alpha`|
-|CSV inicial declarado|`argocd-operator.v0.19.0`|
-|Autenticación|OpenShift OAuth integrado con LDAP|
-|Repositorio piloto|`git@github.com:roshkadev/dnit-sid-devops.git`|
-|Namespace aplicación|`dnit-sid-dev`|
-|Credenciales Git|SSH Deploy Key|
-|Directorio de manifiestos|Repositorio declarativo de Argo CD|
+|Argo CD|v3.4.4|
+|Namespace|`argocd`|
+|Operator namespace|`argocd-operator`|
+|URL|[https://argocd.roshka.com](https://argocd.roshka.com/)|
+|Repositorio principal|[https://github.com/roshkadev/devops](https://github.com/roshkadev/devops)|
+|Root Application|`argocd-config`|
+|Proyecto administrativo|`argocd-admin`|
+|Autenticación usuarios|OpenShift OAuth + Dex|
+|Autorización|Grupos LDAP + AppProject RBAC|
+|Autenticación Git|GitHub App|
+|Credenciales|Sealed Secrets|
+|Sincronización|Manual por defecto|
 
-**Nota:** validar la disponibilidad y compatibilidad del operador y de su CSV antes de reproducir esta instalación. La versión actualmente instalada no está confirmada únicamente por el manifiesto `Subscription`.
+## 2. Instalación y configuración de Argo CD
 
-## 3. Procedimiento
+### Operator
 
-Todos los comandos se ejecutan desde el **helper**, con una sesión `oc` autenticada contra el clúster OKD correspondiente y desde la raíz del repositorio declarativo.
-
-### 3.1. Preparar la estructura de manifiestos
-
-Organizar los archivos de instalación y configuración de la siguiente manera:
+Instalado mediante OLM:
 
 ```
-argocd/
-├── Operators/
-│   └── argocd/
-│       ├── Namespace.yaml
-│       ├── operatorgroup.yaml
-│       ├── Subscription.yaml
-│       └── dex-token-rbac.yaml
-├── manifests/
-│   └── argocd/
-│       ├── namespace.yaml
-│       └── argocd.yaml
-└── projects/
-    └── dnit-sid-dev/
-        ├── appproject.yaml
-        ├── application.yaml
-        └── repo-secret.yaml
+channel: alpha
+name: argocd-operator
+source: community-operators
+sourceNamespace: openshift-marketplace
+installPlanApproval: Manual
+startingCSV: argocd-operator.v0.19.0
+config:
+  env:
+    - name: ARGOCD_CLUSTER_CONFIG_NAMESPACES
+      value: "argocd"
 ```
 
-La estructura separa la instalación del operador, la configuración de la instancia y los proyectos GitOps.
-
-**Validación inicial:**
+Manifiestos originales:
 
 ```
-oc whoami
-oc config current-context
-oc get nodes
+Operators/argocd/
+├── Namespace.yaml
+├── operatorgroup.yaml
+├── Subscription.yaml
+└── dex-token-rbac.yaml
+
+manifests/argocd/
+├── namespace.yaml
+└── argocd.yaml
 ```
 
-Confirmar que el contexto corresponde al clúster donde se instalará Argo CD.
+`dex-token-rbac.yaml` permite al ServiceAccount del Operator solicitar tokens para Dex.
 
-### 3.2. Instalar el operador Argo CD
+### Instancia Argo CD
 
-**Objetivo:** instalar el controlador responsable de administrar la instancia Argo CD.
-
-Crear los manifiestos en `Operators/argocd/`.
-
-**Namespace.yaml**
-
-Define el namespace `argocd-operator`, dedicado al operador.
-
-**operatorgroup.yaml**
-
-Crear un `OperatorGroup` denominado `argocd-operator`, dentro del mismo namespace, con `spec: {}`.
-
-Esta configuración no declara `targetNamespaces`, por lo que debe verificarse el alcance de instalación admitido por el operador.
-
-**Subscription.yaml**
-
-Declarar la suscripción con la configuración utilizada:
+Configuración principal del recurso `ArgoCD`:
 
 ```
-apiVersion: operators.coreos.com/v1alpha1
-kind: Subscription
-metadata:
-  name: argocd-operator
-  namespace: argocd-operator
-spec:
-  channel: alpha
-  name: argocd-operator
-  source: community-operators
-  sourceNamespace: openshift-marketplace
-  installPlanApproval: Manual
-  startingCSV: argocd-operator.v0.19.0
-  config:
-    env:
-      - name: ARGOCD_CLUSTER_CONFIG_NAMESPACES
-        value: "argocd"
-```
-
-La aprobación manual permite revisar los planes de instalación y actualización antes de ejecutarlos.
-
-**Aplicación:**
-
-```
-oc apply -f Operators/argocd/Namespace.yaml
-oc apply -f Operators/argocd/operatorgroup.yaml
-oc apply -f Operators/argocd/Subscription.yaml
-```
-
-**Validación:**
-
-```
-oc get subscription -n argocd-operator
-oc get installplan -n argocd-operator
-oc get csv -n argocd-operator
-oc get pods -n argocd-operator
-```
-
-Si existe un `InstallPlan` pendiente, revisar su contenido y aprobarlo desde OpenShift únicamente después de verificar la versión y los permisos solicitados.
-
-**Resultado esperado:** operador instalado, CSV en estado `Succeeded` y controlador funcionando.
-
-### 3.3. Crear el namespace de Argo CD
-
-**Objetivo:** separar la instancia de Argo CD de los componentes de su operador.
-
-En `manifests/argocd/namespace.yaml` declarar:
-
-```
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: argocd
-```
-
-**Aplicar:**
-
-```
-oc apply -f manifests/argocd/namespace.yaml
-```
-
-**Validar:**
-
-```
-oc get namespace argocd
-```
-
-**Resultado esperado:** namespace `argocd` en estado `Active`.
-
-### 3.4. Configurar RBAC para Dex
-
-**Objetivo:** permitir al operador solicitar el token del ServiceAccount utilizado por Dex.
-
-En `Operators/argocd/dex-token-rbac.yaml` declarar:
-
-- Un `Role` denominado `argocd-operator-dex-token` en `argocd`.
-    
-- Permiso `create` sobre `serviceaccounts/token`.
-    
-- Restricción `resourceNames` al ServiceAccount `argocd-argocd-dex-server`.
-    
-- Un `RoleBinding` que vincule ese permiso al ServiceAccount `argocd-operator-controller-manager` del namespace `argocd-operator`.
-    
-
-**Aplicar:**
-
-```
-oc apply -f Operators/argocd/dex-token-rbac.yaml
-```
-
-**Validar:**
-
-```
-oc get role argocd-operator-dex-token -n argocd
-
-oc get rolebinding argocd-operator-dex-token -n argocd
-```
-
-Este permiso es específico para la solicitud de tokens; no concede acceso general a todos los Secrets del namespace.
-
-### 3.5. Crear la instancia de Argo CD
-
-**Objetivo:** desplegar la instancia administrada por el operador, con interfaz web y autenticación SSO.
-
-En `manifests/argocd/argocd.yaml` declarar:
-
-```
-apiVersion: argoproj.io/v1beta1
-kind: ArgoCD
-metadata:
-  name: argocd
-  namespace: argocd
 spec:
   server:
+    host: argocd.roshka.com
+    insecure: true
     route:
       enabled: true
+      tls:
+        termination: edge
+        insecureEdgeTerminationPolicy: Allow
+
+  rbac:
+    defaultPolicy: ""
+    scopes: '[groups]'
+    policy: |
+      g, argocd, role:admin
+
   sso:
     provider: dex
     dex:
       openShiftOAuth: true
+
   extraConfig:
     oidc.tls.insecure.skip.verify: "true"
+    resource.respectRBAC: "normal"
+
+  webhookSecrets:
+    github:
+      webhookSecretRef:
+        name: github-webhook-credentials
+        key: token
 ```
 
-**Configuración realizada:**
+**Interpretación rápida:**
 
-- `server.route.enabled`: habilita la exposición de Argo CD mediante OpenShift Route.
-    
-- `sso.provider: dex`: configura Dex como proveedor SSO.
-    
-- `dex.openShiftOAuth: true`: integra Dex con OpenShift OAuth.
-    
-- `oidc.tls.insecure.skip.verify`: deshabilita la verificación TLS en el contexto OIDC configurado. Es una excepción existente que debe corregirse.
-    
+|Parámetro|Función|
+|---|---|
+|`server.route.enabled`|Publicar Argo CD en OpenShift|
+|`tls.termination: edge`|TLS terminado en la Route|
+|`server.insecure`|HTTP entre Route y servidor Argo CD|
+|`rbac.defaultPolicy: ""`|Sin rol global predeterminado|
+|`rbac.scopes: '[groups]'`|Utilizar grupos SSO para RBAC|
+|`g, argocd, role:admin`|Grupo `argocd` como administrador|
+|`openShiftOAuth: true`|Autenticación con OpenShift|
+|`resource.respectRBAC: normal`|Descubrimiento de recursos considerando permisos RBAC|
+|`webhookSecrets`|Referencia al secreto de GitHub Webhook|
 
-**Aplicar:**
-
-```
-oc apply -f manifests/argocd/argocd.yaml
-```
-
-**Validar:**
+**Verificación:**
 
 ```
 oc get argocd argocd -n argocd
 oc get pods -n argocd
-oc get svc -n argocd
 oc get route -n argocd
+oc get csv -n argocd-operator
 ```
 
-**Resultado esperado:** componentes de Argo CD operativos y una Route disponible para acceder a la interfaz.
+## 3. Estructura GitOps en GitHub
 
-### 3.6. Validar la autenticación con OpenShift OAuth
+Repositorio: [roshkadev/devops](https://github.com/roshkadev/devops)
 
-**Objetivo:** permitir a los usuarios iniciar sesión en Argo CD mediante la identidad administrada por OpenShift.
+```
+gitops/
+├── argocd/
+│   ├── bootstrap/
+│   │   ├── admin-project.yaml
+│   │   └── root-application.yaml
+│   │
+│   └── managed/
+│       ├── credentials/
+│       │   ├── GitHub App SealedSecret
+│       │   └── Kubernetes PROD SealedSecret
+│       │
+│       └── projects/
+│           ├── dnit-sid-dev/
+│           ├── finnekta-sudameris/
+│           └── finnekta-integracion/
+│
+└── infrastructure/
+    └── <CLUSTER>/
+        └── argocd-access/
+            ├── namespace.yaml
+            ├── serviceaccount.yaml
+            ├── clusterrole.yaml
+            └── rolebinding-<NAMESPACE>.yaml
+```
 
-El flujo configurado es:
+`infrastructure/` representa la ubicación definida para versionar accesos administrativos; comprobar los archivos efectivos en Git. Los nombres mostrados en `bootstrap/` son referencias.
+
+### Bootstrap
+
+|Recurso|Función|
+|---|---|
+|`argocd-admin`|AppProject administrativo|
+|`argocd-config`|Application raíz que administra la configuración GitOps|
+
+Configuración de `argocd-config`:
+
+```
+source:
+  repoURL: https://github.com/roshkadev/devops.git
+  targetRevision: main
+  path: gitops/argocd/managed
+  directory:
+    recurse: true
+
+destination:
+  server: https://kubernetes.default.svc
+  namespace: argocd
+```
+
+**Regla:** `bootstrap/` se aplica inicialmente de manera administrativa; `managed/` se administra mediante `argocd-config`.
+
+## 4. GitHub App y webhooks
+
+### Autenticación de repositorios
+
+GitHub App instalada en la organización `roshkadev`, autorizada para los repositorios utilizados por Argo CD.
+
+Permisos:
+
+- Contents: Read-only
+    
+- Metadata: Read-only
+    
+- Evento: Push
+    
+
+Las credenciales compartidas se almacenan en un Secret con:
+
+```
+metadata:
+  name: github-app-repo-creds
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/secret-type: repo-creds
+stringData:
+  type: git
+  url: https://github.com/roshkadev/
+  githubAppID: "<APP_ID>"
+  githubAppInstallationID: "<INSTALLATION_ID>"
+  githubAppPrivateKey: "<PRIVATE_KEY>"
+```
+
+El Secret se versiona como **SealedSecret**.
+
+Las Applications utilizan repositorios HTTPS:
+
+```
+repoURL: https://github.com/roshkadev/<REPO>.git
+```
+
+### Webhooks
+
+```
+GitHub App
+    │ POST /api/webhook
+    ▼
+https://argocd.roshka.com
+    │
+    ▼
+Nginx — Katniss
+    │ TLS público: Let's Encrypt
+    │ Filtrado de IPs
+    ▼
+192.168.16.167:80
+    │
+    ▼
+OpenShift Route → argocd-server
+```
+
+|Elemento|Configuración|
+|---|---|
+|Endpoint|`https://argocd.roshka.com/api/webhook`|
+|Nginx host|Katniss|
+|Virtual host|`/etc/nginx/sites-available/argocd.roshka.com`|
+|Configuración común|`/etc/nginx/sites-available/argocd-common-config`|
+|Origen IPs GitHub|`https://api.github.com/meta` → `.hooks[]`|
+|Secreto|`argocd/github-webhook-credentials`|
+|Key|`token`|
+|Argo CD|`spec.webhookSecrets.github.webhookSecretRef`|
+
+`/api/webhook` admite las IPs autorizadas; `/` permanece restringido a las redes corporativas configuradas.
+
+El webhook **actualiza la comparación Git/Kubernetes**; no ejecuta Sync si la Application es manual.
+
+**Verificaciones:**
+
+```
+# Katniss
+sudo nginx -t
+sudo systemctl reload nginx
+
+# OKD: referencia del webhook
+oc get argocd argocd -n argocd \
+  -o jsonpath='{.spec.webhookSecrets.github.webhookSecretRef.name}{"\n"}'
+```
+
+Recepción: GitHub App → **Advanced → Recent Deliveries**.
+
+## 5. SSO, LDAP y RBAC de usuarios
+
+### Flujo de autenticación
 
 ```
 Usuario
-   ↓
-Interfaz Argo CD
-   ↓
-Dex
-   ↓
-OpenShift OAuth
-   ↓
-Proveedor de identidad LDAP
+  → Argo CD
+  → Dex
+  → OpenShift OAuth
+  → LDAP
 ```
 
-La integración LDAP pertenece a la configuración de autenticación existente en OpenShift; no se configuró un conector LDAP directo en Dex.
+Los grupos LDAP se importan a OpenShift y se utilizan en los AppProjects.
 
-**Acciones:**
-
-1. Obtener la Route de Argo CD.
-    
-2. Acceder a la interfaz HTTPS desde el navegador.
-    
-3. Iniciar sesión utilizando OpenShift.
-    
-4. Confirmar la autenticación del usuario y revisar los permisos efectivos.
-    
-
-**Validación:**
+Directorio administrativo en el helper:
 
 ```
-oc get route -n argocd
-oc get pods -n argocd
+/home/roshka/okd/manifests/ldap-sync/
+└── sync-config.yaml
 ```
 
-**Resultado esperado:** acceso exitoso mediante OpenShift OAuth.
+### Sincronización de grupos
 
-**Nota:** la autenticación no equivale a autorización administrativa. Los roles y permisos de usuarios en Argo CD requieren una revisión RBAC independiente.
-
-### 3.7. Configurar el primer AppProject
-
-**Objetivo:** delimitar los repositorios, destinos y tipos de recursos que podrá administrar la aplicación.
-
-Crear `projects/dnit-sid-dev/appproject.yaml`.
-
-Configuración principal:
+**Grupo nuevo:**
 
 ```
-apiVersion: argoproj.io/v1alpha1
-kind: AppProject
-metadata:
-  name: dnit-sid-dev
-  namespace: argocd
+oc adm groups sync \
+  --type=ldap \
+  'cn=<GRUPO>,ou=okd,ou=groups,dc=roshka,dc=com,dc=py' \
+  --sync-config=sync-config.yaml \
+  --confirm
+```
+
+**Actualizar grupos importados:**
+
+```
+oc adm groups sync \
+  --type=openshift \
+  --sync-config=sync-config.yaml \
+  --confirm
+```
+
+Antes de aplicar, ejecutar sin `--confirm` para revisar el resultado.
+
+**Verificar:**
+
+```
+oc get group <GRUPO> -o yaml
+```
+
+### RBAC por AppProject
+
+```
 spec:
-  description: GitOps project for DNIT SID DEV
+  roles:
+    - name: deployer
+      groups:
+        - <GRUPO_LDAP>
+      policies:
+        - p, proj:<PROYECTO>:deployer, applications, get, <PROYECTO>/*, allow
+        - p, proj:<PROYECTO>:deployer, applications, sync, <PROYECTO>/*, allow
+```
 
+|Grupo / rol|Permisos|
+|---|---|
+|`argocd`|Administrador global|
+|`<PROYECTO>:deployer`|Ver y sincronizar Applications del proyecto|
+|Usuarios sin rol|Sin permisos globales predeterminados|
+
+El grupo reconocido debe aparecer en Argo CD → **User Info**.
+
+## 6. Conexión de clústeres Kubernetes
+
+Argo CD accede a los clústeres externos mediante una ServiceAccount dedicada y un Secret de conexión declarativo.
+
+### Kubernetes PROD — Inventario
+
+|Elemento|Valor|
+|---|---|
+|Nombre de conexión|`kubernetes-prod`|
+|API|`https://k8s-master.iservers.roshka.com:443`|
+|Kubernetes|v1.30.2|
+|Namespace administrativo|`argocd-management`|
+|ServiceAccount|`argocd-manager`|
+|ClusterRole|`argocd-manager`|
+|RoleBinding|`finnekta-integracion/argocd-manager`|
+|Namespace autorizado|`finnekta-integracion`|
+|Secret en OKD|`argocd/kubernetes-prod`|
+|Autenticación|ServiceAccount token|
+|TLS|`insecure: false` + `caData`|
+|Alcance global|`clusterResources: "false"`|
+
+### Recursos en Kubernetes remoto
+
+ServiceAccount:
+
+```
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: argocd-manager
+  namespace: argocd-management
+automountServiceAccountToken: false
+```
+
+RoleBinding:
+
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: argocd-manager
+  namespace: finnekta-integracion
+subjects:
+  - kind: ServiceAccount
+    name: argocd-manager
+    namespace: argocd-management
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: argocd-manager
+```
+
+El `ClusterRole` define los permisos; el `RoleBinding` los concede dentro del namespace autorizado. El manifiesto completo de permisos debe conservarse en `gitops/infrastructure/<CLUSTER>/argocd-access/`.
+
+### Secret de registro en Argo CD
+
+```
+metadata:
+  name: kubernetes-prod
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/secret-type: cluster
+stringData:
+  name: kubernetes-prod
+  server: https://k8s-master.iservers.roshka.com:443
+  namespaces: finnekta-integracion
+  clusterResources: "false"
+  config: |
+    {
+      "bearerToken": "<TOKEN>",
+      "tlsClientConfig": {
+        "insecure": false,
+        "caData": "<CA_BASE64>"
+      }
+    }
+```
+
+El Secret se cifra mediante `kubeseal` y se versiona en:
+
+```
+gitops/argocd/managed/credentials/<CLUSTER>-sealedsecret.yaml
+```
+
+**Flujo de registro:**
+
+```
+Kubernetes remoto
+  → Namespace argocd-management
+  → ServiceAccount
+  → ClusterRole + RoleBinding
+  → Token + CA
+  → SealedSecret en OKD
+  → GitHub devops
+  → argocd-config Sync
+  → Argo CD Settings → Clusters
+```
+
+**Comprobar RBAC en el clúster remoto:**
+
+```
+SA=system:serviceaccount:argocd-management:argocd-manager
+
+kubectl auth can-i get deployments \
+  -n finnekta-integracion --as="$SA"
+
+kubectl auth can-i delete deployments \
+  -n default --as="$SA"
+```
+
+## 7. Convención de AppProjects y Applications
+
+Directorio por proyecto:
+
+```
+gitops/argocd/managed/projects/<PROYECTO>/
+├── appproject.yaml
+├── application.yaml
+└── <OTRA-APPLICATION>.yaml
+```
+
+### AppProject
+
+Define el perímetro autorizado:
+
+```
+spec:
   sourceRepos:
-    - git@github.com:roshkadev/dnit-sid-devops.git
-
+    - https://github.com/roshkadev/<REPO>.git
   destinations:
-    - server: https://kubernetes.default.svc
-      namespace: dnit-sid-dev
-
+    - server: <API_CLUSTER>
+      namespace: <NAMESPACE>
   clusterResourceBlacklist:
     - group: "*"
       kind: "*"
 ```
 
-Además, configurar `namespaceResourceWhitelist` con los siguientes recursos permitidos, tal como se definió en el manifiesto original:
+Los roles LDAP se incluyen en `spec.roles`. La lista de recursos namespaced permitidos se define según el proyecto.
 
-|API Group|Recursos|
-|---|---|
-|Core (`""`)|ConfigMap, Service, ServiceAccount, PersistentVolumeClaim|
-|`apps`|Deployment, StatefulSet, DaemonSet|
-|`batch`|Job, CronJob|
-|`networking.k8s.io`|Ingress|
-|`route.openshift.io`|Route|
-|`bitnami.com`|SealedSecret|
-
-La lista blanca limita los tipos de recursos namespaced administrables, mientras que `clusterResourceBlacklist` bloquea recursos de alcance de clúster.
-
-**Aplicar:**
-
-```
-oc apply -f projects/dnit-sid-dev/appproject.yaml
-```
-
-**Validar:**
-
-```
-oc get appproject dnit-sid-dev -n argocd
-```
-
-**Resultado esperado:** AppProject disponible con restricciones explícitas de repositorio, destino y recursos.
-
-### 3.8. Configurar acceso al repositorio privado
-
-**Objetivo:** permitir que Argo CD descargue los manifiestos GitOps desde GitHub.
-
-Crear `projects/dnit-sid-dev/repo-secret.yaml` con un Secret Kubernetes de tipo `Opaque`.
-
-Configuración estructural:
-
-```
-apiVersion: v1
-kind: Secret
-metadata:
-  name: repo-dnit-sid-devops
-  namespace: argocd
-  labels:
-    argocd.argoproj.io/secret-type: repository
-type: Opaque
-stringData:
-  type: git
-  url: git@github.com:roshkadev/dnit-sid-devops.git
-  sshPrivateKey: |
-    <CLAVE_PRIVADA_SSH>
-```
-
-La clave debe corresponder a una Deploy Key autorizada sobre el repositorio GitHub.
-
-**Seguridad:** no almacenar ni publicar este manifiesto con la clave privada en texto plano. Generar el Secret desde una fuente segura o utilizar una alternativa cifrada compatible con el procedimiento de recuperación.
-
-**Aplicar**, únicamente desde una ubicación segura:
-
-```
-oc apply -f projects/dnit-sid-dev/repo-secret.yaml
-```
-
-**Validar sin mostrar el secreto:**
-
-```
-oc get secret repo-dnit-sid-devops -n argocd
-```
-
-Posteriormente, verificar en la interfaz de Argo CD que la conexión al repositorio sea exitosa.
-
-### 3.9. Crear la primera Application
-
-**Objetivo:** vincular el repositorio Git al namespace de destino del clúster OKD.
-
-Crear `projects/dnit-sid-dev/application.yaml`:
+### Application
 
 ```
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: dnit-sid-dev
+  name: <APPLICATION>
   namespace: argocd
 spec:
-  project: dnit-sid-dev
-
+  project: <PROYECTO>
   source:
-    repoURL: git@github.com:roshkadev/dnit-sid-devops.git
-    targetRevision: main
-    path: k8s
-    directory:
-      recurse: true
-      exclude: 'secrets/plantillas/**'
-
+    repoURL: https://github.com/roshkadev/<REPO>.git
+    targetRevision: <RAMA>
+    path: <PATH>
   destination:
-    server: https://kubernetes.default.svc
-    namespace: dnit-sid-dev
-
+    server: <API_CLUSTER>
+    namespace: <NAMESPACE>
   syncPolicy:
     syncOptions:
       - CreateNamespace=false
 ```
 
-**Configuración utilizada:**
+Para Helm se agrega `source.helm.releaseName`, conservando el nombre de release correspondiente.
 
-- Repositorio GitHub privado mediante SSH.
-    
-- Rama `main`.
-    
-- Manifiestos ubicados dentro de `k8s/`.
-    
-- Recorrido recursivo de los manifiestos.
-    
-- Exclusión de `secrets/plantillas/**`.
-    
-- Destino: namespace `dnit-sid-dev` del clúster local.
-    
-- Sincronización manual, sin `syncPolicy.automated`.
-    
-- Creación automática del namespace deshabilitada.
-    
+**Convención:** Sync manual; namespace creado previamente.
 
-**Requisito:** el namespace `dnit-sid-dev` debe existir antes de sincronizar.
+### Proyectos registrados
 
-**Aplicar:**
+|Proyecto|Destino|
+|---|---|
+|`dnit-sid-dev`|OKD / `dnit-sid-dev`|
+|`finnekta-sudameris`|OKD / `finnekta-sudameris`|
+|`finnekta-integracion`|Kubernetes PROD / `finnekta-integracion`|
 
-```
-oc apply -f projects/dnit-sid-dev/application.yaml
-```
+Finnekta utiliza Applications separadas para Core y Front.
 
-**Validar:**
+## 8. Flujo operativo general
 
-```
-oc get application dnit-sid-dev -n argocd
+### A. Incorporar un proyecto nuevo
 
-oc get application dnit-sid-dev -n argocd -o wide
-```
-
-**Resultado esperado:** Application visible en Argo CD, con acceso al repositorio y capacidad para comparar el estado deseado contra el estado del clúster.
-
-### 3.10. Verificar la sincronización
-
-**Objetivo:** comprobar el funcionamiento del primer proyecto GitOps.
-
-Desde la interfaz web de Argo CD:
-
-1. Abrir la Application `dnit-sid-dev`.
+1. Identificar namespace, clúster, repositorio y rama.
     
-2. Verificar que Argo CD puede recuperar los manifiestos de Git.
+2. Crear o identificar grupo LDAP y sincronizarlo.
     
-3. Revisar el estado de sincronización y salud.
+3. Autorizar el repositorio en la instalación de GitHub App.
     
-4. Confirmar que los recursos están permitidos por el AppProject.
+4. Crear `AppProject` con destinos, recursos y RBAC.
     
-5. Revisar las diferencias antes de realizar una sincronización manual.
+5. Crear una o varias `Applications`.
     
-6. Ejecutar la sincronización únicamente si los cambios esperados son correctos.
+6. Guardar en `gitops/argocd/managed/projects/<PROYECTO>/`.
+    
+7. Crear PR hacia `main` de `roshkadev/devops`.
+    
+8. Ejecutar Refresh → Diff → Sync de `argocd-config`.
+    
+9. Comprobar que las Applications aparecen.
+    
+10. Revisar su Diff y sincronizar workloads cuando corresponda.
     
 
-**Validación desde el helper:**
+### B. Incorporar un clúster nuevo
 
-```
-oc get application dnit-sid-dev -n argocd
-
-oc get deployments -n dnit-sid-dev
-
-oc get services -n dnit-sid-dev
-
-oc get routes -n dnit-sid-dev
-```
-
-**Resultado esperado:** los recursos administrados por Argo CD corresponden a los manifiestos declarados en Git, sin errores de acceso, generación o permisos.
-
-### 3.11. Validación final
-
-- Operador instalado y CSV en estado `Succeeded`.
+1. Obtener API Server, CA y namespaces.
     
-- Instancia Argo CD operativa.
+2. Crear `argocd-management` y `argocd-manager`.
     
-- Route accesible mediante HTTPS.
+3. Configurar ClusterRole y RoleBindings.
     
-- Autenticación con OpenShift OAuth funcional.
+4. Preparar credencial de autenticación.
     
-- RBAC de Dex aplicado correctamente.
+5. Crear Secret de clúster en OKD y convertirlo a SealedSecret.
     
-- AppProject `dnit-sid-dev` creado.
+6. Versionar RBAC en `gitops/infrastructure/<CLUSTER>/argocd-access/`.
     
-- Repositorio GitHub conectado mediante SSH.
+7. Versionar SealedSecret en `gitops/argocd/managed/credentials/`.
     
-- Application `dnit-sid-dev` configurada.
+8. Aplicar RBAC en clúster remoto y sincronizar `argocd-config`.
     
-- Manifiestos Git recuperados correctamente.
-    
-- Sincronización manual comprobada.
-    
-- Restricciones del AppProject verificadas.
+9. Validar en Settings → Clusters.
     
 
-### 3.12. Rollback y recuperación
-
-Ante problemas durante la instalación o configuración:
-
-1. **Subscription/operador:** revisar el InstallPlan, el CSV y los logs del controlador antes de modificar la instalación.
-    
-2. **Instancia Argo CD:** restaurar la versión funcional anterior de `argocd.yaml` y comprobar la reconciliación del operador.
-    
-3. **Dex/OAuth:** recuperar la configuración SSO anterior y validar nuevamente el inicio de sesión.
-    
-4. **AppProject/Application:** restaurar desde Git los manifiestos funcionales y revisar las diferencias antes de sincronizar.
-    
-5. **Repositorio Git:** mantener disponible la Deploy Key mientras se prueban mecanismos de autenticación alternativos.
-    
-
-No eliminar automáticamente el namespace `argocd`, el recurso ArgoCD ni los recursos de aplicación como mecanismo de rollback. Su eliminación puede afectar la disponibilidad, las credenciales y las cargas de trabajo.
-
-## 4. Notas y consideraciones
-
-### 4.1. Arquitectura implementada
+### C. Cambio habitual de aplicación
 
 ```
-OKD / OpenShift
-│
-├── argocd-operator
-│   └── Argo CD Operator (OLM)
-│
-├── argocd
-│   ├── Argo CD
-│   ├── OpenShift Route
-│   ├── Dex / OpenShift OAuth
-│   ├── AppProject: dnit-sid-dev
-│   ├── Application: dnit-sid-dev
-│   └── SSH Repository Secret
-│
-└── dnit-sid-dev
-    └── Recursos administrados por Argo CD
-         ▲
-         │
-    GitHub: roshkadev/dnit-sid-devops
-    Rama: main / Directorio: k8s
+Commit / Push en repo aplicación
+             ↓
+GitHub Webhook
+             ↓
+Nginx Katniss → Argo CD
+             ↓
+Refresh / Compare
+             ↓
+OutOfSync (si hay diferencias)
+             ↓
+Revisión del Diff
+             ↓
+Sync manual
+             ↓
+Aplicación en Kubernetes
 ```
 
-### 4.2. Consideraciones de seguridad
+**Dos sincronizaciones distintas:**
 
-- **TLS/OIDC:** la instancia utiliza `oidc.tls.insecure.skip.verify: "true"`. Se debe investigar la cadena de certificados y establecer confianza TLS correctamente antes de retirar la excepción.
+- `argocd-config`: actualiza configuración de proyectos, Applications y credenciales.
     
-- **Operador:** validar el mantenimiento y compatibilidad del Community Argo CD Operator, su canal `alpha` y la versión efectiva instalada.
-    
-- **Credenciales:** proteger la clave SSH privada y evitar Secrets en texto plano dentro de Git.
-    
-- **RBAC:** revisar los permisos de usuarios y grupos autenticados desde OpenShift.
-    
-- **AppProject:** mantener restricciones por repositorio, clúster, namespace y tipos de recurso.
-    
-- **Sincronización:** mantener inicialmente sincronización manual para conservar el control de los despliegues.
+- `Application` del proyecto: aplica los manifiestos de la aplicación al clúster de destino.
     
 
-### 4.3. Mejoras pendientes
+## 9. Comandos de operación rápida
 
-|Prioridad|Tarea|Estado|
-|---|---|---|
-|1|Validar versiones y compatibilidad del operador|Pendiente|
-|2|Corregir la verificación TLS de OIDC|Pendiente|
-|3|Migrar credenciales SSH a GitHub App|En planificación/configuración|
-|4|Crear repositorio central GitOps para Argo CD|Pendiente|
-|5|Incorporar clústeres OKD adicionales|Pendiente|
-|6|Agregar nuevos AppProjects y Applications|Pendiente|
-|7|Evaluar ApplicationSet y políticas de sincronización|Pendiente|
-|8|Definir monitoreo y recuperación operativa|Pendiente|
+**Helper OKD:**
 
-La gestión de secretos mediante Sealed Secrets ya forma parte del entorno, pero no se documenta aquí su instalación porque no se proporcionaron los manifiestos ni el procedimiento original.
+```
+# Estado general
+oc get applications -n argocd \
+  -o custom-columns='NAME:.metadata.name,SYNC:.status.sync.status,HEALTH:.status.health.status'
 
-### 4.4. Alcance de la documentación
+# Proyectos
+oc get appprojects -n argocd
 
-Este playbook fue reconstruido mediante ingeniería inversa de los manifiestos existentes y del contexto técnico disponible.
+# Root Application
+oc get application argocd-config -n argocd
 
-Los archivos confirman la configuración declarada y el responsable de la plataforma confirmó el funcionamiento de la instancia. Sin embargo, no disponemos de registros históricos suficientes para afirmar el orden cronológico exacto de cada operación ni el resultado individual de todas las pruebas.
+# Detalle de una Application
+oc describe application <APPLICATION> -n argocd
 
-### 4.5. Referencias oficiales
+# Grupo LDAP sincronizado
+oc get group <GRUPO> -o yaml
 
-- [Argo CD — Declarative Setup](https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/)
-    
-- [Argo CD — Projects](https://argo-cd.readthedocs.io/en/stable/user-guide/projects/)
-    
-- [Argo CD — Private Repositories](https://argo-cd.readthedocs.io/en/stable/user-guide/private-repositories/)
-    
-- [Argo CD Operator — Documentation](https://argocd-operator.readthedocs.io/)
-    
-- [OpenShift — Operators y OLM](https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/observability/operators/understanding-operators)
+# Credenciales declarativas
+oc get sealedsecrets -n argocd
+
+# Conexión remota
+oc get secret kubernetes-prod -n argocd --show-labels
+
+# Controlador
+oc logs -n argocd argocd-application-controller-0 --since=15m
+
+# Argo CD server
+oc logs -n argocd deployment/argocd-server --since=15m
+```
+
+## 10. Documentación detallada
+
+|Tema|Playbook|
+|---|---|
+|Instalación de Argo CD en OKD|[[Argo CD — Arquitectura y operación GitOps]] — Nota actual como resumen|
+|GitHub App, Nginx y webhooks|[GitHub App y Webhooks](https://wiki.roshka.com/e/es/platform-engineering/cliente/interno/cluster-okd/playbooks/githubapp-argocd-playbook)|
+|Alta de proyectos, LDAP y RBAC|[Crear nuevo proyecto Argo CD](https://wiki.roshka.com/es/platform-engineering/cliente/interno/cluster-okd/playbooks/crear-nuevo-proyecto-argocd)|
+|Registro de clústeres externos|[Conexiones de clústeres](https://wiki.roshka.com/es/platform-engineering/cliente/interno/cluster-okd/playbooks/conexiones-cluster-argocd)|
+|Backup de configuración del helper|[Backup config helper](https://wiki.roshka.com/es/platform-engineering/cliente/interno/cluster-okd/playbooks/backup-config-helper)|

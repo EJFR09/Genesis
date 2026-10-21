@@ -24,7 +24,8 @@ tags:
 	* [ ] Crear alarmas en base a accesos luego de cierto horarios
 	* [ ] Verifcar consumo
 - **Métricas de infraestructura:** monitorizar CPU, RAM, disco y load en DEV y HML.
-	- [ ] Implementar Metcbeat
+	- [x] Implementar Metcbeat
+	- [x] Implementar script de verificacion de consumo 
 	- [ ] Verificar consumo
 - **Métricas de Tomcat/JVM:** monitorizar recursos y comportamiento de Tomcat.
 	- [ ] Implementar Metricbeat

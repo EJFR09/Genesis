@@ -12,15 +12,14 @@ tags:
 * ServerHml: ssh -p 6722 -l devops 10.69.0.20
 
 ### Tareas
-* [ ] Instalar metricbeat y ver su consumo
 -  Reunión 
-		* [ ] Leer informe
-		* [ ] Enviar correo de informe
-		* [ ] Fecha limite? 
+	* [ ] Leer informe
+	* [ ] Enviar correo de informe
+	* [ ] Fecha limite? 
 * **Auditoría SSH:** centralizar registros de acceso a servidores y generar alertas.
-	* [ ] Recuperar stack ELK
+	* [x] Recuperar stack ELK
+	* [x] Retirar agentes legacy
 	* [ ] Conseguir conectividad desde aws a los servidores dev y hml
-	* [ ] Retirar agentes legacy
 	* [ ] Generar convención para rsync a servidores
 	* [ ] Crear alarmas en base a accesos luego de cierto horarios
 	* [ ] Verifcar consumo

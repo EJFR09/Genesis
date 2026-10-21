@@ -28,6 +28,6 @@ tags:
 	- [x] Implementar script de verificacion de consumo 
 	- [ ] Verificar consumo
 - **Métricas de Tomcat/JVM:** monitorizar recursos y comportamiento de Tomcat.
-	- [ ] Implementar Metricbeat
+	- [ ] Implementar JMX
 	- [ ] Verificar consumo
 - **Análisis de consumo vs recursos**: proponer aumento de recursos

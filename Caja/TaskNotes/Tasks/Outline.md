@@ -12,3 +12,8 @@ tags:
 - [ ] invesitgar como implemnetar brain company
 - [ ] Investigar como cambiar el tema y dejarlo simplon
 - [ ] Meterle login con ldap
+
+ Ventajas
+- [ ] Buscador por palabras
+- [ ] MCP
+- [ ] Mover documentos estirando 

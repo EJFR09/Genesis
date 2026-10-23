@@ -12,6 +12,7 @@ tags:
 * ServerHml: ssh -p 6722 -l devops 10.69.0.20
 
 ### Tareas
+* [ ] Verificar las mediciones y preguntar si van a aumentar al conectar con el ELK
 -  Reunión 
 	* [ ] Leer informe
 	* [ ] Enviar correo de informe

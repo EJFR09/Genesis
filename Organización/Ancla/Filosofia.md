@@ -1,7 +1,7 @@
 ## Filosofía
 1. Mantener las cosas estupidamente simples
 2. Hacer las preguntas basicas
-3. Virtud: La felicidad viene de buscarla
+3. Virtud: Buscamos alcanzarla
 	1. Salud
 	2. Estado de flow
 	3. Asertividad

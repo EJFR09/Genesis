@@ -17,6 +17,10 @@ tags:
 - [ ] Investigar funcionalidades y uso
 - [ ] Ver migración de documentos de la wiki a outline
 
+- [ ] Cambiar el color de los iconos a azul, tratar de unificar el fondo al mismo color
+* [ ] Solucionar los websockets
+* [ ] Hacer la migración de la wiki a confluence
+
  Ventajas
 - Buscador por palabras
 - MCP

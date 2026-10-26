@@ -1,22 +1,16 @@
 ## Proyectos
 
-- Atom-core
-    
+- Atom-core    
     [Dora](https://app.notion.com/p/Dora-36450b380ef280a988f2fca38f3eec20?pvs=21)
-    
 - ITAU
-    
     [Payfacs](https://app.notion.com/p/Payfacs-36b50b380ef2809cac41ce94b18a11fa?pvs=21)
-    
 - XAIX-qr-plugin
-    
     - xaix-qr-plugin-bancard
     - xaix-qr-plugin-bancop
     - xaix-qr-plugin-atlas
     - xaix-qr-plugin-basa
 
 ## Notas
-
 - Beneficios: Linkear
 - Paginas: Linkear
 - Info inicial

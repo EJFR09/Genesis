@@ -17,7 +17,7 @@ tags:
   
   docker run -d --name ie-sustancial-core `
   --network ie-sustancial-core_default `
-  -p 8080:8080 -p 8081:8081 
+  -p 8080:8080 -p 8081:8081 `
   -e DB_IDENTIDAD_URL="jdbc:postgresql://postgres:5432/identidad_electronica" `
   -e DB_IDENTIDAD_USER=ie_local `
   -e DB_IDENTIDAD_PASSWORD=ie_local `

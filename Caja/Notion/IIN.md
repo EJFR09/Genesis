@@ -47,16 +47,13 @@
     - Descargar lista de comprobantes
     - Elegir bien los profes, mejores estadísticas.
 - Beca de Itaipú
-    
     Cada año en julio luego de inscribirte al semestre.
-    
     - Constancia **detallada** de estudios
         - Pagar en [](https://www.infonet.com.py/sessions/otp)[https://www.infonet.com.py](https://www.infonet.com.py)
     - Certificado de estudios
     - Pedir para firmar el acuerdo Anual en la sucursal de becas
     - NO hace falta esperar el correo.
 - Evaluación Docente
-    
     - Es obligatorio
     - Se hace en la pagina de poli en el evento
     - [https://www.pol.una.py/evaluacion-del-desempeno-docente/](https://www.pol.una.py/evaluacion-del-desempeno-docente/)

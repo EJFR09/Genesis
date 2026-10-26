@@ -8,4 +8,5 @@ tags:
   - devops
   - task
 ---
-
+* docker build -f jenkins/Dockerfile.run -t docker-dev.roshka.com/mitic/mitic-frc-gateway:0.0.1-test .
+* docker build -f jenkins/Dockerfile.run -t docker-dev.roshka.com/mitic/mitic-ie-sustancial-core:0.0.1-test .

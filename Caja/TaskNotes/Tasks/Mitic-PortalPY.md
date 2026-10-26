@@ -8,5 +8,8 @@ tags:
   - devops
   - task
 ---
+* 
 * docker build -f jenkins/Dockerfile.run -t docker-dev.roshka.com/mitic/mitic-frc-gateway:0.0.1-test .
 * docker build -f jenkins/Dockerfile.run -t docker-dev.roshka.com/mitic/mitic-ie-sustancial-core:0.0.1-test .
+
+* Registry:https://docker-dev.roshka.com/harbor/projects/86/repositories

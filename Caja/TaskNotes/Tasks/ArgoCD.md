@@ -16,6 +16,7 @@ timeEntries:
 * [x] TLS
 	* [x] https://wiki.roshka.com/es/platform-engineering/cliente/interno/cluster-okd/playbooks/playbook-iserver-okd
 	* [x] solucionamos creando nms un vhost
+* [ ] Presentaciones
 * [ ] Crear Guia especifica para finnekta
 	* [ ] Diagrama con iconos
 * [ ] Crear Guia especifica para dnit-sid-dev

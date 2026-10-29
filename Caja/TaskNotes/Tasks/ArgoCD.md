@@ -13,11 +13,12 @@ timeEntries:
     description: ""
 ---
 ### Tareas
+* [ ] Presentación finnekta
 * [ ] Crear Guia especifica para finnekta
-	* [ ] Diagrama con iconos
-* [ ] Crear Guia especifica para dnit-sid-dev
-* [ ] Presentación
-	* [ ] Va ser una reunión
-* [ ] TLS
+* [ ] Convención de secretos para finnekta 
+* [ ] Presentación dnit-sid-sev
+* [x]  Diagrama con iconos	
+* [x] Crear Guia especifica para dnit-sid-dev
+* [x] TLS
 	* [x] https://wiki.roshka.com/es/platform-engineering/cliente/interno/cluster-okd/playbooks/playbook-iserver-okd
 	* [x] solucionamos creando nms un vhost

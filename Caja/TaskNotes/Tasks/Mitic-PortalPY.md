@@ -59,13 +59,7 @@ Cmabio de ubicación de .yaml
     
     Conservando la importación existente:
     
-    ```
-    spring:
-      config:
-        import:
-          - optional:classpath:application-common.yml
-          - "optional:file:./.env[.properties]"
-    ```
+
     
     Spring cargará el `.env` del directorio de trabajo y resolverá las interpolaciones.
     

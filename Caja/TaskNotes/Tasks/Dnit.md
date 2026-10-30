@@ -9,10 +9,10 @@ tags:
 ---
 ## Entregables:
 * [x] Requerimientos PDF
-* Zip Manifiestos
+* [ ] Zip Manifiestos
 	* [x] Inventario placeholders
-	* Guia de instalación 
-* Accesos
+	* [ ] Guia de instalación 
+* [ ] Accesos
 
 ## Temas a tratar
 * Inicializar BD

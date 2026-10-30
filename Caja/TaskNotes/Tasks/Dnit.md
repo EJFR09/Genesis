@@ -8,9 +8,9 @@ tags:
   - task
 ---
 ## Entregables:
-* Requerimientos PDF
+* [x] Requerimientos PDF
 * Zip Manifiestos
-	* Inventario placeholders
+	* [x] Inventario placeholders
 	* Guia de instalación 
 * Accesos
 

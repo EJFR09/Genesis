@@ -11,4 +11,5 @@ Entregables:
 * Requerimientos PDF
 * Zip Manifiestos
 	* Inventario placeholders
-	* 
+	* Guia de instalación 
+* 

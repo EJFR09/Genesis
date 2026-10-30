@@ -21,3 +21,4 @@ tags:
 - Mover documentos estirando 
 - Se puede Añadir a favoritos documentos
 - Se puede copiar y pegar videos, imagenes, gifts
+- Mejor a la hora de crear pdfs desde un markdown

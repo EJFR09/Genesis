@@ -18,10 +18,24 @@ tags:
 * Inicializar BD
 	* Ya se les envió guia?
 	* Quien hace y cuando puede estar? (Pa decirles en el correo)
+	* Resolución: 
 * Secretos MICHI
 	* Ya tienen guia? 
-	* Quien hace y puede estar para la sig? 
-* Secretos Marangatu 
+	* Quien hace y puede estar para la siguiente semana? 
+	* Resolución: 
+* Config y secretos Marangatu 
 	* Como se configuran 
 	* Qué necesitan
-	* Quién puede hacer la guia y cuan
+	* Resolución: 
+* Config y secretos Trustedx
+	* Como se configuran 
+	* Qué necesitan
+	* Resolución: 
+* Config y secretos Dispatch
+	* Como se configuran 
+	* Qué necesitan
+	* Resolución: 
+* Config y secretos OIDC
+	* Como se configuran 
+	* Qué necesitan
+	* Resolución: 

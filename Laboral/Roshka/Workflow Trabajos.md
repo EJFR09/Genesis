@@ -8,7 +8,6 @@
 	* Documentación asociada
 		* Playbook
 		* Indicente 
-		* Minuta
 		* Inventario
 		* Pipeline
 		* Informe

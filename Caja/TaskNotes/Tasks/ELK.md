@@ -12,6 +12,9 @@ tags:
 * Docu: https://wiki.roshka.com/es/platform-engineering/cliente/brosco/elk/Instructivo-Creacion-Logs-Dashboards-kibana
 * ServerHml: ssh -p 6722 -l devops 10.69.0.20
 
+### Ultima reu
+* 2-3 semanas de margen
+* Priorizar accesos a terminales 
 ### Tareas
 * **Auditoría SSH:** centralizar registros de acceso a servidores y generar alertas.
 	* [x] Recuperar stack ELK
@@ -28,3 +31,4 @@ tags:
 	- [ ] Implementar JMX
 	- [ ] Verificar consumo
 - **Análisis de consumo vs recursos**: proponer aumento de recursos
+- SSO Google

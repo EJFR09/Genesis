@@ -21,7 +21,13 @@ tags:
 	* [x] Retirar agentes legacy
 	* [x] Conseguir conectividad desde aws a los servidores dev
 	* [x] Generar convención para rsync a servidores
-	* [ ] Crear alarmas en base a accesos luego de cierto horarios
+	* [ ] Implementar el procesamiento de eventos SSH
+	- [ ] Validar el reprocesamiento de logs históricos
+	- [ ] Construir el dashboard de auditoría SSH
+	- [ ] Restringir y validar el acceso SSH de auditoría
+	- [ ] Automatizar rsync mediante cron
+	- [ ] Configurar alertas en Kibana
+	- [ ] Validación integral y documentación
 	* [ ] Verifcar consumo
 	* [ ] Conseguir conectividad desde aws a los servidores hml
 - **Métricas de infraestructura:** monitorizar CPU, RAM, disco y load en DEV y HML.

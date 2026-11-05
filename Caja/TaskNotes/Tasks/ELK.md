@@ -24,7 +24,7 @@ tags:
 	* [ ] Implementar el procesamiento de eventos SSH
 	- [ ] Validar el reprocesamiento de logs históricos
 	- [ ] Construir el dashboard de auditoría SSH
-	- [ ] Restringir y validar el acceso SSH de auditoría
+	- [x] Restringir y validar el acceso SSH de auditoría
 	- [ ] Automatizar rsync mediante cron
 	- [ ] Configurar alertas en Kibana
 	- [ ] Validación integral y documentación

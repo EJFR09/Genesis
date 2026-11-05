@@ -19,10 +19,11 @@ tags:
 * **Auditoría SSH:** centralizar registros de acceso a servidores y generar alertas.
 	* [x] Recuperar stack ELK
 	* [x] Retirar agentes legacy
-	* [ ] Conseguir conectividad desde aws a los servidores dev y hml
-	* [ ] Generar convención para rsync a servidores
+	* [x] Conseguir conectividad desde aws a los servidores dev
+	* [x] Generar convención para rsync a servidores
 	* [ ] Crear alarmas en base a accesos luego de cierto horarios
 	* [ ] Verifcar consumo
+	* [ ] Conseguir conectividad desde aws a los servidores hml
 - **Métricas de infraestructura:** monitorizar CPU, RAM, disco y load en DEV y HML.
 	- [x] Implementar Metcbeat
 	- [x] Implementar script de verificacion de consumo 

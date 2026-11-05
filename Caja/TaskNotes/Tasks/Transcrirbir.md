@@ -38,4 +38,5 @@ Cliente (dinero)
 Empresa (logica)
 Socio (Logisticam Información , Habliidad)
 
-Ejemplo que dijo el profe de ser c
+Ejemplo que dijo el profe de ser callcenter de deudores y hacerles un fraccionamiento y re planeamiento de sus compras, en el cual tu socio puede ser una persona que te información del habito del deudor y una persona que te compre la deuda del deudor
+

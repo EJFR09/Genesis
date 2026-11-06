@@ -4,7 +4,6 @@ priority: normal
 dateCreated: 2026-10-28T07:51:17.807-03:00
 dateModified: 2026-10-28T07:51:42.890-03:00
 tags:
-  - task
 ---
 # Informe técnico — Relevamiento de PAYMENT en Testing
 

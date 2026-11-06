@@ -692,3 +692,5 @@ También se confirmó que ambos servicios generan eventos multilínea y que los 
 **El Bloque 1 queda cerrado para el alcance técnico local definido**, conservando los pendientes documentados para su resolución durante el diseño y la implementación.
 
 La siguiente etapa será verificar el estado actual de Filebeat y de la infraestructura Elasticsearch/Kibana antes de realizar cambios.
+
+# Informe Bloque 2

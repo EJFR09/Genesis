@@ -9,10 +9,11 @@ tags:
 # Informe técnico — Relevamiento de PAYMENT en Testing
 
 **Proyecto:** Claro PAYMENT — Centralización de logs en ELK  
-**Fecha:** 05/11/2026  
+**Fecha de inicio:** 05/11/2026  
+**Última actualización:** 06/11/2026  
 **Ambiente:** Testing  
 **Bloque:** 1 — Relevamiento de infraestructura y logs  
-**Estado:** Relevamiento inicial realizado, con verificaciones pendientes.
+**Estado:** Relevamiento técnico local completado, con pendientes identificados para las siguientes etapas.
 
 ---
 
@@ -22,14 +23,35 @@ Relevar la infraestructura de PAYMENT en Testing, identificar los servicios desp
 
 El relevamiento permitirá diseñar posteriormente la captura e ingesta de logs mediante Filebeat hacia el clúster Elasticsearch `es02-testing`.
 
-**Alcance inicial:**
+### 1.1. Alcance
 
-- API REST: `claro-payment-api`.
+- **API REST:** `claro-payment-api`.
     
-- Servicios Socket: `claro-posjota`, inicialmente la instancia `documenta`.
+- **Servicios Socket:** `claro-posjota`, contemplando todas las procesadoras que formen parte del alcance de PAYMENT. Actualmente se identificó la instancia `documenta` en el servidor relevado.
     
-- El proxy Nginx se identifica como componente de infraestructura, pero no forma parte de las fuentes prioritarias de ingesta.
+- **Proxy Nginx:** componente identificado, pero fuera de las fuentes prioritarias de ingesta.
     
+
+El relevamiento actual se limita al servidor `paymendb01ptl.claro.amx`. Otros servidores quedan fuera de esta etapa.
+
+### 1.2. Consideraciones
+
+La solución deberá contemplar:
+
+- Captura de logs de los servicios prioritarios.
+    
+- Identificación de la aplicación y procesadora de origen.
+    
+- Tratamiento adecuado de eventos multilínea.
+    
+- Compatibilidad con los mecanismos de rotación existentes.
+    
+- Protección de información sensible.
+    
+- Centralización y posterior consulta desde Kibana.
+    
+
+---
 
 ## 2. Infraestructura identificada
 
@@ -47,19 +69,31 @@ El relevamiento permitirá diseñar posteriormente la captura e ingesta de logs 
 
 ### 2.2. Contenedores identificados
 
-|Contenedor|Imagen|Estado|
+|Contenedor|Imagen|Estado observado|
 |---|---|---|
 |`claro-payment-api-test`|`docker-dev.roshka.com/claro/payment/claro-payment-api:2.0.10`|Running|
 |`documenta`|`docker.roshka.com/claro/payment/posjota:1.3.0`|Running|
 |`claro-payment-proxy-test`|`nginx:1.27-alpine`|Running|
 
-**Hallazgo:** se confirmó la existencia del servicio Socket `documenta` en Testing, a pesar de que inicialmente se había informado que `claro-posjota` no estaba desplegado en este ambiente.
+**Hallazgo:** se confirmó la existencia del servicio Socket `documenta` en Testing, aunque inicialmente se había informado que `claro-posjota` no estaba desplegado en este ambiente.
 
-No se ha confirmado el despliegue de las demás procesadoras Socket.
+No se identificaron otras procesadoras en este servidor durante el relevamiento.
+
+### 2.3. Repositorios relacionados
+
+|Componente|Repositorio|
+|---|---|
+|API REST|[https://github.com/roshkadev/claro-payment-api](https://github.com/roshkadev/claro-payment-api)|
+|Socket|[https://github.com/roshkadev/claro-posjota](https://github.com/roshkadev/claro-posjota)|
+|Servicio de consulta de CI|[https://github.com/roshkadev/claro-paymentgw](https://github.com/roshkadev/claro-paymentgw)|
+
+El servicio de consulta de CI no forma parte del alcance prioritario.
+
+---
 
 ## 3. Montajes y almacenamiento de logs
 
-Los servicios principales utilizan bind mounts de Podman, por lo que los archivos de logs son accesibles desde el filesystem del host.
+Los servicios prioritarios utilizan bind mounts de Podman, mediante los cuales sus archivos de logs quedan disponibles en el filesystem del host.
 
 ### 3.1. API REST
 
@@ -85,20 +119,30 @@ Los servicios principales utilizan bind mounts de Podman, por lo que los archivo
 
 **Contenedor:** `claro-payment-proxy-test`
 
-Se identificaron montajes de configuración y certificados:
+Montajes identificados:
 
 - `/app/payment-test/nginx/nginx.conf`
     
 - `/app/payment-test/nginx/certs`
     
 
-No se identificó un bind mount específico para logs del proxy.
+No se identificó un bind mount específico para los logs del proxy.
+
+### 3.4. Implicación para Filebeat
+
+Los archivos de las aplicaciones están disponibles en directorios del host.
+
+Esto permite plantear una arquitectura donde Filebeat lea directamente los archivos desde el servidor, sin instalar agentes dentro de los contenedores.
+
+La viabilidad definitiva dependerá de la instalación, identidad de ejecución y permisos efectivos de Filebeat.
+
+---
 
 ## 4. Relevamiento de logs — API REST
 
 ### 4.1. Ubicación
 
-**Ruta en el host:**
+**Directorio del host:**
 
 `/app/payment-test/claro-payment-api/logs`
 
@@ -115,17 +159,19 @@ No se identificó un bind mount específico para logs del proxy.
 |Propiedad|Resultado|
 |---|---|
 |Formato|Texto plano|
+|Framework de logging|Log4j2|
 |Archivo activo|`payment.log`|
-|Última modificación observada|05/11/2026 14:07:39 (-03:00)|
-|Tamaño observado|307.243 bytes|
-|Históricos|Archivos `.log.gz` organizados por año y mes|
-|Tamaño total del directorio|Aproximadamente 13 MB|
+|Última modificación observada del archivo activo|05/11/2026 14:07:39 (-03:00)|
+|Tamaño observado del archivo activo|307.243 bytes|
+|Históricos|Archivos `.log.gz`|
+|Organización histórica|Directorios por año y mes|
+|Tamaño total observado|Aproximadamente 13 MB|
 |Permisos del directorio de logs|`777`|
 |Propietario del directorio|`payment:users`|
 
 ### 4.3. Estructura de los eventos
 
-Los registros presentan elementos como:
+Los registros contienen:
 
 - Timestamp.
     
@@ -140,32 +186,150 @@ Los registros presentan elementos como:
 - Identificadores de sesión y datos asociados a operaciones.
     
 
-**Ejemplo de estructura:**
+**Ejemplo de estructura, con datos ficticios:**
 
-`[INFO] 2026-11-05 09:04:27 [http-nio-8081-exec-9] INFO Clase:línea - Mensaje`
+`[INFO] 2026-11-05 09:04:27 [http-nio-8081-exec-9] INFO Clase:61 - Mensaje`
 
-Se identificaron clases como `ClaroPacksClient`, `ConsultaPackService` y `PackOfferService`.
+Se identificaron clases como:
 
-**Observaciones:**
-
-- Los logs no utilizan JSON como formato principal.
+- `ClaroPacksClient`
     
-- Se observan registros relacionados con consultas y ofertas de packs.
+- `ConsultaPackService`
     
-- Algunos mensajes contienen números de servicio y session IDs.
-    
-- Debe verificarse si existen eventos multilínea.
-    
-- La presencia de archivos históricos comprimidos evidencia un mecanismo de archivado, pero falta verificar la configuración exacta de rotación.
+- `PackOfferService`
     
 
-También se identificaron archivos con nombres atípicos en el directorio de logs. Su origen y finalidad no fueron determinados.
+Los logs no utilizan JSON como formato principal.
+
+Se observaron mensajes relacionados con consultas y ofertas de packs, así como números de servicio e identificadores de sesión.
+
+### 4.4. Configuración de logging
+
+**Archivo identificado:**
+
+`/app/payment-test/claro-payment-api/config/log4j2-spring.xml`
+
+Se confirmó la configuración de un appender `RollingFile`, cuyo archivo activo es `payment.log`.
+
+El archivo está configurado mediante una ruta relativa:
+
+`logs/payment.log`
+
+La ubicación efectiva se corroboró con los archivos presentes en el bind mount.
+
+### 4.5. Rotación de logs
+
+La configuración contiene:
+
+```
+<Policies>
+    <TimeBasedTriggeringPolicy />
+    <SizeBasedTriggeringPolicy size="250 MB"/>
+</Policies>
+```
+
+**Política identificada:**
+
+|Propiedad|Configuración|
+|---|---|
+|Mecanismo|Log4j2 RollingFile|
+|Rotación temporal|Diaria, según el patrón de fecha|
+|Rotación por tamaño|250 MB|
+|Formato de históricos|`.log.gz`|
+|Organización histórica|`logs/YYYY-MM/`|
+|Índice de archivos|`%i`|
+|Eliminación por antigüedad|No definida explícitamente en el XML|
+|Límite total de almacenamiento|No definido explícitamente en el XML|
+
+El patrón de archivado identificado es:
+
+`${log-path}/logs/$${date:yyyy-MM}/payment-%d{MM-dd-yyyy}-%i.log.gz`
+
+**Observación:** el directorio mensual utiliza una expresión de fecha evaluada de forma diferente a la fecha incorporada en el nombre del archivo. Esto es coherente con los históricos encontrados en algunos directorios cuyo mes no coincide con la fecha del nombre.
+
+La retención efectiva sigue pendiente de confirmar porque podrían existir mecanismos de limpieza externos.
+
+### 4.6. Eventos multilínea
+
+Se confirmó la existencia de stack traces Java en `payment.log`.
+
+Se observaron referencias a:
+
+- Spring Framework.
+    
+- `DefaultRestClient`.
+    
+- `ClaroPacksClient`.
+    
+- `ConsultaPackService`.
+    
+- `PacksController`.
+    
+
+**Conclusión:** la futura ingesta deberá contemplar eventos multilínea para evitar que una excepción quede dividida en múltiples documentos independientes.
+
+La expresión regular definitiva se definirá durante el diseño de Filebeat.
+
+### 4.7. Volumen histórico de logs
+
+Se analizaron archivos históricos comprimidos correspondientes al período del 31/10/2026 al 05/11/2026.
+
+|Fecha correspondiente al log|Tamaño comprimido|Tamaño original|
+|---|---|---|
+|31/10/2026|144 B|445 B|
+|01/11/2026|1.683 B|33.095 B|
+|02/11/2026|34.181 B|516.654 B|
+|03/11/2026|16.457 B|474.880 B|
+|04/11/2026|1.737 B|13.908 B|
+|05/11/2026|19.493 B|307.466 B|
+|**Total**|**73.695 B**|**1.346.448 B**|
+
+**Indicadores obtenidos:**
+
+- Volumen original total: aproximadamente 1,35 MB.
+    
+- Promedio diario de la muestra: aproximadamente 224 KB.
+    
+- Compresión observada: aproximadamente 94,5 %.
+    
+- Mayor volumen diario de la muestra: aproximadamente 517 KB.
+    
+
+**Limitaciones:**
+
+- El cálculo utiliza únicamente los archivos históricos identificados.
+    
+- No incluye el archivo activo ni posibles archivos adicionales.
+    
+- No representa necesariamente días de mayor carga.
+    
+- No debe utilizarse directamente como estimación de Producción.
+    
+- El almacenamiento requerido en Elasticsearch será diferente al tamaño original de los archivos.
+    
+
+### 4.8. Archivos atípicos
+
+Se identificaron archivos adicionales con nombres que parecen fragmentos de contenido, entre ellos:
+
+- `informacion",`
+    
+- `ion": 0,`
+    
+- `accion": "10",`
+    
+
+Su origen y finalidad no se determinaron.
+
+**Recomendación:** no incluirlos automáticamente en la ingesta ni eliminarlos sin verificar su procedencia.
+
+---
 
 ## 5. Relevamiento de logs — Socket documenta
 
 ### 5.1. Ubicación
 
-**Ruta en el host:**
+**Directorio del host:**
 
 `/app/payment-test/documenta/logs`
 
@@ -177,11 +341,11 @@ También se identificaron archivos con nombres atípicos en el directorio de log
 |`outlog.txt`|526 bytes|03/11/2026 16:07|
 |`test.log`|7 bytes|28/08/2026|
 
-**Tamaño total:** aproximadamente 220 KB.
+**Tamaño total observado:** aproximadamente 220 KB.
 
 ### 5.3. Características
 
-Los archivos `routlog.txt` y `outlog.txt` contienen registros en texto plano.
+Los archivos `routlog.txt` y `outlog.txt` contienen registros de texto plano.
 
 Se identificaron:
 
@@ -191,114 +355,340 @@ Se identificaron:
     
 - Identificadores de hilo.
     
-- Nombres de clases Java.
+- Clases Java.
     
-- Mensajes relacionados con el inicio del servicio, configuración y conexiones.
+- Mensajes de inicialización, configuración y conexiones.
     
 
-Entre las clases observadas se encuentran:
+Entre las clases identificadas se encuentran:
 
-- `PronetStreamCollectorServer`.
+- `PronetStreamCollectorServer`
     
-- `CollectorSession`.
+- `CollectorSession`
     
 
 El archivo `routlog.txt` fue identificado como texto UTF-8 con líneas largas.
 
-### 5.4. Permisos
+### 5.4. Configuración de logging
 
-Los archivos `.txt` presentan permisos `644`.
+**Archivo identificado dentro del contenedor:**
 
-El propietario y grupo aparecen como `UNKNOWN:UNKNOWN` en el host, por lo que se requiere revisar sus UID/GID numéricos si fuera necesario.
+`/opt/payment/plainlog4jconfig.xml`
+
+También se identificaron:
+
+- `/opt/payment/lib/log4j.jar`
+    
+- `/opt/payment/lib/commons-logging.jar`
+    
+
+La configuración utiliza clases correspondientes a Log4j 1.x, aunque la versión exacta de la biblioteca no fue verificada.
+
+### 5.5. Configuración de `routlog.txt`
+
+Se identificó un appender de tipo `RollingFileAppender`.
+
+Configuración relevante:
+
+```
+<param name="File" value="logs/routlog.txt"/>
+<param name="Append" value="true"/>
+<param name="MaxFileSize" value="15000KB"/>
+<param name="MaxBackupIndex" value="15"/>
+```
+
+|Propiedad|Configuración|
+|---|---|
+|Appender|`RollingFileAppender`|
+|Archivo|`routlog.txt`|
+|Añadir al archivo existente|Sí|
+|Rotación|Por tamaño|
+|Tamaño máximo configurado|15.000 KB|
+|Cantidad máxima de respaldos|15|
+|Compresión|No configurada|
+|Retención temporal|No configurada|
+
+Los respaldos se generarían siguiendo la política de rotación de Log4j.
+
+No se observaron archivos históricos en el inventario del directorio consultado.
+
+### 5.6. Configuración de `outlog.txt`
+
+Se identificó un appender de tipo `FileAppender`.
+
+Configuración relevante:
+
+```
+<param name="File" value="logs/outlog.txt"/>
+<param name="Append" value="false"/>
+```
+
+**Comportamiento:**
+
+- No tiene rotación configurada.
+    
+- `Append=false` indica que se sobrescribe el contenido cuando se inicializa el appender.
+    
+- Los registros anteriores pueden perderse cuando la aplicación reinicializa ese mecanismo de logging.
+    
+
+Este comportamiento deberá contemplarse durante el diseño de ingesta.
+
+### 5.7. Eventos multilínea
+
+Se confirmó la existencia de stack traces Java en `routlog.txt`.
+
+Se identificaron referencias a:
+
+- `PronetStreamInputPackage`
+    
+- `CollectorSession`
+    
+- `NumberFormatException`
+    
+
+También se observaron estructuras como:
+
+- `Caused by:`
+    
+- `at ...`
+    
+- `... 2 more`
+    
+
+**Conclusión:** los logs Socket requieren tratamiento multilínea.
+
+Su estructura difiere de la API REST, por lo que deberá evaluarse una configuración específica para este servicio.
+
+### 5.8. Permisos y propietarios
+
+|Archivo|Permisos|UID|GID|
+|---|---|---|---|
+|`routlog.txt`|`644`|`690823`|`690823`|
+|`outlog.txt`|`644`|`690823`|`690823`|
+
+Los UID/GID no tienen una correspondencia de nombre visible en el host.
+
+Esto podría estar relacionado con el mapeo de usuarios de Podman, aunque no fue verificado.
 
 El directorio de logs tiene permisos `777`.
 
-### 5.5. Observaciones
+### 5.9. Actividad y volumen
 
-- No se identificaron archivos históricos comprimidos.
+La última modificación observada de ambos archivos `.txt` corresponde al 03/11/2026.
+
+No contamos con mediciones suficientes para determinar la tasa diaria de generación de logs Socket.
+
+La existencia del contenedor en estado Running no garantiza que esté recibiendo operaciones o escribiendo nuevos eventos continuamente.
+
+**Pendientes específicos:**
+
+- Confirmar qué archivos deben centralizarse.
     
-- No se ha confirmado un mecanismo de rotación.
+- Verificar si el servicio continúa generando eventos.
     
-- La última escritura observada fue el 03/11/2026.
+- Determinar su volumen diario en condiciones representativas.
     
-- Debe verificarse si los archivos continúan recibiendo eventos.
-    
-- No se ha confirmado si ambos archivos deben ser ingeridos.
+- Verificar si el XML encontrado es efectivamente la configuración cargada por el proceso.
     
 
-## 6. Hallazgos técnicos
+---
+
+## 6. Hallazgos técnicos consolidados
 
 ### H01 — Logs disponibles mediante bind mounts
 
-Los servicios prioritarios utilizan directorios del host montados en los contenedores.
+Los servicios prioritarios utilizan directorios del host montados en contenedores.
 
-Esto permite considerar una arquitectura en la que Filebeat lea directamente los archivos del host, sin necesidad de instalar agentes dentro de los contenedores.
+Esto permite considerar la captura desde Filebeat instalado en el servidor, sin necesidad de ejecutar un agente por contenedor.
 
 ### H02 — Diferencias entre ambientes
 
-Las rutas proporcionadas inicialmente correspondían a una estructura `/app/payment/`.
+Las rutas inicialmente proporcionadas correspondían a `/app/payment/`.
 
 En Testing se confirmó el uso de `/app/payment-test/`.
 
-Por tanto, las configuraciones deben utilizar rutas específicas del ambiente.
+Las configuraciones deberán contemplar las rutas específicas del ambiente.
 
 ### H03 — Servicio Socket disponible en Testing
 
-Se identificó el contenedor `documenta`, correspondiente a una instancia de `claro-posjota`.
+Se identificó `documenta`, una instancia del servicio `claro-posjota`.
 
-Debe actualizarse el inventario inicial, ya que existe al menos un servicio Socket desplegado.
+La solución deberá contemplar las demás procesadoras que se incorporen al alcance y estén disponibles en los servidores correspondientes.
 
-### H04 — Formatos diferentes entre servicios
+### H04 — Diferencias en logging
 
-La API REST y el servicio Socket generan logs de texto plano, pero presentan diferencias en timestamps, nombres de archivos y estructura de mensajes.
+La API REST utiliza Log4j2 y el servicio Socket presenta configuración de Log4j 1.x.
 
-La ingesta y el procesamiento deberán contemplar estas diferencias.
+Sus formatos, mecanismos de rotación y archivos son diferentes.
 
-### H05 — Permisos amplios en directorios
+### H05 — Eventos multilínea confirmados
+
+Ambos servicios generan stack traces Java.
+
+El diseño de Filebeat deberá incorporar un tratamiento adecuado para conservar la integridad de estos eventos.
+
+### H06 — Permisos amplios
 
 Los directorios de logs presentan permisos `777`.
 
-Se registra como hallazgo de seguridad para evaluación posterior. No se realizaron modificaciones durante el relevamiento.
+Se registra como hallazgo de seguridad.
 
-### H06 — Información potencialmente sensible
+No se realizaron modificaciones durante el relevamiento.
 
-Los logs de la API REST pueden contener identificadores de sesión y números asociados a servicios o transacciones.
+### H07 — Información sensible en logs
 
-Se requiere evaluar la política de protección de datos antes de centralizarlos.
+Se observaron identificadores de sesión, números de servicio y datos relacionados con operaciones.
 
-## 7. Información pendiente
+La centralización deberá incorporar controles para proteger información sensible.
 
-|ID|Pendiente|Importancia|
+Se deberá evaluar:
+
+- Minimización de datos.
+    
+- Enmascaramiento o eliminación de campos sensibles cuando corresponda.
+    
+- Restricción de permisos de consulta.
+    
+- Protección de la comunicación hacia Elasticsearch.
+    
+- Retención adecuada.
+    
+- Evitar registrar credenciales, tokens y otros secretos.
+    
+- Revisión de los mensajes antes de incorporarlos al almacenamiento centralizado.
+    
+
+### H08 — Rotación diferente entre servicios
+
+La API REST utiliza rotación diaria o por tamaño, con compresión GZIP.
+
+`documenta` utiliza un archivo con rotación por tamaño y otro sin rotación que puede sobrescribirse.
+
+Filebeat deberá considerar estos comportamientos para evitar pérdidas o duplicaciones.
+
+### H09 — Volumen inicial bajo en la API REST
+
+Se observó un promedio histórico aproximado de 224 KB diarios durante seis días.
+
+Esta cifra es orientativa y no representa la carga esperada en Producción.
+
+### H10 — Retención no completamente determinada
+
+No se identificó una política explícita de eliminación por antigüedad en los archivos de configuración revisados.
+
+Esto no descarta mecanismos externos de limpieza.
+
+La retención en Elasticsearch deberá definirse de forma independiente durante el diseño de la solución.
+
+---
+
+## 7. Información pendiente y tratamiento
+
+|ID|Pendiente|Tratamiento|
 |---|---|---|
-|P01|Confirmar mecanismo y configuración de rotación de `payment.log`|Alta|
-|P02|Determinar si `documenta` utiliza rotación|Alta|
-|P03|Comprobar si existen eventos multilínea|Alta|
-|P04|Confirmar qué archivos Socket deben centralizarse|Alta|
-|P05|Verificar actividad de escritura actual en `documenta`|Media|
-|P06|Determinar volumen diario aproximado de logs|Media|
-|P07|Confirmar si existen otros servidores PAYMENT en Testing|Media|
-|P08|Evaluar archivos con nombres atípicos en la API REST|Baja|
-|P09|Verificar permisos efectivos del usuario de Filebeat|Alta, durante el bloque 2|
-|P10|Confirmar el tratamiento requerido para información sensible|Alta, durante el diseño|
+|P01|Verificar si existen mecanismos externos de limpieza de históricos|Revisión complementaria|
+|P02|Confirmar archivos Socket que deben centralizarse|Validación funcional|
+|P03|Verificar actividad reciente de `documenta`|Validación con responsables|
+|P04|Estimar volumen diario representativo de Socket|Medición posterior|
+|P05|Evaluar archivos atípicos de la API REST|Revisión complementaria|
+|P06|Verificar permisos efectivos de Filebeat|Bloque 2|
+|P07|Definir tratamiento de información sensible|Bloque 3|
+|P08|Confirmar retención requerida en Elasticsearch|Bloque 3|
+|P09|Validar configuración multilínea definitiva|Bloques 3 y 4|
+|P10|Confirmar procesadoras incluidas y disponibles|Incorporación progresiva|
+|P11|Identificar mecanismo de administración de contenedores|Revisión operativa complementaria|
+
+Los otros servidores PAYMENT no forman parte del relevamiento actual.
+
+No se considera necesario resolver todos estos pendientes para iniciar el Bloque 2. Los que afectan al diseño deberán resolverse antes de habilitar la ingesta.
+
+---
 
 ## 8. Estado de las tareas
 
 |Tarea|Estado|
 |---|---|
-|1. Relevar servidores y contenedores PAYMENT en Testing|Completada para el servidor identificado|
-|2. Relevar rutas, formatos, rotación y permisos de logs|Parcialmente completada|
+|1. Relevar servidores y contenedores PAYMENT en Testing|Relevamiento del servidor objetivo realizado|
+|2. Relevar rutas, formatos, rotación y permisos de logs|Relevamiento técnico principal completado|
 
-No se modificaron aplicaciones, contenedores ni configuraciones durante este bloque.
+### Validaciones realizadas
+
+- Identificación del sistema operativo y versión de Podman.
+    
+- Inventario de contenedores en ejecución.
+    
+- Inspección de bind mounts.
+    
+- Identificación de rutas reales de logs.
+    
+- Inventario de archivos activos e históricos.
+    
+- Revisión de tamaños y permisos.
+    
+- Análisis general de formatos.
+    
+- Identificación de stack traces multilínea.
+    
+- Revisión de configuraciones Log4j2 y Log4j.
+    
+- Identificación de mecanismos de rotación.
+    
+- Estimación del volumen histórico de la API REST.
+    
+
+**No se modificaron aplicaciones, contenedores ni archivos de configuración durante el relevamiento.**
+
+---
 
 ## 9. Próximos pasos
 
-1. Completar las verificaciones pendientes de rotación y registros multilínea.
+El siguiente bloque corresponde al **Bloque 2 — Relevamiento de Filebeat y ELK**.
+
+### Tarea 3 — Filebeat
+
+- Verificar instalación y versión.
     
-2. Continuar con el Bloque 2: relevamiento de Filebeat y Elasticsearch/Kibana.
+- Identificar método de ejecución.
     
-3. Confirmar qué configuraciones existentes pueden reutilizarse.
+- Revisar configuración existente.
     
-4. Utilizar los hallazgos para definir posteriormente el diseño de ingesta.
+- Determinar inputs y outputs actuales.
+    
+- Revisar permisos de lectura.
+    
+- Analizar processors, colas y reintentos.
+    
+- Determinar compatibilidad con la infraestructura existente.
     
 
-**Conclusión:** se confirmó que la infraestructura de Testing dispone de una API REST y una instancia Socket con logs persistidos en directorios del host mediante bind mounts. Esto proporciona una base adecuada para estudiar una ingesta mediante Filebeat, pendiente de validar su instalación, permisos y configuración.
+### Tarea 4 — Elasticsearch y Kibana
+
+- Verificar estado y recursos del clúster `es02-testing`.
+    
+- Identificar índices, aliases y Data Streams.
+    
+- Revisar templates y mappings.
+    
+- Identificar pipelines existentes.
+    
+- Revisar ILM y retención.
+    
+- Verificar permisos y recursos de Kibana.
+    
+
+Los resultados servirán de base para el posterior diseño de ingesta.
+
+---
+
+## 10. Conclusión
+
+El relevamiento confirmó que `claro-payment-api` y la instancia Socket `documenta` generan logs persistidos en directorios del host mediante bind mounts de Podman.
+
+Se identificaron los archivos activos, sus formatos generales, configuraciones de logging, mecanismos de rotación, permisos y características de los registros.
+
+También se confirmó que ambos servicios generan eventos multilínea y que los logs pueden contener información sensible.
+
+**El Bloque 1 queda cerrado para el alcance técnico local definido**, conservando los pendientes documentados para su resolución durante el diseño y la implementación.
+
+La siguiente etapa será verificar el estado actual de Filebeat y de la infraestructura Elasticsearch/Kibana antes de realizar cambios.

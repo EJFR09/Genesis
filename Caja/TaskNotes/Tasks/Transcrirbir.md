@@ -1,9 +1,8 @@
 ---
 status: open
 priority: normal
-scheduled: 2026-11-05
 dateCreated: 2026-11-05T15:43:21.090-03:00
-dateModified: 2026-11-05T15:46:47.558-03:00
+dateModified: 2026-11-08T21:08:22.182-03:00
 tags:
   - task
 ---

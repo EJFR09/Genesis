@@ -26,7 +26,7 @@ tags:
 	- [ ] Validar el reprocesamiento de logs históricos
 	- [ ] Construir el dashboard de auditoría SSH
 	- [x] Restringir y validar el acceso SSH de auditoría
-	- [ ] Automatizar rsync mediante cron
+	- [x] Automatizar rsync mediante cron
 	- [ ] Configurar alertas en Kibana
 	- [ ] Validación integral y documentación
 	* [ ] Verifcar consumo
@@ -40,3 +40,26 @@ tags:
 	- [ ] Verificar consumo
 - **Análisis de consumo vs recursos**: proponer aumento de recursos
 - SSO Google
+
+
+- Permisos de Elasticsearch para `efigueredo`
+	- `manage_pipeline`
+	- `read_pipeline`
+	- `manage_ingest_pipelines`
+	- `manage_index_templates`
+	- `manage_ilm`
+	- `read_ilm`
+	- `monitor`
+	- `create_index`
+	- `manage` (índices SSH)
+	- `manage_data_stream_lifecycle` (índices/data streams SSH)
+	- `write` (índices SSH)
+	- Permisos de administración de Data Views en Kibana.
+- Saturación de disco
+	- Encontramos saturación de disco, por no tener declarada una policita de retención
+	- Definir retención de 20 o 30 días para archivos recibidos por rsync.
+	- 
+- Retención de logs SSH
+		- Origen: rotación semanal, cuatro históricos
+		- ELK: retención local de 40 días.
+		- Confirmar aprobación de estos períodos.

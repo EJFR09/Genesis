@@ -70,23 +70,27 @@ tags:
 - ¿Pueden darnos permisos para verificar esa policita?
 - ¿Van a querer que se mantenga esa politica o van a querer una nueva para más días?
 - ¿Cuantos días van a querer que elastic mantenga los logs?
+### 2.2. Retención local de archivos
+**Situación actual:**
+- API REST utiliza rotación Log4j2.
+- Socket `documenta` utiliza rotación por tamaño.
+- No pudimos encontrar una configuración de retención de logs.
+**Preguntas:**
+- ¿Existe algún script, cron o politica de retención?
+- ¿Cuántos días deben conservarse los archivos locales?
+- ¿En producción tienen alguna convención de envio de logs a algun almacen d
 
-
-
-### 2.4. Validación del catálogo funcional
+### 2.2. Validación del catálogo funcional
 **Situación actual:**
 - 36 campos funcionales implementados.
 - 34 atributos adicionales observados.
 - 34 atributos no observados retirados del catálogo operativo.
 - Pipeline v11 validado.
+- Seria más facil si los nuevos desarrollos realizan una convención de logeo en json
 
 **Preguntas:**
-- ¿Son suficientes los campos implementados?
-- ¿Cuáles de los campos adicionales deberían incorporarse?
 - ¿Qué campos son obligatorios para las consultas?
-- ¿Los importes deben conservarse como `keyword` o convertirse en valores numéricos?
-- ¿Existen requisitos diferentes entre Testing y Producción?
-- 
+- ¿Se sabe si algun dato es sensible y debe tener un trato especial? ¿Cuales?
 ### 2.3. Seguridad HTTP / HTTPS
 **Situación actual:**
 - Filebeat envía eventos mediante HTTP autenticado.
@@ -97,35 +101,6 @@ tags:
 **Preguntas:**
 - ¿Se acepta formalmente que HTTP va ser utilizado en testing o van a implementar más adelante HTTPS?
 - ¿Utilizaremos una identidad dedicada para la ingesta en Producción?
-
-
-### 2.5. Tratamiento de datos sensibles
-
-**Situación actual:**
-- Los registros pueden contener identificadores de sesión, números de servicio y datos de transacciones.
-- El pipeline conserva el campo `message` original.
-- No existe todavía una aprobación funcional completa del tratamiento de información sensible.
-
-**Preguntas:**
-- ¿Qué datos deben enmascararse?
-- ¿Qué atributos no deben enviarse a Elasticsearch?
-- ¿Puede conservarse el campo `message` completo?
-- ¿Qué usuarios tendrán acceso a los registros en Producción?
-
-### 2.6. Retención local de archivos
-
-**Situación actual:**
-- API REST utiliza rotación Log4j2.
-- Socket `documenta` utiliza rotación por tamaño.
-- No está completamente confirmado el mecanismo de eliminación de archivos históricos.
-- La retención local es independiente de ILM.
-
-**Preguntas:**
-- ¿Existe algún script, cron o proceso de limpieza?
-- ¿Quién administra esa limpieza?
-- ¿Cuántos días deben conservarse los archivos locales?
-- ¿Existe almacenamiento adicional para auditoría?
-
 ### 2.7. Nuevas procesadoras Socket
 
 **Situación actual:**

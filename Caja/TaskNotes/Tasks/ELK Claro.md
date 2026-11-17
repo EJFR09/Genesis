@@ -55,12 +55,17 @@ tags:
 ---
 
 # 2. Temas a tratar en la reunión
-### 2.1. Política ILM — Retención en Elasticsearch
+### 2.1. Política ILM - Retención en Elasticsearch
 **Situación actual:**
 - Los índices PAYMENT utilizan `limpiaidx-15d`.
 - El nuevo template también referencia esa política.
 - No tenemos permisos `read_ilm` para consultar su definición completa.
 - No está confirmado que la política elimine índices después de 15 días.
+- Usuario `payment`.
+- Rol `paymentADM`.
+- Permisos sobre los índices PAYMENT.
+- Permisos para administrar templates y pipelines.
+- Sin privilegio `read_ilm`.
 -
 **Preguntas:**
 - ¿Cuántos días deben conservarse los logs en Testing y Producción?
@@ -69,11 +74,7 @@ tags:
 - ¿Mantendremos la política compartida o crearemos una específica para PAYMENT?
 ### 2.2. Permisos de Elasticsearch
 **Situación actual:**
-- Usuario `payment`.
-- Rol `paymentADM`.
-- Permisos sobre los índices PAYMENT.
-- Permisos para administrar templates y pipelines.
-- Sin privilegio `read_ilm`.
+
 
 **Preguntas:**
 - ¿Podemos disponer de permisos de solo lectura sobre ILM?
@@ -151,7 +152,6 @@ tags:
 ---
 
 # 3. Comandos de Kibana — Dev Tools
-
 ### 3.1. Clúster
 
 ```

@@ -67,26 +67,13 @@ tags:
 - Sin privilegio `read_ilm`.
 
 **Preguntas:**
-- ¿Quieren que se mantenga esa configuración o nos van a dar permis?
-- ¿Cuántos días deben conservarse los logs en Testing y Producción?
-- ¿La política `limpiaidx-15d` cumple ese requisito?
+- ¿Pueden darnos permisos para verificar esa policita?
+- ¿Van a querer que se mantenga esa politica o van a querer una nueva para más días?
+- ¿Cuantos días van a querer que elastic mantenga los logs?
 
-- ¿Utilizaremos una identidad dedicada para la ingesta en Producción?
 
-### 2.3. Seguridad HTTP / HTTPS
-**Situación actual:**
-- Filebeat envía eventos mediante HTTP autenticado.
-- Endpoint: `http://test-elastic.claro.com.ar:9200`.
-- La contraseña está protegida localmente mediante Keystore.
-- El transporte no está cifrado.
-
-**Preguntas:**
-- ¿Existe un endpoint HTTPS disponible?
-- ¿Se acepta formalmente HTTP en Testing?
-- ¿Qué mecanismo TLS se utilizará en Producción?
 
 ### 2.4. Validación del catálogo funcional
-
 **Situación actual:**
 - 36 campos funcionales implementados.
 - 34 atributos adicionales observados.
@@ -99,6 +86,19 @@ tags:
 - ¿Qué campos son obligatorios para las consultas?
 - ¿Los importes deben conservarse como `keyword` o convertirse en valores numéricos?
 - ¿Existen requisitos diferentes entre Testing y Producción?
+- 
+### 2.3. Seguridad HTTP / HTTPS
+**Situación actual:**
+- Filebeat envía eventos mediante HTTP autenticado.
+- Endpoint: `http://test-elastic.claro.com.ar:9200`.
+- La contraseña está protegida localmente mediante Keystore.
+- El transporte no está cifrado.
+
+**Preguntas:**
+- ¿Se acepta formalmente que HTTP va ser utilizado en testing o van a implementar más adelante HTTPS?
+- ¿Utilizaremos una identidad dedicada para la ingesta en Producción?
+
+
 ### 2.5. Tratamiento de datos sensibles
 
 **Situación actual:**

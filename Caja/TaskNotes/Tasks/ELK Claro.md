@@ -9,7 +9,7 @@ tags:
 
 ### Arquitectura actual
 
-![[Flujo de Logs Payment en Testing.png|640]]
+
 ### Trabajos realizados
 **1. Relevamiento de infraestructura**
 - Identificación del servidor PAYMENT de Testing.
@@ -52,24 +52,16 @@ tags:
 ## 2. Temas a tratar en la reunión
 
 ### 2.1. Política ILM — Retención en Elasticsearch
-
 **Situación actual:**
 - Los índices PAYMENT utilizan `limpiaidx-15d`.
 - El nuevo template también referencia esa política.
 - No tenemos permisos `read_ilm` para consultar su definición completa.
 - No está confirmado que la política elimine índices después de 15 días.
-
 **Preguntas:**
 - ¿Cuántos días deben conservarse los logs en Testing y Producción?
 - ¿La política `limpiaidx-15d` cumple ese requisito?
 - ¿Podemos obtener `read_ilm` o su definición mediante el administrador?
 - ¿Mantendremos la política compartida o crearemos una específica para PAYMENT?
-
-**Recomendación:** mantener provisionalmente la política actual y no modificar una ILM compartida sin conocer su impacto.
-
-**Estado:** Pendiente  
-**Decisión:**  
-**Responsable:**
 
 ### 2.2. Permisos de Elasticsearch
 

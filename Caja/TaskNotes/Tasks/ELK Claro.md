@@ -5,18 +5,13 @@ dateCreated: 2026-10-28T07:51:17.807-03:00
 dateModified: 2026-10-28T07:51:42.890-03:00
 tags:
 ---
-## 1. Resumen de la implementación
-**Índices:**  
-`es02-payment_py-transactions-*`
-**Pipeline:**  
-`payment-logs-v1`
-**Template:**  
-`payment-transactions-template`
-**ILM:**  
-`limpiaidx-15d`
-**Space:**  
-`payment-interfaces`
+# 1. Resumen de la implementación
 
+- Indices:  `es02-payment_py-transactions-*`
+- Pipeline:  `payment-logs-v1`
+- Template:  `payment-transactions-template`
+- ILM:  `limpiaidx-15d`
+- Space:  `payment-interfaces`
 ### 1.1 Arquitectura actual
 ![[Payment Testing to Elastic Cluster Flow.png]]
 ### 1.2 Trabajos realizados
@@ -38,7 +33,7 @@ tags:
 - 42 procesadores.
 - Extracción de timestamps, niveles y campos funcionales.
 - Conservación del mensaje original.
-**4. Catálogo funcional*
+**4. Catálogo funcional** 
 - 28 campos implementados de API REST.
 - 8 campos implementados de Socket.
 - 34 atributos adicionales observados.
@@ -58,7 +53,8 @@ tags:
 - Disponibilidad de eventos en Discover.
 - Validación funcional completa de consultas todavía pendiente.
 ---
-## 2. Temas a tratar en la reunión
+
+# 2. Temas a tratar en la reunión
 ### 2.1. Política ILM — Retención en Elasticsearch
 **Situación actual:**
 - Los índices PAYMENT utilizan `limpiaidx-15d`.
@@ -154,7 +150,7 @@ tags:
 
 ---
 
-## 3. Comandos de Kibana — Dev Tools
+# 3. Comandos de Kibana — Dev Tools
 
 ### 3.1. Clúster
 
@@ -244,7 +240,7 @@ GET /es02-payment_py-transactions-*/_search
 
 ---
 
-## 4. Comandos de terminal — Servidor PAYMENT
+# 4. Comandos de terminal — Servidor PAYMENT
 
 **Servidor:** `paymendb01ptl.claro.amx`  
 **Usuario:** `payment`

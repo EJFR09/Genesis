@@ -6,10 +6,20 @@ dateModified: 2026-10-28T07:51:42.890-03:00
 tags:
 ---
 ## 1. Resumen de la implementación
+**Índices:**  
+`es02-payment_py-transactions-*`
+**Pipeline:**  
+`payment-logs-v1`
+**Template:**  
+`payment-transactions-template`
+**ILM:**  
+`limpiaidx-15d`
+**Space:**  
+`payment-interfaces`
 
-### Arquitectura actual
+### 1.1 Arquitectura actual
 ![[Payment Testing to Elastic Cluster Flow.png]]
-### Trabajos realizados
+### 1.2 Trabajos realizados
 **1. Relevamiento de infraestructura**
 - Identificación del servidor PAYMENT de Testing.
 - Inventario de contenedores Podman.
@@ -145,6 +155,7 @@ tags:
 ---
 
 ## 3. Comandos de Kibana — Dev Tools
+
 ### 3.1. Clúster
 
 ```
@@ -282,23 +293,3 @@ Evitar mostrar mensajes completos de logs que puedan contener información sensi
 
 ---
 
-## 5. Herramientas necesarias
-
-
-
-### Recursos importantes
-**Kibana:**  
-[http://test-kibana.claro.com.ar:5601](http://test-kibana.claro.com.ar:5601)
-**Elasticsearch:**  
-[http://test-elastic.claro.com.ar:9200](http://test-elastic.claro.com.ar:9200)
-
-**Índices:**  
-`es02-payment_py-transactions-*`
-**Pipeline:**  
-`payment-logs-v1`
-**Template:**  
-`payment-transactions-template`
-**ILM:**  
-`limpiaidx-15d`
-**Space:**  
-`payment-interfaces`

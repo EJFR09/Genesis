@@ -78,9 +78,9 @@ tags:
 **Preguntas:**
 - ¿Existe algún script, cron o politica de retención?
 - ¿Cuántos días deben conservarse los archivos locales?
-- ¿En producción tienen alguna convención de envio de logs a algun almacen d
+- ¿En producción tienen alguna convención de envio de logs a algun almacen ej: S3?
 
-### 2.2. Validación del catálogo funcional
+### 2.3. Validación del catálogo funcional
 **Situación actual:**
 - 36 campos funcionales implementados.
 - 34 atributos adicionales observados.
@@ -91,7 +91,7 @@ tags:
 **Preguntas:**
 - ¿Qué campos son obligatorios para las consultas?
 - ¿Se sabe si algun dato es sensible y debe tener un trato especial? ¿Cuales?
-### 2.3. Seguridad HTTP / HTTPS
+### 2.4. Seguridad HTTP / HTTPS
 **Situación actual:**
 - Filebeat envía eventos mediante HTTP autenticado.
 - Endpoint: `http://test-elastic.claro.com.ar:9200`.
@@ -101,19 +101,14 @@ tags:
 **Preguntas:**
 - ¿Se acepta formalmente que HTTP va ser utilizado en testing o van a implementar más adelante HTTPS?
 - ¿Utilizaremos una identidad dedicada para la ingesta en Producción?
-### 2.7. Nuevas procesadoras Socket
+### 2.5. Nuevas procesadoras Socket
 
 **Situación actual:**
 - `documenta` está incorporada.
 - Las demás procesadoras requieren relevamiento particular.
 - No debemos asumir que todas generan el mismo formato de logs.
-
 **Preguntas:**
 - ¿Qué procesadoras se incorporarán?
-- ¿En qué servidores están desplegadas?
-- ¿Cuál es el orden de prioridad?
-- ¿Quién proporcionará rutas y formatos de logs?
-- ¿Quién validará los campos funcionales?
 
 
 ---

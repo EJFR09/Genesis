@@ -9,116 +9,61 @@ tags:
 
 ### Arquitectura actual
 
-
+![[Flujo de Logs Payment en Testing.png|640]]
 ### Trabajos realizados
-
 **1. Relevamiento de infraestructura**
-
 - Identificación del servidor PAYMENT de Testing.
-    
 - Inventario de contenedores Podman.
-    
 - Identificación de archivos, formatos, permisos y rotación de logs.
-    
 - Relevamiento de Elasticsearch y Kibana.
-    
-
 **2. Implementación de Filebeat**
-
 - Filebeat 7.17.2 mediante Podman rootless.
-    
 - Administración mediante systemd de usuario.
-    
 - Captura de logs API REST y Socket `documenta`.
-    
 - Configuración de eventos multilínea.
-    
 - Registry persistente y mecanismos nativos de reintento.
-    
 - Autenticación mediante usuario `payment` y Filebeat Keystore.
-    
-
 **3. Ingesta y procesamiento**
-
 - Envío de eventos hacia `es02-testing`.
-    
 - Implementación del pipeline `payment-logs-v1` v11.
-    
 - 42 procesadores.
-    
 - Extracción de timestamps, niveles y campos funcionales.
-    
 - Conservación del mensaje original.
-    
-
-**4. Catálogo funcional**
-
+**4. Catálogo funcional*
 - 28 campos implementados de API REST.
-    
 - 8 campos implementados de Socket.
-    
 - 34 atributos adicionales observados.
-    
 - 34 atributos no observados, retirados del catálogo operativo.
-    
 - Validación satisfactoria sobre 414 documentos API REST y 1.613 documentos Socket.
-    
-
 **5. Almacenamiento**
-
 - Creación del Index Template `payment-transactions-template` v1.
-    
 - Mappings técnicos y funcionales explícitos.
-    
 - 1 shard primario y 1 réplica.
-    
 - Prioridad 100.
-    
 - Asociación con `limpiaidx-15d`.
-    
 - Simulación satisfactoria para índices futuros.
-    
 - Template guardado en GitHub.
-    
-
 **6. Kibana**
-
 - Data View para `es02-payment_py-transactions-*`.
-    
 - Space `payment-interfaces`.
-    
 - Disponibilidad de eventos en Discover.
-    
 - Validación funcional completa de consultas todavía pendiente.
-    
-
 ---
-
 ## 2. Temas a tratar en la reunión
 
 ### 2.1. Política ILM — Retención en Elasticsearch
 
 **Situación actual:**
-
 - Los índices PAYMENT utilizan `limpiaidx-15d`.
-    
 - El nuevo template también referencia esa política.
-    
 - No tenemos permisos `read_ilm` para consultar su definición completa.
-    
 - No está confirmado que la política elimine índices después de 15 días.
-    
 
 **Preguntas:**
-
 - ¿Cuántos días deben conservarse los logs en Testing y Producción?
-    
 - ¿La política `limpiaidx-15d` cumple ese requisito?
-    
 - ¿Podemos obtener `read_ilm` o su definición mediante el administrador?
-    
 - ¿Mantendremos la política compartida o crearemos una específica para PAYMENT?
-    
 
 **Recomendación:** mantener provisionalmente la política actual y no modificar una ILM compartida sin conocer su impacto.
 

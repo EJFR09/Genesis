@@ -57,215 +57,92 @@ tags:
 - El nuevo template también referencia esa política.
 - No tenemos permisos `read_ilm` para consultar su definición completa.
 - No está confirmado que la política elimine índices después de 15 días.
+-
 **Preguntas:**
 - ¿Cuántos días deben conservarse los logs en Testing y Producción?
 - ¿La política `limpiaidx-15d` cumple ese requisito?
 - ¿Podemos obtener `read_ilm` o su definición mediante el administrador?
 - ¿Mantendremos la política compartida o crearemos una específica para PAYMENT?
-
 ### 2.2. Permisos de Elasticsearch
-
 **Situación actual:**
-
 - Usuario `payment`.
-    
 - Rol `paymentADM`.
-    
 - Permisos sobre los índices PAYMENT.
-    
 - Permisos para administrar templates y pipelines.
-    
 - Sin privilegio `read_ilm`.
-    
 
 **Preguntas:**
-
 - ¿Podemos disponer de permisos de solo lectura sobre ILM?
-    
 - ¿Utilizaremos una identidad dedicada para la ingesta en Producción?
-    
 - ¿Quién administrará credenciales y permisos?
-    
-
-**Recomendación:** separar los privilegios administrativos de los permisos mínimos necesarios para Filebeat.
-
-**Estado:** Pendiente  
-**Decisión:**  
-**Responsable:**
 
 ### 2.3. Seguridad HTTP / HTTPS
-
 **Situación actual:**
-
 - Filebeat envía eventos mediante HTTP autenticado.
-    
 - Endpoint: `http://test-elastic.claro.com.ar:9200`.
-    
 - La contraseña está protegida localmente mediante Keystore.
-    
 - El transporte no está cifrado.
-    
 
 **Preguntas:**
-
 - ¿Existe un endpoint HTTPS disponible?
-    
 - ¿Se acepta formalmente HTTP en Testing?
-    
 - ¿Qué mecanismo TLS se utilizará en Producción?
-    
-
-**Recomendación:** utilizar HTTPS con validación de certificados y autenticación de privilegios mínimos.
-
-**Estado:** Pendiente  
-**Decisión:**  
-**Responsable:**
 
 ### 2.4. Validación del catálogo funcional
 
 **Situación actual:**
-
 - 36 campos funcionales implementados.
-    
 - 34 atributos adicionales observados.
-    
 - 34 atributos no observados retirados del catálogo operativo.
-    
 - Pipeline v11 validado.
-    
 
 **Preguntas:**
-
 - ¿Son suficientes los campos implementados?
-    
 - ¿Cuáles de los campos adicionales deberían incorporarse?
-    
 - ¿Qué campos son obligatorios para las consultas?
-    
 - ¿Los importes deben conservarse como `keyword` o convertirse en valores numéricos?
-    
 - ¿Existen requisitos diferentes entre Testing y Producción?
-    
-
-**Material de referencia:** PDF del catálogo final.
-
-**Estado:** Pendiente  
-**Decisión:**  
-**Responsable:**
-
 ### 2.5. Tratamiento de datos sensibles
 
 **Situación actual:**
-
 - Los registros pueden contener identificadores de sesión, números de servicio y datos de transacciones.
-    
 - El pipeline conserva el campo `message` original.
-    
 - No existe todavía una aprobación funcional completa del tratamiento de información sensible.
-    
 
 **Preguntas:**
-
 - ¿Qué datos deben enmascararse?
-    
 - ¿Qué atributos no deben enviarse a Elasticsearch?
-    
 - ¿Puede conservarse el campo `message` completo?
-    
 - ¿Qué usuarios tendrán acceso a los registros en Producción?
-    
-
-**Recomendación:** aplicar minimización de datos, controles de acceso y enmascaramiento cuando corresponda.
-
-**Estado:** Pendiente  
-**Decisión:**  
-**Responsable:**
 
 ### 2.6. Retención local de archivos
 
 **Situación actual:**
-
 - API REST utiliza rotación Log4j2.
-    
 - Socket `documenta` utiliza rotación por tamaño.
-    
 - No está completamente confirmado el mecanismo de eliminación de archivos históricos.
-    
 - La retención local es independiente de ILM.
-    
 
 **Preguntas:**
-
 - ¿Existe algún script, cron o proceso de limpieza?
-    
 - ¿Quién administra esa limpieza?
-    
 - ¿Cuántos días deben conservarse los archivos locales?
-    
 - ¿Existe almacenamiento adicional para auditoría?
-    
-
-**Recomendación:** definir conservación local considerando espacio disponible y tiempo suficiente para recuperar eventos pendientes durante interrupciones de ingesta.
-
-**Estado:** Pendiente  
-**Decisión:**  
-**Responsable:**
 
 ### 2.7. Nuevas procesadoras Socket
 
 **Situación actual:**
-
 - `documenta` está incorporada.
-    
 - Las demás procesadoras requieren relevamiento particular.
-    
 - No debemos asumir que todas generan el mismo formato de logs.
-    
 
 **Preguntas:**
-
 - ¿Qué procesadoras se incorporarán?
-    
 - ¿En qué servidores están desplegadas?
-    
 - ¿Cuál es el orden de prioridad?
-    
 - ¿Quién proporcionará rutas y formatos de logs?
-    
 - ¿Quién validará los campos funcionales?
-    
 
-**Recomendación:** incorporar nuevas procesadoras siguiendo un procedimiento de relevamiento, configuración y validación individual.
-
-**Estado:** Pendiente  
-**Decisión:**  
-**Responsable:**
-
-### 2.8. Preparación de Producción
-
-**Situación actual:**
-
-- Implementación operativa en Testing para API REST y `documenta`.
-    
-- Pipeline v11 y template v1 disponibles.
-    
-- Quedan decisiones de seguridad, retención y aprobación funcional.
-    
-
-**Preguntas:**
-
-- ¿Quién aprobará el resultado de Testing?
-    
-- ¿Qué requisitos deben cumplirse antes de Producción?
-    
-- ¿Quién administrará los accesos y credenciales productivos?
-    
-- ¿Cuál será el alcance inicial de Producción?
-    
-
-**Estado:** Pendiente  
-**Decisión:**  
-**Responsable:**
 
 ---
 

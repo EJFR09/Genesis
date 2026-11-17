@@ -8,8 +8,7 @@ tags:
 ## 1. Resumen de la implementación
 
 ### Arquitectura actual
-
-
+![[Payment Testing to Elastic Cluster Flow.png]]
 ### Trabajos realizados
 **1. Relevamiento de infraestructura**
 - Identificación del servidor PAYMENT de Testing.
@@ -50,7 +49,6 @@ tags:
 - Validación funcional completa de consultas todavía pendiente.
 ---
 ## 2. Temas a tratar en la reunión
-
 ### 2.1. Política ILM — Retención en Elasticsearch
 **Situación actual:**
 - Los índices PAYMENT utilizan `limpiaidx-15d`.
@@ -147,9 +145,6 @@ tags:
 ---
 
 ## 3. Comandos de Kibana — Dev Tools
-
-Todos los comandos siguientes son consultas de lectura, salvo la simulación, que no crea ni modifica recursos.
-
 ### 3.1. Clúster
 
 ```
@@ -289,82 +284,21 @@ Evitar mostrar mensajes completos de logs que puedan contener información sensi
 
 ## 5. Herramientas necesarias
 
-### Antes de la reunión
 
-- GitHub abierto con las configuraciones PAYMENT–ELK.
-    
-- Kibana abierto en el Space `payment-interfaces`.
-    
-- Dev Tools disponible.
-    
-- Terminal SSH conectada a `paymendb01ptl`.
-    
-- PDF del catálogo de campos.
-    
-- Informes técnicos de los bloques realizados.
-    
-- Esta guía de reunión.
-    
-- Libreta o documento para registrar respuestas.
-    
 
 ### Recursos importantes
-
 **Kibana:**  
 [http://test-kibana.claro.com.ar:5601](http://test-kibana.claro.com.ar:5601)
-
 **Elasticsearch:**  
 [http://test-elastic.claro.com.ar:9200](http://test-elastic.claro.com.ar:9200)
 
 **Índices:**  
 `es02-payment_py-transactions-*`
-
 **Pipeline:**  
 `payment-logs-v1`
-
 **Template:**  
 `payment-transactions-template`
-
 **ILM:**  
 `limpiaidx-15d`
-
 **Space:**  
 `payment-interfaces`
-
----
-
-## 6. Resumen de acuerdos
-
-Completar durante o después de la reunión.
-
-|Tema|Estado|Acuerdo / próxima acción|Responsable|
-|---|---|---|---|
-|Política ILM|Pendiente|||
-|Permisos Elasticsearch|Pendiente|||
-|HTTP / HTTPS|Pendiente|||
-|Catálogo funcional|Pendiente|||
-|Datos sensibles|Pendiente|||
-|Retención local|Pendiente|||
-|Nuevas procesadoras|Pendiente|||
-|Producción|Pendiente|||
-
-**Estados posibles:** Resuelto / Pendiente / Bloqueado.
-
----
-
-## 7. Cierre de la reunión
-
-- Registrar las decisiones tomadas.
-    
-- Identificar responsables de cada pendiente.
-    
-- Determinar qué configuraciones requieren modificación.
-    
-- Separar los cambios de Testing de los requisitos para Producción.
-    
-- Actualizar la documentación técnica.
-    
-- Devolver los acuerdos al Main del proyecto.
-    
-
-**Objetivo final:** finalizar la reunión con las decisiones necesarias para completar el alcance actual de Testing y definir las condiciones para avanzar hacia Producción.

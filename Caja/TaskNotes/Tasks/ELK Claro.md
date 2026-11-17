@@ -57,29 +57,21 @@ tags:
 # 2. Temas a tratar en la reunión
 ### 2.1. Política ILM - Retención en Elasticsearch
 **Situación actual:**
-- Los índices PAYMENT utilizan `limpiaidx-15d`.
-- El nuevo template también referencia esa política.
-- No tenemos permisos `read_ilm` para consultar su definición completa.
-- No está confirmado que la política elimine índices después de 15 días.
-- Usuario `payment`.
-- Rol `paymentADM`.
-- Permisos sobre los índices PAYMENT.
-- Permisos para administrar templates y pipelines.
+- Los índices PAYMENT utilizan la politica ilm `limpiaidx-15d`.
+- No tenemos permisos sobre las politicas ilm, por lo que no sabemos si como funciona o si corresponde. (Podria dar errores si es necesario un alias)
+- Tenemos: 
+	- Usuario `payment`.
+	- Rol `paymentADM`.
+	- Permisos sobre los índices PAYMENT.
+	- Permisos para administrar templates y pipelines.
 - Sin privilegio `read_ilm`.
--
+
 **Preguntas:**
+- ¿Quieren que se mantenga esa configuración o nos van a dar permis?
 - ¿Cuántos días deben conservarse los logs en Testing y Producción?
 - ¿La política `limpiaidx-15d` cumple ese requisito?
-- ¿Podemos obtener `read_ilm` o su definición mediante el administrador?
-- ¿Mantendremos la política compartida o crearemos una específica para PAYMENT?
-### 2.2. Permisos de Elasticsearch
-**Situación actual:**
 
-
-**Preguntas:**
-- ¿Podemos disponer de permisos de solo lectura sobre ILM?
 - ¿Utilizaremos una identidad dedicada para la ingesta en Producción?
-- ¿Quién administrará credenciales y permisos?
 
 ### 2.3. Seguridad HTTP / HTTPS
 **Situación actual:**

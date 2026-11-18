@@ -41,3 +41,5 @@ tags:
 - **Análisis de consumo vs recursos**: proponer aumento de recursos
 - SSO Google
 - [ ] Pedir issue retención de logs
+
+![[Pasted image 20261118131415.png]]

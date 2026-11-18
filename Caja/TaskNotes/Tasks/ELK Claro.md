@@ -258,5 +258,17 @@ Evitar mostrar mensajes completos de logs que puedan contener información sensi
 - **Transacciones de Socket**
 	- ![[Pasted image 20261118150732.png]]
 	- Como una transacción logea varios eventos, no podemos hacer una correlación en un solo evento ya que estos no tienen un parametro en comun
+	- ![[Pasted image 20261118151106.png]]
+	- La solución más sencilla y mantenible sería que Desarrollo genere un evento estructurado de resumen por transacción completada.
+	- {
+		  "event_type": "payment_transaction_summary",
+		  "transaction_id": "TX-12345",
+		  "collector_id": "14",
+		  "dtinbound": "2026-11-18T10:28:06.120-03:00",
+		  "dtoutbound": "2026-11-18T10:28:06.365-03:00",
+		  "duration_ms": 245,
+		  "ps_returncode": 0,
+		  "result": "success"
+		}
 - **Atributos dtoutboun inbound**
 	- 

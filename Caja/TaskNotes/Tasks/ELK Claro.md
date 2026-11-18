@@ -251,3 +251,12 @@ Evitar mostrar mensajes completos de logs que puedan contener información sensi
 
 ---
 
+
+
+# Reu-02
+## 2. Temas a tratar en la reunión
+- **Transacciones de Socket**
+	- ![[Pasted image 20261118150732.png]]
+	- Como una transacción logea varios eventos, no podemos hacer una correlación en un solo evento ya que estos no tienen un parametro en comun
+- **Atributos dtoutboun inbound**
+	- 

@@ -281,21 +281,24 @@ Evitar mostrar mensajes completos de logs que puedan contener información sensi
 	- Los timestamps visibles de API REST tienen precisión de segundos.
 	- No podemos calcular actualmente la duración total de una transacción utilizando únicamente la información validada.
 	- No conseguimos reconstruir pares de eventos de inicio y final correlacionados de manera fiable.
-
+- ps_returncode y error_code
+	- ![[Pasted image 20261119113606.png]]
+	- 
 
 ### 2.4. Códigos `ps_returncode` y `error_code`
 
-**Resultado del relevamiento**
+
 
 Se encontraron diferentes mecanismos de registro de resultados:
 
-|Origen|Código observado|Contexto|
-|---|---|---|
-|API REST|`errorCode: 0`|Respuestas de API|
-|API REST|`errorCode: -1`|Error de validación|
-|Socket|`06`|Paquete inválido recibido desde collector|
-|Socket|`30`|Errores de transacción o de base de datos|
-|Operaciones PS|`ended returning 0`|Finalización de procedimiento PS|
+| Origen         | Código observado    | Contexto                                  |
+| -------------- | ------------------- | ----------------------------------------- |
+| API REST       | `errorCode: 0`      | Respuestas de API                         |
+| API REST       | `errorCode: -1`     | Error de validación                       |
+| Socket         | `06`                | Paquete inválido recibido desde collector |
+| Socket         | `30`                | Errores de transacción o de base de datos |
+| Operaciones PS | `ended returning 0` | Finalización de procedimiento PS          |
+|                |                     |                                           |
 
 En Elasticsearch:
 
@@ -308,96 +311,3 @@ En Elasticsearch:
 - Se identificaron 53 documentos con la expresión `ended returning` en los índices consultados.
     
 
-**Puntos a definir**
-
-- ¿Qué representa exactamente `ps_returncode`?
-    
-- ¿Qué procedimientos PS deberían monitorearse?
-    
-- ¿El código `0` significa ejecución correcta del procedimiento o transacción exitosa?
-    
-- ¿Debemos conservar separados `error_code`, `result_code` y `ps_returncode`?
-    
-
-**Recomendación**
-
-Mantener los códigos diferenciados hasta confirmar su significado funcional.
-
-### 2.5. Identificación de collectors y procesadoras
-
-**Resultado del relevamiento**
-
-El campo `payment.collector_id` ya está implementado en Elasticsearch.
-
-Se observaron identificadores como:
-
-- `1`
-    
-- `11`
-    
-- `12`
-    
-- `14`
-    
-
-En los archivos originales de Testing, el collector `11` aparece tanto en API REST como en Socket.
-
-**Pendiente**
-
-No tenemos confirmada la correspondencia entre cada `collector_id` y su procesadora o entidad funcional.
-
-**Puntos a definir**
-
-- ¿Qué representa exactamente un collector?
-    
-- ¿Cada collector corresponde a una procesadora?
-    
-- ¿Existe un catálogo oficial de IDs y nombres?
-    
-- ¿Qué información debería mostrarse en Kibana: el ID, el nombre o ambos?
-    
-
-### 2.6. Estado de Elasticsearch y catálogo funcional
-
-**Resultado**
-
-- El pipeline `payment-logs-v1` v11 continúa operativo.
-    
-- Los campos `payment.error_code`, `payment.collector_id`, `payment.tx_id` y `payment.transaction_id` existen en Elasticsearch.
-    
-- Se validó la extracción de códigos de error y collectors en el índice del 18/11 para API REST.
-    
-- Los índices recientes utilizan mappings `keyword` para estos atributos; varios índices históricos tienen mappings `text`.
-    
-- La validación específica de extracción de errores Socket continúa pendiente.
-    
-
-**Propuesta**
-
-Mantener la configuración actual y evaluar modificaciones del pipeline únicamente después de acordar las definiciones funcionales.
-
-## 3. Decisiones que necesitamos obtener
-
-|Tema|Decisión esperada|
-|---|---|
-|Correlación|Acordar si Desarrollo puede emitir un evento resumen por transacción|
-|`dtinbound` / `dtoutbound`|Identificar origen, disponibilidad y significado|
-|Duración|Definir qué intervalo se necesita medir|
-|Códigos PS|Aclarar semántica y relación con otros códigos|
-|Collectors|Obtener correspondencia entre ID y entidad funcional|
-|Pipeline ELK|Determinar qué campos adicionales deben incorporarse|
-
-## 4. Próximos pasos
-
-Una vez definidas las decisiones con el interesado:
-
-1. Actualizar el catálogo funcional con las definiciones aprobadas.
-    
-2. Coordinar con Desarrollo la emisión de nuevos campos o eventos, si corresponde.
-    
-3. Evaluar los cambios necesarios al pipeline de Elasticsearch.
-    
-4. Validar la información en Kibana antes de construir las visualizaciones funcionales.
-    
-
-**Estado:** relevamiento técnico inicial completado. Pendientes de definición funcional y aprobación del interesado.

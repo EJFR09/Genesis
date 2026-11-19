@@ -260,46 +260,7 @@ Evitar mostrar mensajes completos de logs que puedan contener información sensi
 	- Como una transacción logea varios eventos, no podemos hacer una correlación en un solo evento ya que estos no tienen un parametro en comun
 	- ![[Pasted image 20261118151106.png]]
 	- La solución más sencilla y mantenible sería que Desarrollo genere un evento estructurado de resumen por transacción completada.
-	- {
-		  "event_type": "payment_transaction_summary",
-		  "transaction_id": "TX-12345",
-		  "collector_id": "14",
-		  "dtinbound": "2026-11-18T10:28:06.120-03:00",
-		  "dtoutbound": "2026-11-18T10:28:06.365-03:00",
-		  "duration_ms": 245,
-		  "ps_returncode": 0,
-		  "result": "success"
-		}
-- **Atributos dtoutboun inbound**
-
-# Reu-02 — Seguimiento Claro PAYMENT / ELK
-
-## 2. Temas a tratar en la reunión
-
-### 2.1. Transacciones de Socket — Correlación de eventos
-
-**Situación actual**
-
-- Una transacción puede generar múltiples eventos de log.
-    
-- Actualmente no hemos identificado un parámetro de correlación común y consistente en todos los eventos necesarios para reconstruir una transacción completa.
-    
-- Aunque existen identificadores como `txId` y `transactionId`, no hemos demostrado que permitan correlacionar todo el flujo.
-    
-
-**Evidencia visual**
-
-- `Pasted image 20261118150732.png`
-    
-- `Pasted image 20261118151106.png`
-    
-
-**Propuesta**
-
-La solución más sencilla y mantenible sería que Desarrollo genere un **evento estructurado de resumen por transacción completada**, sin reemplazar los logs técnicos actuales.
-
-Ejemplo de formato propuesto:
-
+	- Ejemplo ilustrativo:
 ```
 {
   "event_type": "payment_transaction_summary",
@@ -313,72 +274,14 @@ Ejemplo de formato propuesto:
 }
 ```
 
-_Los nombres, valores y significados del ejemplo son ilustrativos; deben acordarse con Desarrollo._
+- **Atributos dtoutboun inbound**
+	- No se encontraron `dtinbound`, `dtoutbound` ni variantes que contengan `bound` en los archivos activos analizados.
+	- no significa que no existan, pero por los menos en los logs de testing no lo encontramos
+- Tiempos de respuestas de lsa transacciones
+	- Los timestamps visibles de API REST tienen precisión de segundos.
+	- No podemos calcular actualmente la duración total de una transacción utilizando únicamente la información validada.
+	- No conseguimos reconstruir pares de eventos de inicio y final correlacionados de manera fiable.
 
-**Puntos a definir**
-
-- ¿Es posible generar un evento de resumen al completar cada transacción?
-    
-- ¿Qué identificador único debería utilizarse?
-    
-- ¿En qué componente se conoce el resultado definitivo?
-    
-- ¿Cómo se registrarían las transacciones fallidas o interrumpidas?
-    
-
-### 2.2. Atributos `dtinbound` y `dtoutbound`
-
-**Resultado del relevamiento**
-
-Se realizaron búsquedas en los logs originales de Testing:
-
-- API REST: `claro-payment-api` (`payment.log`).
-    
-- Socket: `documenta` (`routlog.txt`).
-    
-
-No se encontraron `dtinbound`, `dtoutbound` ni variantes que contengan `bound` en los archivos activos analizados.
-
-**Limitación**
-
-Esto no descarta que los atributos existan en otros logs, históricos o componentes que no fueron revisados.
-
-**Puntos a definir**
-
-- ¿Qué componente genera actualmente estos atributos?
-    
-- ¿Se encuentran en otros archivos o servicios?
-    
-- ¿Representan la entrada y salida de una transacción completa o de una operación particular?
-    
-
-### 2.3. Tiempos de respuesta de las transacciones
-
-**Situación actual**
-
-- Encontramos eventos asociados al inicio y finalización de verificaciones PS.
-    
-- Los timestamps visibles de API REST tienen precisión de segundos.
-    
-- No conseguimos reconstruir pares de eventos de inicio y final correlacionados de manera fiable.
-    
-- No podemos calcular actualmente la duración total de una transacción utilizando únicamente la información validada.
-    
-
-**Propuesta**
-
-Registrar explícitamente los timestamps de entrada y salida y la duración de la operación en el evento resumen.
-
-**Puntos a definir**
-
-- ¿Qué se considera inicio y fin de una transacción?
-    
-- ¿Se desea medir el tiempo total del pago o el tiempo de procesamiento de cada componente?
-    
-- ¿Se necesita precisión de milisegundos?
-    
-- ¿Cómo se identificarán los timeouts?
-    
 
 ### 2.4. Códigos `ps_returncode` y `error_code`
 

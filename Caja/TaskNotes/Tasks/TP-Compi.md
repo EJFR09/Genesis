@@ -1,11 +1,12 @@
 ---
-status: open
+status: done
 priority: normal
 scheduled:
 dateCreated: 2026-10-20T19:59:31.090-03:00
-dateModified: 2026-10-20T19:59:31.090-03:00
+dateModified: 2026-11-22T19:55:41.583-03:00
 tags:
   - task
+completedDate: 2026-11-22
 ---
 # TP3 — Plan de trabajo
 

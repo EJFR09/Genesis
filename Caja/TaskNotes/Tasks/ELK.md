@@ -42,4 +42,5 @@ tags:
 - SSO Google
 - [ ] Pedir issue retención de logs
 
-![[Pasted image 20261118131922.png]]
+
+![[Pasted image 20261124092740.png]]

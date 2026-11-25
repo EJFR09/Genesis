@@ -285,3 +285,104 @@ Evitar mostrar mensajes completos de logs que puedan contener información sensi
 	- ![[Pasted image 20261119113606.png]]
 	- ![[Pasted image 20261119113620.png]]
 
+# **Informe de avance — Claro PAYMENT / ELK**
+
+**Fecha:** 25/11/2026  
+**Ambiente:** Testing  
+**Estado:** Infraestructura desplegada y operativa. Validación funcional pendiente.
+
+## **1. Objetivo**
+
+Implementar una infraestructura de ingesta centralizada y reproducible mediante Podman Compose, utilizando Filebeat y Logstash para procesar los logs de PAYMENT y almacenar **un documento consolidado por transacción** en Elasticsearch.
+
+## **2. Arquitectura implementada**
+
+```
+PAYMENT (API REST + Socket)
+          ↓
+    Filebeat 7.17.2
+          ↓
+    Logstash 7.17.2
+    ├── classify.rb
+    ├── aggregate
+    └── consolidate.rb
+          ↓
+ Elasticsearch 7.17.2
+          ↓
+        Kibana
+```
+
+**Directorio de configuración:**
+
+`/home/payment/.config/ingestion/`
+
+**Administración:** Podman rootless con el usuario `payment`.
+
+## **3. Trabajo realizado**
+
+|Componente|Implementación|Estado|
+|---|---|---|
+|Infraestructura anterior|Retirados los contenedores antiguos de Filebeat y Logstash|Completado|
+|Podman Compose|Unificado con ambos servicios y volúmenes persistentes|Completado|
+|Filebeat|Dos inputs `filestream`, API REST y Socket|Operativo|
+|Logstash|Clasificación, correlación y consolidación mediante Ruby y `aggregate`|Operativo|
+|Elasticsearch|Índices `es02-payment_py-transactions-*`|Operativo|
+|Index Template|`payment-transactions-template` v2|Configurado|
+|ILM|Política existente `limpiaidx-15d`|Configurada|
+|Limpieza ELK|Retirados índices anteriores, template PoC e Ingest Pipeline antiguo|Completado|
+|Permisos|Corregido acceso al volumen persistente de Filebeat|Resuelto|
+|systemd|Servicio `claro-payment-ingestion.service`|Habilitado|
+
+Los tres contenedores de las aplicaciones PAYMENT permanecieron intactos.
+
+## **4. Resultados obtenidos**
+
+Eventos recibidos por Logstash
+
+# **1.845**
+
+Documentos consolidados
+
+# **20**
+
+Indexaciones exitosas
+
+# **20/20**
+
+Los 20 documentos corresponden al servicio Socket (`claro-posjota`) y presentan `document.correlation.complete = true`.
+
+No se detectaron duplicados entre los identificadores de transacción presentes en esta muestra.
+
+**API REST todavía no generó documentos consolidados**, aunque su input Filebeat está configurado y activo.
+
+## **5. Arranque automático**
+
+Se creó y habilitó el servicio:
+
+`claro-payment-ingestion.service`
+
+Validaciones realizadas:
+
+```
+systemctl --user is-enabled → enabled
+systemctl --user status     → active (exited)
+ExecStart                  → 0/SUCCESS
+Linger                     → yes
+```
+
+El Compose quedó configurado para iniciarse automáticamente al arrancar el servidor. La validación tras un reinicio real sigue pendiente.
+
+## **6. Tareas pendientes**
+
+1. **API REST:** determinar por qué no aparecen transacciones consolidadas y realizar una prueba funcional completa.
+    
+2. **Socket:** validar los campos extraídos, especialmente `READ`, `SENDING`, referencias y códigos de error.
+    
+3. **Calidad de datos:** revisar fechas de transacción, correlación e identificadores determinísticos para evitar duplicados.
+    
+4. **Cierre operativo:** guardar el template y las configuraciones definitivas en Git, documentar el despliegue y verificar el arranque automático después de un reinicio.
+    
+
+**Conclusión:** se completó el despliegue de la infraestructura definitiva de ingesta ELK, incluyendo su almacenamiento y automatización mediante systemd. El flujo técnico está funcionando y ya almacena transacciones Socket consolidadas.
+
+**La siguiente fase es validar la calidad funcional de API REST y Socket antes de considerar finalizada la implementación.**

@@ -11,7 +11,7 @@ tags:
 * Informe2N: https://wiki.roshka.com/es/platform-engineering/cliente/brosco/elk/informe/Infome-2026-ELK-Fase2
 * Docu: https://wiki.roshka.com/es/platform-engineering/cliente/brosco/elk/Instructivo-Creacion-Logs-Dashboards-kibana
 * Bloque 1: https://wiki.roshka.com/es/platform-engineering/cliente/brosco/elk/playbooks/elk-ssh-rsync
-* ServerHml: ssh -p 6722 -l devops 10.69.0.20
+	* ServerHml: ssh -p 6722 -l devops 10.69.0.20
 
 ### Ultima reu
 * 2-3 semanas de margen
